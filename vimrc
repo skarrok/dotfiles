@@ -4,13 +4,22 @@ set nocompatible
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
+" list of strings used for list mode
+set listchars=eol:$,tab:>-,trail:-,precedes:<,extends:>
 
 set backup              " keep a backup file
 set history=50          " keep 50 lines of command line history
 set ruler               " show the cursor position all the time
 set showcmd             " display incomplete commands
 set incsearch           " do incremental searching
-set visualbell t_vb=    " disable beep and flash
+set ignorecase          " ignore case when using a search pattern
+set smartcase           " override 'ignorecase' when pattern has upper case characters
+set vb noeb t_vb=       " disable beep and flash
+set pastetoggle=        " key sequence to toggle paste mode
+set scrolloff=0         " number of screen lines to show around the cursor
+set laststatus=2        " always show status line
+set langmenu=none       " use english menus
+set wildmenu            " command line completion shows a list of matches
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
@@ -22,6 +31,12 @@ endif
 if &t_Co > 2 || has("gui_running")
   syntax on
   set hlsearch
+endif
+
+if has("gui_running")
+  colorscheme peachpuff
+else
+  colorscheme pablo
 endif
 
 " Only do this part when compiled with support for autocommands.
