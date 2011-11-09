@@ -16,7 +16,7 @@ set ignorecase          " ignore case when using a search pattern
 set smartcase           " override 'ignorecase' when pattern has upper case characters
 set vb noeb t_vb=       " disable beep and flash
 set pastetoggle=        " key sequence to toggle paste mode
-set scrolloff=0         " number of screen lines to show around the cursor
+set scrolloff=2         " number of screen lines to show around the cursor
 set laststatus=2        " always show status line
 set langmenu=none       " use english menus
 set wildmenu            " command line completion shows a list of matches
@@ -34,7 +34,7 @@ if &t_Co > 2 || has("gui_running")
 endif
 
 if has("gui_running")
-  colorscheme peachpuff
+  colorscheme desert
 else
   colorscheme pablo
 endif
