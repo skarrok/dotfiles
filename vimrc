@@ -2,24 +2,55 @@
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
-" allow backspacing over everything in insert mode
-set backspace=indent,eol,start
-" list of strings used for list mode
-set listchars=eol:$,tab:>-,trail:-,precedes:<,extends:>
+" Buffer options
+set hidden              " hide buffers when they abandoned
 
-set backup              " keep a backup file
-set history=50          " keep 50 lines of command line history
-set ruler               " show the cursor position all the time
+" Display options
+set title               " show file name in window title
+set listchars=eol:$,tab:>-,trail:-,precedes:<,extends:>
+set vb noeb t_vb=       " disable beep and flash
 set showcmd             " display incomplete commands
+set scrolloff=2         " number of screen lines to show around the cursor
+set sidescroll=4
+set sidescrolloff=10
+set laststatus=2        " always show status line
+set ruler               " show the cursor position all the time
+set wildmenu            " command line completion shows a list of matches
+set confirm
+
+" Localization
+set langmenu=none       " use English menus
+set encoding=utf-8      " default encoding
+set fileencodings=utf-8,cp1251,koi8-r,cp866
+set spelllang=en,ru
+
+" Tab options
+set autoindent          " copy indent from previous line
+set smartindent         " enable nice indent
+set expandtab           " tab with spaces
+set smarttab            " indent using shiftwidth
+set shiftwidth=4        " number of spaces to use for each step of indent
+set softtabstop=4       " tab like 4 spaces
+set shiftround          " round indent to shiftwidth
+
+" Search options
+set hlsearch            " highlight search results
 set incsearch           " do incremental searching
 set ignorecase          " ignore case when using a search pattern
 set smartcase           " override 'ignorecase' when pattern has upper case characters
-set vb noeb t_vb=       " disable beep and flash
+
+" Edit
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+
+" X-clipboard
+if has('unnamedplus')
+  set clipboard+=unnamed
+endif
+
+set backup              " keep a backup file
+set history=50          " keep 50 lines of command line history
 set pastetoggle=        " key sequence to toggle paste mode
-set scrolloff=2         " number of screen lines to show around the cursor
-set laststatus=2        " always show status line
-set langmenu=none       " use english menus
-set wildmenu            " command line completion shows a list of matches
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
@@ -39,7 +70,7 @@ else
   colorscheme pablo
 endif
 
-" Only do this part when compiled with support for autocommands.
+" Only do this part when compiled with support for auto commands.
 if has("autocmd")
 
   " Enable file type detection.
@@ -51,6 +82,17 @@ if has("autocmd")
   " Put these in an autocmd group, so that we can delete them easily.
   augroup vimrcEx
   au!
+  
+  " Auto reload vim settings
+  au! BufWritePost *.vimrc source ~/.vimrc
+
+  " Highlight current line in insert mode
+  au InsertEnter * set cursorline
+  au InsertLeave * set nocursorline
+
+  " Auto close preview window
+  au CursorMovedI * if pumvisible() == 0|pclose|endif
+  au InsertLeave * if pumvisible() == 0|pclose|endif
 
   " For all text files set 'textwidth' to 78 characters.
   autocmd FileType text setlocal textwidth=78
@@ -69,7 +111,7 @@ if has("autocmd")
 
 else
 
-  set autoindent                " always set autoindenting on
+  set autoindent                " always set auto indenting on
 
 endif " has("autocmd")
 
@@ -80,4 +122,24 @@ if !exists(":DiffOrig")
   command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
                   \ | wincmd p | diffthis
 endif
+
+
+" Mapping
+let mapleader = "\\"
+
+" Toggle paste mode
+noremap <Leader>p :set paste!<CR>:set paste?<CR>
+
+" Not jump on star, only highlight
+nnoremap * *N
+
+" Drop highlight search result
+noremap <Leader><Space> :nohls<CR>
+
+" Toggle spell
+nnoremap <Leader>s :set spell!<CR>
+
+" Tabs
+nnoremap <Leader>tn :tabnew<CR>
+nnoremap <Leader>tc :tabc<CR>
 
