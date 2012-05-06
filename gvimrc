@@ -5,4 +5,5 @@ set guioptions-=t " no tearoff menu items
 set guioptions-=m " no menu bar
 set guioptions-=r " no right scrollbar
 set guioptions-=L " no left scrollbar
+set guioptions-=e " no gui tabs
 
