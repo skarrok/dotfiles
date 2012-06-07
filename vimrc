@@ -67,7 +67,7 @@ endif
 if has("gui_running")
   colorscheme desert
 else
-  colorscheme pablo
+  colorscheme koehler
 endif
 
 " Only do this part when compiled with support for auto commands.
