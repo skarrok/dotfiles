@@ -39,6 +39,11 @@ set incsearch           " do incremental searching
 set ignorecase          " ignore case when using a search pattern
 set smartcase           " override 'ignorecase' when pattern has upper case characters
 
+" Windows options
+if has('win32')
+    set encoding=cp1251
+endif
+
 " Edit
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
