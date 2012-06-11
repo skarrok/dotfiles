@@ -12,7 +12,8 @@ if isdirectory(vundle_dir) " check if dir exist
 
   " Bundles
   Bundle 'toggle_word.vim'
-  Bundle 'The-Nerd-Commenter'
+  Bundle 'The-NERD-Commenter'
+  Bundle 'The-NERD-tree'
 endif
 
 " Buffer options
@@ -26,6 +27,7 @@ set showcmd             " display incomplete commands
 set scrolloff=2         " number of screen lines to show around the cursor
 set sidescroll=4
 set sidescrolloff=10
+set statusline=%<%f\ %h%m%r%=%{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\",\".&ff.\"]\ \"}%-14.(%l,%c%V%)\ %P
 set laststatus=2        " always show status line
 set ruler               " show the cursor position all the time
 set wildmenu            " command line completion shows a list of matches
