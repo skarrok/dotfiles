@@ -8,3 +8,7 @@ set guioptions-=L " no left scrollbar
 set guioptions-=e " no gui tabs
 set guioptions+=c " use console dialog for simple choices
 
+if has('win32')
+    set guifont=Consolas:h11:cRUSSIAN
+endif
+
