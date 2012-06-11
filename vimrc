@@ -34,7 +34,7 @@ set wildmenu            " command line completion shows a list of matches
 set confirm
 
 " Localization
-language messages en
+language messages en_US
 set langmenu=none       " use English menus
 set encoding=utf-8      " default encoding
 set fileencodings=utf-8,cp1251,koi8-r,cp866
