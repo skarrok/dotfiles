@@ -19,6 +19,7 @@ set wildmenu            " command line completion shows a list of matches
 set confirm
 
 " Localization
+language messages en
 set langmenu=none       " use English menus
 set encoding=utf-8      " default encoding
 set fileencodings=utf-8,cp1251,koi8-r,cp866
@@ -38,11 +39,6 @@ set hlsearch            " highlight search results
 set incsearch           " do incremental searching
 set ignorecase          " ignore case when using a search pattern
 set smartcase           " override 'ignorecase' when pattern has upper case characters
-
-" Windows options
-if has('win32')
-    set encoding=cp1251
-endif
 
 " Edit
 " allow backspacing over everything in insert mode
