@@ -2,6 +2,19 @@
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
+" Vundle
+let vundle_dir = expand('~/.vim/bundle/vundle')
+if isdirectory(vundle_dir) " check if dir exist
+  filetype off
+  exe "set rtp+=".vundle_dir
+  call vundle#rc()
+  Bundle 'gmarik/vundle'
+
+  " Bundles
+  Bundle 'toggle_word.vim'
+  Bundle 'The-Nerd-Commenter'
+endif
+
 " Buffer options
 set hidden              " hide buffers when they abandoned
 
