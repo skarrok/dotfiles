@@ -130,7 +130,7 @@ endif
 let mapleader = "\\"
 
 " Toggle paste mode
-noremap <Leader>p :set paste!<CR>:set paste?<CR>
+nnoremap <silent> <Leader>p :set paste!<CR>:set paste?<CR>
 
 " Not jump on star, only highlight
 nnoremap * *N
@@ -154,6 +154,9 @@ noremap <Leader>l :set list!<CR>:set list?<CR>
 " Toggle numbers
 noremap <Leader>n :set number!<CR>:set number?<CR>
 
+" Write file
+map <F2> :w<CR>
+
 " Vundle
 let vundle_dir = expand('~/.vim/bundle/vundle')
 if isdirectory(vundle_dir) " check if dir exist
@@ -166,6 +169,9 @@ if isdirectory(vundle_dir) " check if dir exist
   Bundle 'toggle_word.vim'
   Bundle 'The-NERD-Commenter'
   Bundle 'The-NERD-tree'
+    noremap <silent> <Leader>f :NERDTreeToggle<CR>
+    ounmap <Leader>f
+
   Bundle 'xoria256.vim'
   Bundle 'altercation/vim-colors-solarized'
     call togglebg#map("<F5>")
