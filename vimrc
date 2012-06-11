@@ -144,3 +144,12 @@ nnoremap <Leader>s :set spell!<CR>
 nnoremap <Leader>tn :tabnew<CR>
 nnoremap <Leader>tc :tabc<CR>
 
+" Toggle wrap mode
+noremap <Leader>w :set wrap!<CR>:set wrap?<CR>
+
+" Toggle list mode
+noremap <Leader>l :set list!<CR>:set list?<CR>
+
+" Toggle numbers
+noremap <Leader>n :set number!<CR>:set number?<CR>
+
