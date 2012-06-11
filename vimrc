@@ -14,6 +14,9 @@ if isdirectory(vundle_dir) " check if dir exist
   Bundle 'toggle_word.vim'
   Bundle 'The-NERD-Commenter'
   Bundle 'The-NERD-tree'
+  Bundle 'xoria256.vim'
+  Bundle 'altercation/vim-colors-solarized'
+    call togglebg#map("<F5>")
 endif
 
 " Buffer options
@@ -107,8 +110,8 @@ if has("autocmd")
   au InsertLeave * set nocursorline
 
   " Auto close preview window
-  au CursorMovedI * if pumvisible() == 0|pclose|endif
-  au InsertLeave * if pumvisible() == 0|pclose|endif
+  "au CursorMovedI * if pumvisible() == 0|pclose|endif
+  "au InsertLeave * if pumvisible() == 0|pclose|endif
 
   " For all text files set 'textwidth' to 78 characters.
   autocmd FileType text setlocal textwidth=78
