@@ -2,23 +2,6 @@
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
-" Vundle
-let vundle_dir = expand('~/.vim/bundle/vundle')
-if isdirectory(vundle_dir) " check if dir exist
-  filetype off
-  exe "set rtp+=".vundle_dir
-  call vundle#rc()
-  Bundle 'gmarik/vundle'
-
-  " Bundles
-  Bundle 'toggle_word.vim'
-  Bundle 'The-NERD-Commenter'
-  Bundle 'The-NERD-tree'
-  Bundle 'xoria256.vim'
-  Bundle 'altercation/vim-colors-solarized'
-    call togglebg#map("<F5>")
-endif
-
 " Buffer options
 set hidden              " hide buffers when they abandoned
 
@@ -37,7 +20,7 @@ set wildmenu            " command line completion shows a list of matches
 set confirm
 
 " Localization
-language messages en_US
+language messages C
 set langmenu=none       " use English menus
 set encoding=utf-8      " default encoding
 set fileencodings=utf-8,cp1251,koi8-r,cp866
@@ -170,4 +153,26 @@ noremap <Leader>l :set list!<CR>:set list?<CR>
 
 " Toggle numbers
 noremap <Leader>n :set number!<CR>:set number?<CR>
+
+" Vundle
+let vundle_dir = expand('~/.vim/bundle/vundle')
+if isdirectory(vundle_dir) " check if dir exist
+  filetype off
+  exe "set rtp+=".vundle_dir
+  call vundle#rc()
+  Bundle 'gmarik/vundle'
+
+  " Bundles
+  Bundle 'toggle_word.vim'
+  Bundle 'The-NERD-Commenter'
+  Bundle 'The-NERD-tree'
+  Bundle 'xoria256.vim'
+  Bundle 'altercation/vim-colors-solarized'
+    call togglebg#map("<F5>")
+    if has('gui_running')
+        colorscheme solarized
+    endif
+
+  filetype plugin indent on
+endif
 
