@@ -139,20 +139,20 @@ nnoremap * *N
 noremap <Leader><Space> :nohls<CR>
 
 " Toggle spell
-nnoremap <Leader>s :set spell!<CR>
+nnoremap <silent> <Leader>s :set spell!<CR>:set spell?<CR>
 
 " Tabs
 nnoremap <Leader>tn :tabnew<CR>
 nnoremap <Leader>tc :tabc<CR>
 
 " Toggle wrap mode
-noremap <Leader>w :set wrap!<CR>:set wrap?<CR>
+noremap <silent> <Leader>w :set wrap!<CR>:set wrap?<CR>
 
 " Toggle list mode
-noremap <Leader>l :set list!<CR>:set list?<CR>
+noremap <silent> <Leader>l :set list!<CR>:set list?<CR>
 
 " Toggle numbers
-noremap <Leader>n :set number!<CR>:set number?<CR>
+noremap <silent> <Leader>n :set number!<CR>:set number?<CR>
 
 " Write file
 map <F2> :w<CR>
@@ -176,6 +176,7 @@ if isdirectory(vundle_dir) " check if dir exist
   Bundle 'altercation/vim-colors-solarized'
     call togglebg#map("<F5>")
     if has('gui_running')
+        set background=light
         colorscheme solarized
     endif
 
