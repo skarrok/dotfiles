@@ -8,7 +8,9 @@ set guioptions-=L " no left scrollbar
 set guioptions-=e " no gui tabs
 set guioptions+=c " use console dialog for simple choices
 
-if has('win32')
+if has('gui_win32')
     set guifont=Consolas:h11:cRUSSIAN
+elseif has ('gui_gtk2')
+    set guifont=Ubuntu\ Mono\ 12,Droid\ Sans\ Mono\ 10
 endif
 
