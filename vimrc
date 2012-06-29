@@ -144,7 +144,7 @@ endif
 
 
 " Mapping
-let mapleader = "\\"
+let mapleader = ","
 
 " Toggle paste mode
 nnoremap <silent> <Leader>p :set paste!<CR>:set paste?<CR>
