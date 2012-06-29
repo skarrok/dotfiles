@@ -68,6 +68,20 @@ endif
 
 if has("gui_running")
   colorscheme desert
+
+  set guioptions-=T " no toolbar
+  set guioptions-=t " no tearoff menu items
+  set guioptions-=m " no menu bar
+  set guioptions-=r " no right scrollbar
+  set guioptions-=L " no left scrollbar
+  set guioptions-=e " no gui tabs
+  set guioptions+=c " use console dialog for simple choices
+
+  if has('gui_win32')
+    set guifont=Consolas:h11:cRUSSIAN
+  elseif has ('gui_gtk2')
+    set guifont=Ubuntu\ Mono\ 12,Droid\ Sans\ Mono\ 10
+  endif
 else
   colorscheme koehler
 endif
@@ -98,6 +112,9 @@ if has("autocmd")
 
   " For all text files set 'textwidth' to 78 characters.
   autocmd FileType text setlocal textwidth=78
+
+  " For vim config files
+  autocmd FileType vim setlocal shiftwidth=2 softtabstop=2
 
   " When editing a file, always jump to the last known cursor position.
   " Don't do it when the position is invalid or when inside an event handler

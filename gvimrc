@@ -1,16 +1,3 @@
-set vb noeb t_vb= " disable beep and flash
-set guiheadroom=0 " no headroom
-set guioptions-=T " no toolbar
-set guioptions-=t " no tearoff menu items
-set guioptions-=m " no menu bar
-set guioptions-=r " no right scrollbar
-set guioptions-=L " no left scrollbar
-set guioptions-=e " no gui tabs
-set guioptions+=c " use console dialog for simple choices
-
-if has('gui_win32')
-    set guifont=Consolas:h11:cRUSSIAN
-elseif has ('gui_gtk2')
-    set guifont=Ubuntu\ Mono\ 12,Droid\ Sans\ Mono\ 10
-endif
-
+" disable beep and flash here again because when GUI starts, 't_vb' is reset
+" to its default value
+set vb noeb t_vb= 
