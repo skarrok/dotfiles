@@ -50,13 +50,13 @@ if has('unnamedplus')
   set clipboard+=unnamed
 endif
 
-set backup              " keep a backup file
+set nobackup              " keep a backup file
 set history=50          " keep 50 lines of command line history
 set pastetoggle=        " key sequence to toggle paste mode
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
-  set mouse=a           
+  set mouse=a
   set mousemodel=popup_setpos " what the right mouse button is used for
 endif
 
