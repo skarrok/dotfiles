@@ -2,31 +2,29 @@
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
-" Buffer options
-set hidden              " hide buffers when they abandoned
-
-" Display options
-set title               " show file name in window title
-set listchars=eol:$,tab:>-,trail:-,precedes:<,extends:>
-set vb noeb t_vb=       " disable beep and flash
-set showcmd             " display incomplete commands
-set scrolloff=2         " number of screen lines to show around the cursor
-set sidescroll=4
-set sidescrolloff=10
-set statusline=%<%f\ %h%m%r%{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\",\".&ff.\"]\ \"}%=%-14.(%l,%c%V%)\ %P
-set laststatus=2        " always show status line
-set ruler               " show the cursor position all the time
-set wildmenu            " command line completion shows a list of matches
-set confirm
-
 " Localization
 language messages C
 set langmenu=none       " use English menus
 set encoding=utf-8      " default encoding
-set fileencodings=utf-8,cp1251,koi8-r,cp866
-set spelllang=en,ru
+set fileencodings=utf-8,cp1251,koi8-r,cp866 " automatically detected character encodings
+set spelllang=en,ru     " list of accepted languages
 
-" Tab options
+" Display options
+set title               " show info in the window title
+set listchars=eol:$,tab:>-,trail:-,precedes:<,extends:>  "list of strings used for list mode
+set listchars=eol:¬,tab:▸\ ,trail:·,precedes:«,extends:» "list of strings used for list mode
+set vb noeb t_vb=       " disable beep and flash
+set showcmd             " show (partial) command keys in the status line
+set scrolloff=2         " number of screen lines to show around the cursor
+set sidescroll=4        " minimal number of columns to scroll horizontally
+set sidescrolloff=10    " minimal number of columns to keep left and right of the cursor
+set laststatus=2        " always show status line
+set statusline=%<%f\ %h%m%r%{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\",\".&ff.\"]\ \"}%=%-14.(%l,%c%V%)\ %P
+set ruler               " show the cursor position all the time
+set wildmenu            " command line completion shows a list of matches
+set confirm             " start a dialog when a command fails
+
+" Tabd and indenting
 set autoindent          " copy indent from previous line
 set smartindent         " enable nice indent
 set expandtab           " tab with spaces
@@ -36,14 +34,16 @@ set softtabstop=4       " tab like 4 spaces
 set shiftround          " round indent to shiftwidth
 
 " Search options
-set hlsearch            " highlight search results
+set hlsearch            " highlight all matches for the last used search pattern
 set incsearch           " do incremental searching
 set ignorecase          " ignore case when using a search pattern
 set smartcase           " override 'ignorecase' when pattern has upper case characters
 
+" Buffer options
+set hidden              " don't unload a buffer when no longer shown in a window
+
 " Edit
-" allow backspacing over everything in insert mode
-set backspace=indent,eol,start
+set backspace=indent,eol,start " allow backspacing over everything in insert mode
 
 " X-clipboard
 if has('unnamedplus')
@@ -56,7 +56,8 @@ set pastetoggle=        " key sequence to toggle paste mode
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
-  set mouse=a
+  set mouse=a           
+  set mousemodel=popup_setpos " what the right mouse button is used for
 endif
 
 " Switch syntax highlighting on, when the terminal has colors
@@ -127,11 +128,6 @@ if has("autocmd")
     \ endif
 
   augroup END
-
-else
-
-  set autoindent                " always set auto indenting on
-
 endif " has("autocmd")
 
 " Convenient command to see the difference between the current buffer and the
