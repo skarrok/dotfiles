@@ -24,7 +24,7 @@ set ruler               " show the cursor position all the time
 set wildmenu            " command line completion shows a list of matches
 set confirm             " start a dialog when a command fails
 
-" Tabd and indenting
+" Tabs and indenting
 set autoindent          " copy indent from previous line
 set smartindent         " enable nice indent
 set expandtab           " tab with spaces
@@ -186,6 +186,8 @@ if isdirectory(vundle_dir) " check if dir exist
     ounmap <Leader>f
 
   Bundle 'xoria256.vim'
+  Bundle 'molokai'
+  Bundle 'tango-desert.vim'
   Bundle 'altercation/vim-colors-solarized'
     call togglebg#map("<F5>")
     if has('gui_running')
