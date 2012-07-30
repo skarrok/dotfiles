@@ -13,7 +13,7 @@ setopt histignorespace
 setopt incappendhistory
 setopt histnostore
 setopt sharehistory
-setopt correct correctall
+setopt correct #correctall
 setopt promptsubst
 unsetopt beep
 
