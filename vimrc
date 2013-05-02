@@ -156,7 +156,7 @@ nnoremap <silent> <Leader>s :set spell!<CR>:set spell?<CR>
 
 " Tabs
 nnoremap <Leader>tn :tabnew<CR>
-nnoremap <Leader>tc :tabc<CR>
+nnoremap <Leader>tc :tabclose<CR>
 
 " Toggle wrap mode
 noremap <silent> <Leader>w :set wrap!<CR>:set wrap?<CR>
@@ -184,6 +184,8 @@ if isdirectory(vundle_dir) " check if dir exist
   Bundle 'The-NERD-tree'
     noremap <silent> <Leader>f :NERDTreeToggle<CR>
     ounmap <Leader>f
+  Bundle 'bufexplorer.zip'
+  Bundle 'clang-complete'
 
   Bundle 'xoria256.vim'
   Bundle 'molokai'
@@ -192,8 +194,8 @@ if isdirectory(vundle_dir) " check if dir exist
     call togglebg#map("<F5>")
     if has('gui_running')
         set background=light
-        colorscheme solarized
     endif
+  colorscheme molokai
 
   filetype plugin indent on
 endif

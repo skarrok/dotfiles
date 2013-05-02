@@ -21,7 +21,7 @@ key[PageDown]=${terminfo[knp]}
 [[ -n "${key[Down]}"   ]] && bindkey "${key[Down]}" down-line-or-history
 [[ -n "${key[Left]}"   ]] && bindkey "${key[Left]}" backward-char
 [[ -n "${key[Right]}"  ]] && bindkey "${key[Right]}" forward-char
-if (( ${+terminfo[smkx]} )) && (( ${terminfo[rmkx]} )); then
+if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
     function zle-line-init () {
         printf '%s' "${terminfo[smkx]}"
     }
