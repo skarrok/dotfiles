@@ -191,11 +191,14 @@ if isdirectory(vundle_dir) " check if dir exist
   Bundle 'molokai'
   Bundle 'tango-desert.vim'
   Bundle 'altercation/vim-colors-solarized'
+  try " catch all on first run without installed plugins
     call togglebg#map("<F5>")
     if has('gui_running')
         set background=light
     endif
-  colorscheme molokai
+    colorscheme molokai
+  catch 
+  endtry
 
   filetype plugin indent on
 endif
