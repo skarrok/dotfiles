@@ -96,7 +96,7 @@ export EDITOR=vim
 export VISUAL=vim
 
 # Aliases
-alias s='sudo'
+alias s='sudo -E'
 alias grep='grep --color=auto'
 alias df='df -h'
 alias du='du -h'
@@ -117,6 +117,7 @@ alias -g WC='| wc -l'
 alias -g IC='| iconv -f cp1251 -t utf8'
 alias -g IK='| iconv -f koi8r -t utf8'
 alias -g ID='| iconv -f ibm866 -t utf8'
+alias mc='. /usr/lib/mc/mc-wrapper.sh'
 
 # On start
 date "+%A %d %B %T %Y"
