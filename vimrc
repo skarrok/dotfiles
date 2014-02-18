@@ -187,6 +187,7 @@ if isdirectory(vundle_dir) " check if dir exist
   Bundle 'bufexplorer.zip'
   Bundle 'clang-complete'
   Bundle 'Puppet-Syntax-Highlighting'
+  Bundle 'iptables'
 
   Bundle 'xoria256.vim'
   Bundle 'molokai'
