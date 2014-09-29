@@ -171,28 +171,29 @@ noremap <silent> <Leader>n :set number!<CR>:set number?<CR>
 map <F2> :w<CR>
 
 " Vundle
-let vundle_dir = expand('~/.vim/bundle/vundle')
+let vundle_dir = expand('~/.vim/bundle/Vundle.vim')
 if isdirectory(vundle_dir) " check if dir exist
   filetype off
   exe "set rtp+=".vundle_dir
-  call vundle#rc()
-  Bundle 'gmarik/vundle'
+  call vundle#begin()
+  Plugin 'gmarik/Vundle.vim'
 
-  " Bundles
-  Bundle 'toggle_word.vim'
-  Bundle 'The-NERD-Commenter'
-  Bundle 'The-NERD-tree'
+  " Plugins
+  Plugin 'toggle_word.vim'
+  Plugin 'The-NERD-Commenter'
+  Plugin 'The-NERD-tree'
     noremap <silent> <Leader>f :NERDTreeToggle<CR>
     ounmap <Leader>f
-  Bundle 'bufexplorer.zip'
-  Bundle 'clang-complete'
-  Bundle 'Puppet-Syntax-Highlighting'
-  Bundle 'iptables'
+  Plugin 'bufexplorer.zip'
+  Plugin 'clang-complete'
+  Plugin 'Puppet-Syntax-Highlighting'
+  Plugin 'iptables'
 
-  Bundle 'xoria256.vim'
-  Bundle 'molokai'
-  Bundle 'tango-desert.vim'
-  Bundle 'altercation/vim-colors-solarized'
+  Plugin 'xoria256.vim'
+  Plugin 'molokai'
+  Plugin 'tango-desert.vim'
+  Plugin 'altercation/vim-colors-solarized'
+  call vundle#end()
   try " catch all on first run without installed plugins
     call togglebg#map("<F5>")
     if has('gui_running')
