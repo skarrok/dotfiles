@@ -45,6 +45,10 @@ set hidden              " don't unload a buffer when no longer shown in a window
 " Edit
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
 
+" Windows
+set splitbelow
+set splitright
+
 " X-clipboard
 if has('unnamedplus')
   set clipboard+=unnamed
@@ -68,8 +72,6 @@ if &t_Co > 2 || has("gui_running")
 endif
 
 if has("gui_running")
-  colorscheme desert
-
   set guioptions-=T " no toolbar
   set guioptions-=t " no tearoff menu items
   set guioptions-=m " no menu bar
@@ -83,8 +85,6 @@ if has("gui_running")
   elseif has ('gui_gtk2')
     set guifont=Ubuntu\ Mono\ 12,Droid\ Sans\ Mono\ 10
   endif
-else
-  colorscheme koehler
 endif
 
 " Only do this part when compiled with support for auto commands.
@@ -116,6 +116,12 @@ if has("autocmd")
 
   " For vim config files
   autocmd FileType vim setlocal shiftwidth=2 softtabstop=2
+
+  " Puppet file type
+  autocmd FileType puppet setlocal makeprg=puppet-lint\ --with-filename\ --log-format\ \\%{fullpath}:\\%{linenumber}:\\%{KIND}:\\%{message}\ %
+  autocmd FileType puppet setlocal errorformat=%f:%l:%m
+  "autocmd FileType puppet setlocal makeprg=puppet\ parser\ validate\ --color=false\ %
+  "autocmd FileType puppet setlocal errorformat=%m\ at\ %f:%l
 
   " When editing a file, always jump to the last known cursor position.
   " Don't do it when the position is invalid or when inside an event handler
@@ -170,6 +176,9 @@ noremap <silent> <Leader>n :set number!<CR>:set number?<CR>
 " Write file
 map <F2> :w<CR>
 
+" Make
+"map <F5> :make<CR>
+
 " Vundle
 let vundle_dir = expand('~/.vim/bundle/Vundle.vim')
 if isdirectory(vundle_dir) " check if dir exist
@@ -190,16 +199,18 @@ if isdirectory(vundle_dir) " check if dir exist
   Plugin 'iptables'
 
   Plugin 'xoria256.vim'
-  Plugin 'molokai'
-  Plugin 'tango-desert.vim'
+  Plugin 'tomasr/molokai'
   Plugin 'altercation/vim-colors-solarized'
   call vundle#end()
+
   try " catch all on first run without installed plugins
     call togglebg#map("<F5>")
     if has('gui_running')
         set background=light
     endif
-    colorscheme molokai
+    if &t_Co == 256
+      colorscheme molokai
+    endif
   catch 
   endtry
 
