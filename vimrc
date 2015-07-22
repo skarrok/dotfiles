@@ -175,6 +175,8 @@ noremap <silent> <Leader>n :set number!<CR>:set number?<CR>
 
 " Write file
 map <F2> :w<CR>
+map <F9> :lprev<CR>
+map <F10> :lnext<CR>
 
 " Make
 "map <F5> :make<CR>
@@ -189,13 +191,31 @@ if isdirectory(vundle_dir) " check if dir exist
 
   " Plugins
   Plugin 'toggle_word.vim'
-  Plugin 'The-NERD-Commenter'
-  Plugin 'The-NERD-tree'
+  Plugin 'milkypostman/vim-togglelist'
+    let g:toggle_list_no_mappings = 1
+    nmap <silent> <leader>wl :call ToggleLocationList()<CR>
+    nmap <silent> <leader>wq :call ToggleQuickfixList()<CR>
+  Plugin 'scrooloose/nerdcommenter'
+  Plugin 'scrooloose/nerdtree'
     noremap <silent> <Leader>f :NERDTreeToggle<CR>
     ounmap <Leader>f
   Plugin 'bufexplorer.zip'
   Plugin 'clang-complete'
-  Plugin 'Puppet-Syntax-Highlighting'
+  Plugin 'godlygeek/tabular'
+  Plugin 'MarcWeber/vim-addon-mw-utils'
+  Plugin 'tomtom/tlib_vim'
+  Plugin 'garbas/vim-snipmate'
+  Plugin 'honza/vim-snippets'
+  Plugin 'puppetlabs/puppet-syntax-vim'
+  Plugin 'scrooloose/syntastic'
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
+    let g:syntastic_always_populate_loc_list = 1
+    let g:syntastic_auto_loc_list = 2
+    let g:syntastic_check_on_wq = 0
+    let g:syntastic_puppet_puppet_args = '--parser future'
+    let g:syntastic_puppet_puppetlint_args = '--no-documentation-check'
   Plugin 'iptables'
 
   Plugin 'xoria256.vim'
