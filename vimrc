@@ -228,7 +228,7 @@ if isdirectory(vundle_dir) " check if dir exist
     if has('gui_running')
         set background=light
     endif
-    if &t_Co == 256
+    if &t_Co == 256 || has('gui_running')
       colorscheme molokai
     endif
   catch 
