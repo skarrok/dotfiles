@@ -145,6 +145,9 @@ endif
 " Mapping
 let mapleader = ","
 
+" Change current working directory
+nnoremap <Leader>cd :cd %:p:h<CR>:pwd<CR>
+
 " Toggle paste mode
 nnoremap <silent> <Leader>p :set paste!<CR>:set paste?<CR>
 
@@ -187,7 +190,7 @@ if isdirectory(vundle_dir) " check if dir exist
   filetype off
   exe "set rtp+=".vundle_dir
   call vundle#begin()
-  Plugin 'gmarik/Vundle.vim'
+  Plugin 'VundleVim/Vundle.vim'
 
   " Plugins
   Plugin 'toggle_word.vim'
