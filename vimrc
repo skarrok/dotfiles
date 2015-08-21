@@ -158,8 +158,10 @@ noremap <Leader><Space> :nohls<CR>
 nnoremap <silent> <Leader>s :set spell!<CR>:set spell?<CR>
 
 " Tabs
-nnoremap <Leader>tn :tabnew<CR>
-nnoremap <Leader>tc :tabclose<CR>
+nnoremap <Leader>tc :tabnew<CR>
+nnoremap <Leader>tx :tabclose<CR>
+nnoremap <Leader>tn :tabnext<CR>
+nnoremap <Leader>tp :tabprev<CR>
 
 " Toggle wrap mode
 noremap <silent> <Leader>w :set wrap!<CR>:set wrap?<CR>
@@ -179,6 +181,7 @@ map <F10> :lnext<CR>
 "map <F5> :make<CR>
 
 " Vundle
+" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 let vundle_dir = expand('~/.vim/bundle/Vundle.vim')
 if isdirectory(vundle_dir) " check if dir exist
   filetype off
