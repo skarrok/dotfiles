@@ -202,6 +202,7 @@ if isdirectory(vundle_dir) " check if dir exist
   Plugin 'scrooloose/nerdtree'
     noremap <silent> <Leader>f :NERDTreeToggle<CR>
     ounmap <Leader>f
+  Plugin 'tpope/vim-surround'
   Plugin 'bufexplorer.zip'
   Plugin 'clang-complete'
   Plugin 'godlygeek/tabular'
