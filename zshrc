@@ -97,6 +97,8 @@ export VISUAL=vim
 
 # Aliases
 alias s='sudo -E'
+alias sc='sudo systemctl'
+alias jc='sudo journalctl'
 alias grep='grep --color=auto'
 alias df='df -h'
 alias du='du -h'
