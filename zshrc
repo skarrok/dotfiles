@@ -1,6 +1,12 @@
 # Use emacs keybindings even if our EDITOR is set to vi
 bindkey -e
 
+# TMUX
+if which tmux >/dev/null 2>&1; then
+    # if no session is started, start a new session
+    test -z ${TMUX} && (tmux attach || tmux new-session)
+fi
+
 # Key bindings
 typeset -A key
 key[Home]=${terminfo[khome]}
@@ -88,7 +94,7 @@ precmd () { vcs_info }
 
 # Prompt
 PROMPT="%{$fg[green]%}%B%n@%M%{$reset_color%}:%{$fg[yellow]%}%3~%{$reset_color%}%#%b "
-RPROMPT='${vcs_info_msg_0_}%{$fg[cyan]%}%D{%a}[%T]%{$reset_color%}'
+RPROMPT='${vcs_info_msg_0_}'
 SPROMPT="zsh: correct '%R' to '%r'? [ynea]"
 
 # Environment
