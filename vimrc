@@ -212,6 +212,7 @@ if isdirectory(vundle_dir) " check if dir exist
   Plugin 'garbas/vim-snipmate'
   Plugin 'honza/vim-snippets'
   Plugin 'puppetlabs/puppet-syntax-vim'
+  Plugin 'pearofducks/ansible-vim'
   Plugin 'scrooloose/syntastic'
     set statusline+=%#warningmsg#
     set statusline+=%{SyntasticStatuslineFlag()}
