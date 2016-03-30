@@ -52,6 +52,7 @@ setopt histignorespace
 setopt incappendhistory
 setopt histnostore
 setopt sharehistory
+setopt histverify
 setopt correct #correctall
 setopt promptsubst
 unsetopt beep
