@@ -1,12 +1,6 @@
 # Use emacs keybindings even if our EDITOR is set to vi
 bindkey -e
 
-# TMUX
-if which tmux >/dev/null 2>&1; then
-    # if no session is started, start a new session
-    test -z ${TMUX} && (tmux attach || tmux new-session)
-fi
-
 # Key bindings
 typeset -A key
 key[Home]=${terminfo[khome]}

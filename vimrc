@@ -178,6 +178,8 @@ noremap <silent> <Leader>n :set number!<CR>:set number?<CR>
 " Write file
 map <F2> :w<CR>
 map <S-F2> :w !sudo tee %<CR>
+map <F3> :q<CR>
+map <S-F3> :q!<CR>
 map <F9> :lprev<CR>
 map <F10> :lnext<CR>
 
