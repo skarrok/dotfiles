@@ -88,7 +88,9 @@ zstyle ':vcs_info:*' hgrevformat '%r'
 precmd () { vcs_info }
 
 # Prompt
-PROMPT="%{$fg[green]%}%B%n@%M%{$reset_color%}:%{$fg[blue]%}%3~%{$reset_color%}%#%b "
+PROMPT="%F{237}--------------------------------------------------------------------------------%f
+%F{green}%B%n@%M%f:%F{blue}%3~%f%#%b "
+#PROMPT="%{$fg[green]%}%B%n@%M%{$reset_color%}:%{$fg[blue]%}%3~%{$reset_color%}%#%b "
 RPROMPT='${vcs_info_msg_0_}'
 SPROMPT="zsh: correct '%R' to '%r'? [ynea]"
 
@@ -121,6 +123,7 @@ alias -g IC='| iconv -f cp1251 -t utf8'
 alias -g IK='| iconv -f koi8r -t utf8'
 alias -g ID='| iconv -f ibm866 -t utf8'
 alias mc='. /usr/lib/mc/mc-wrapper.sh'
+alias clogin='sudo -u rancid /usr/lib/rancid/bin/clogin'
 
 # On start
 date "+%A %d %B %T %Y"
