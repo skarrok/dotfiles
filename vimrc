@@ -215,6 +215,7 @@ if isdirectory(vundle_dir) " check if dir exist
     let g:snipMate = get(g:, 'snipMate', {}) " Allow for vimrc re-sourcing
     let g:snipMate.scope_aliases = {}
     let g:snipMate.scope_aliases['ansible_template']  = 'jinja'
+    let g:snipMate.scope_aliases['ansible']  = 'jinja'
     let g:snipMate.scope_aliases['yaml']  = 'jinja'
   Plugin 'honza/vim-snippets'
   Plugin 'puppetlabs/puppet-syntax-vim'
