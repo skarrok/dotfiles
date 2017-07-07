@@ -186,67 +186,60 @@ map <F10> :lnext<CR>
 " Make
 "map <F5> :make<CR>
 
-" Vundle
-" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-let vundle_dir = expand('~/.vim/bundle/Vundle.vim')
-if isdirectory(vundle_dir) " check if dir exist
-  filetype off
-  exe "set rtp+=".vundle_dir
-  call vundle#begin()
-  Plugin 'VundleVim/Vundle.vim'
-
-  " Plugins
-  Plugin 'toggle_word.vim'
-  Plugin 'milkypostman/vim-togglelist'
-    let g:toggle_list_no_mappings = 1
-    nmap <silent> <leader>wl :call ToggleLocationList()<CR>
-    nmap <silent> <leader>wq :call ToggleQuickfixList()<CR>
-  Plugin 'scrooloose/nerdcommenter'
-  Plugin 'scrooloose/nerdtree'
-    noremap <silent> <Leader>f :NERDTreeToggle<CR>
-    ounmap <Leader>f
-  Plugin 'tpope/vim-surround'
-  Plugin 'bufexplorer.zip'
-  Plugin 'clang-complete'
-  Plugin 'godlygeek/tabular'
-  Plugin 'MarcWeber/vim-addon-mw-utils'
-  Plugin 'tomtom/tlib_vim'
-  Plugin 'garbas/vim-snipmate'
-    let g:snipMate = get(g:, 'snipMate', {}) " Allow for vimrc re-sourcing
-    let g:snipMate.scope_aliases = {}
-    let g:snipMate.scope_aliases['ansible_template']  = 'jinja'
-    let g:snipMate.scope_aliases['ansible']  = 'jinja'
-    let g:snipMate.scope_aliases['yaml']  = 'jinja'
-  Plugin 'honza/vim-snippets'
-  Plugin 'puppetlabs/puppet-syntax-vim'
-  Plugin 'pearofducks/ansible-vim'
-  Plugin 'scrooloose/syntastic'
-    set statusline+=%#warningmsg#
-    set statusline+=%{SyntasticStatuslineFlag()}
-    set statusline+=%*
-    let g:syntastic_always_populate_loc_list = 1
-    let g:syntastic_auto_loc_list = 2
-    let g:syntastic_check_on_wq = 0
-    let g:syntastic_puppet_puppet_args = '--parser future'
-    let g:syntastic_puppet_puppetlint_args = '--no-documentation-check'
-  Plugin 'iptables'
-
-  Plugin 'xoria256.vim'
-  Plugin 'tomasr/molokai'
-  Plugin 'altercation/vim-colors-solarized'
-  call vundle#end()
-
-  try " catch all on first run without installed plugins
-    call togglebg#map("<F5>")
-    if has('gui_running')
-        set background=light
-    endif
-    if &t_Co == 256 || has('gui_running')
-      colorscheme molokai
-    endif
-  catch 
-  endtry
-
-  filetype plugin indent on
+" Plugins
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
+call plug#begin('~/.vim/bundle')
+Plug 'vim-scripts/toggle_word.vim'
+Plug 'milkypostman/vim-togglelist'
+  let g:toggle_list_no_mappings = 1
+  nmap <silent> <leader>wl :call ToggleLocationList()<CR>
+  nmap <silent> <leader>wq :call ToggleQuickfixList()<CR>
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdtree'
+  noremap <silent> <Leader>f :NERDTreeToggle<CR>
+  ounmap <Leader>f
+Plug 'tpope/vim-surround'
+Plug 'vim-scripts/bufexplorer.zip'
+Plug 'vim-scripts/clang-complete'
+Plug 'godlygeek/tabular'
+Plug 'garbas/vim-snipmate'
+  Plug 'tomtom/tlib_vim'
+  Plug 'MarcWeber/vim-addon-mw-utils'
+  Plug 'honza/vim-snippets'
+  let g:snipMate = get(g:, 'snipMate', {}) " Allow for vimrc re-sourcing
+  let g:snipMate.scope_aliases = {}
+  let g:snipMate.scope_aliases['ansible_template']  = 'jinja'
+  let g:snipMate.scope_aliases['ansible']  = 'jinja'
+  let g:snipMate.scope_aliases['yaml']  = 'jinja'
+Plug 'puppetlabs/puppet-syntax-vim'
+Plug 'pearofducks/ansible-vim'
+Plug 'scrooloose/syntastic'
+  set statusline+=%#warningmsg#
+  set statusline+=%{SyntasticStatuslineFlag()}
+  set statusline+=%*
+  let g:syntastic_always_populate_loc_list = 1
+  let g:syntastic_auto_loc_list = 2
+  let g:syntastic_check_on_wq = 0
+  let g:syntastic_puppet_puppet_args = '--parser future'
+  let g:syntastic_puppet_puppetlint_args = '--no-documentation-check'
+Plug 'vim-scripts/iptables'
 
+Plug 'vim-scripts/xoria256.vim'
+Plug 'tomasr/molokai'
+Plug 'altercation/vim-colors-solarized'
+call plug#end()
+
+try " catch all on first run without installed plugins
+  call togglebg#map("<F5>")
+  if has('gui_running')
+      set background=light
+  endif
+  if &t_Co == 256 || has('gui_running')
+    colorscheme molokai
+  endif
+catch 
+endtry
