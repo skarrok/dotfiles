@@ -23,16 +23,6 @@ key[PageDown]=${terminfo[knp]}
 [[ -n "${key[Right]}"       ]] && bindkey "${key[Right]}"       forward-char
 [[ -n "${key[PageUp]}"      ]] && bindkey "${key[PageUp]}"      beginning-of-buffer-or-history
 [[ -n "${key[PageDown]}"    ]] && bindkey "${key[PageDown]}"    end-of-buffer-or-history
-if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
-    function zle-line-init () {
-        printf '%s' "${terminfo[smkx]}"
-    }
-    function zle-line-finish () {
-        printf '%s' "${terminfo[rmkx]}"
-    }
-    zle -N zle-line-init
-    zle -N zle-line-finish
-fi
 
 # Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
 HISTSIZE=1000

@@ -13,6 +13,8 @@ set spelllang=en,ru     " list of accepted languages
 set title               " show info in the window title
 set listchars=eol:$,tab:>-,trail:-,precedes:<,extends:>  "list of strings used for list mode
 set listchars=eol:¬,tab:▸\ ,trail:·,precedes:«,extends:» "list of strings used for list mode
+set fillchars=fold:-,vert:\| " fill chars
+set fillchars=fold:-,vert:\│ " fill chars
 set vb noeb t_vb=       " disable beep and flash
 set showcmd             " show (partial) command keys in the status line
 set scrolloff=2         " number of screen lines to show around the cursor
@@ -177,9 +179,9 @@ noremap <silent> <Leader>n :set number!<CR>:set number?<CR>
 
 " Write file
 map <F2> :w<CR>
-map <S-F2> :w !sudo tee %<CR>
+map <Leader><F2> :w !sudo tee %<CR>
 map <F3> :q<CR>
-map <S-F3> :q!<CR>
+map <Leader><F3> :q!<CR>
 map <F9> :lprev<CR>
 map <F10> :lnext<CR>
 
