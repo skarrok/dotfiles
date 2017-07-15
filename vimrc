@@ -188,10 +188,16 @@ map <F10> :lnext<CR>
 " Make
 "map <F5> :make<CR>
 
+if has('win32') || has('win64')
+  " use ~/.vim on windows
+  set runtimepath^=~/.vim
+endif
+
 " Plugins
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+let vim_plug_dir = '~/.vim/autoload/plug.vim'
+if empty(glob(vim_plug_dir))
+  execute '!curl -fLo ' . expand(vim_plug_dir) . ' --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 call plug#begin('~/.vim/bundle')
