@@ -60,6 +60,13 @@ zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p
 zstyle ':completion:*' use-cache true
 zstyle ':completion:*' use-compctl false
 zstyle ':completion:*' verbose true
+zstyle ':completion:*:sudo:*' command-path /usr/local/sbin \
+                                           /usr/local/bin  \
+                                           /usr/sbin       \
+                                           /usr/bin        \
+                                           /sbin           \
+                                           /bin            \
+                                           /usr/X11R6/bin
 
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
