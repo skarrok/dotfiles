@@ -106,8 +106,8 @@ if has("autocmd")
   au! BufWritePost *.vimrc source ~/.vimrc
 
   " Highlight current line in insert mode
-  au InsertEnter * set cursorline
-  au InsertLeave * set nocursorline
+  "au InsertEnter * set cursorline
+  "au InsertLeave * set nocursorline
 
   " Auto close preview window
   "au CursorMovedI * if pumvisible() == 0|pclose|endif
@@ -201,18 +201,28 @@ if empty(glob(vim_plug_dir))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 call plug#begin('~/.vim/bundle')
-Plug 'vim-scripts/toggle_word.vim'
+"Plug 'vim-scripts/toggle_word.vim'
+Plug 'AndrewRadev/switch.vim'
+  let g:switch_mapping = ""
+  nmap <silent> <leader>t :call switch#Switch()<CR>
+  let g:switch_custom_definitions = 
+        \ [
+        \   [ 'yes', 'no' ],
+        \   [ 'YES', 'NO' ],
+        \   [ 'Yes', 'No' ],
+        \   [ 'TRUE', 'FALSE' ]
+        \ ]
 Plug 'milkypostman/vim-togglelist'
   let g:toggle_list_no_mappings = 1
   nmap <silent> <leader>wl :call ToggleLocationList()<CR>
   nmap <silent> <leader>wq :call ToggleQuickfixList()<CR>
 Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle'}
   noremap <silent> <Leader>f :NERDTreeToggle<CR>
   ounmap <Leader>f
 Plug 'tpope/vim-surround'
 Plug 'vim-scripts/bufexplorer.zip'
-Plug 'vim-scripts/clang-complete'
+Plug 'vim-scripts/clang-complete', { 'for': 'c' }
 Plug 'godlygeek/tabular'
 Plug 'garbas/vim-snipmate'
   Plug 'tomtom/tlib_vim'
