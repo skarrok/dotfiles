@@ -201,7 +201,6 @@ if empty(glob(vim_plug_dir))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 call plug#begin('~/.vim/bundle')
-"Plug 'vim-scripts/toggle_word.vim'
 Plug 'AndrewRadev/switch.vim'
   let g:switch_mapping = ""
   nmap <silent> <leader>t :call switch#Switch()<CR>
