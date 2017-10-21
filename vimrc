@@ -220,6 +220,10 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle'}
   noremap <silent> <Leader>f :NERDTreeToggle<CR>
   ounmap <Leader>f
 Plug 'tpope/vim-surround'
+Plug 'justinmk/vim-gtfo'
+Plug 'coderifous/textobj-word-column.vim'
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-scripts/bufexplorer.zip'
 Plug 'vim-scripts/clang-complete', { 'for': 'c' }
 Plug 'godlygeek/tabular'
@@ -232,21 +236,15 @@ Plug 'garbas/vim-snipmate'
   let g:snipMate.scope_aliases['ansible_template']  = 'jinja'
   let g:snipMate.scope_aliases['ansible']  = 'jinja'
   let g:snipMate.scope_aliases['yaml']  = 'jinja'
-Plug 'puppetlabs/puppet-syntax-vim'
-Plug 'pearofducks/ansible-vim'
-Plug 'scrooloose/syntastic'
-  set statusline+=%#warningmsg#
-  set statusline+=%{SyntasticStatuslineFlag()}
-  set statusline+=%*
-  let g:syntastic_always_populate_loc_list = 1
-  let g:syntastic_auto_loc_list = 2
-  let g:syntastic_check_on_wq = 0
-  let g:syntastic_puppet_puppet_args = '--parser future'
-  let g:syntastic_puppet_puppetlint_args = '--no-documentation-check'
+"Plug 'puppetlabs/puppet-syntax-vim'
+"Plug 'pearofducks/ansible-vim'
+Plug 'sheerun/vim-polyglot'
 Plug 'vim-scripts/iptables'
-
+Plug 'w0rp/ale'
+Plug 'itchyny/lightline.vim'
 Plug 'vim-scripts/xoria256.vim'
 Plug 'tomasr/molokai'
+  let g:rehash256 = 1
 Plug 'altercation/vim-colors-solarized'
 call plug#end()
 
