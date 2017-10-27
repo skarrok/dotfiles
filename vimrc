@@ -219,11 +219,19 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle'}
   noremap <silent> <Leader>f :NERDTreeToggle<CR>
   ounmap <Leader>f
-Plug 'tpope/vim-surround'
+Plug 'machakann/vim-sandwich'
 Plug 'justinmk/vim-gtfo'
 Plug 'coderifous/textobj-word-column.vim'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'mhinz/vim-signify'
+  let g:signify_vcs_list = [ 'git', 'hg' ]
+  let g:signify_sign_add = '·'
+  let g:signify_sign_delete = '·'
+  let g:signify_sign_delete_first_line = '·'
+  let g:signify_sign_change = '·'
+  let g:signify_sign_changedelete = g:signify_sign_change
 Plug 'vim-scripts/bufexplorer.zip'
 Plug 'vim-scripts/clang-complete', { 'for': 'c' }
 Plug 'godlygeek/tabular'
