@@ -180,10 +180,16 @@ noremap <silent> <Leader>n :set number!<CR>:set number?<CR>
 " Write file
 map <F2> :w<CR>
 map <Leader><F2> :w !sudo tee %<CR>
+
+" Quit
 map <F3> :q<CR>
 map <Leader><F3> :q!<CR>
-map <F9> :lprev<CR>
-map <F10> :lnext<CR>
+
+" Quickfix and location navigation
+map ]q :cnext<CR>
+map [q :cprev<CR>
+map ]l :lnext<CR>
+map [l :lprev<CR>
 
 " Make
 "map <F5> :make<CR>
