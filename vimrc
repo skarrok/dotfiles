@@ -224,6 +224,14 @@ Plug 'justinmk/vim-gtfo'
 Plug 'coderifous/textobj-word-column.vim'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'ctrlpvim/ctrlp.vim'
+  if executable('ag')
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    let g:ctrlp_use_caching = 0
+  endif
+Plug 'mileszs/ack.vim'
+  if executable('ag')
+    let g:ackprg = 'ag --vimgrep'
+  endif
 Plug 'tpope/vim-fugitive'
 Plug 'mhinz/vim-signify'
   let g:signify_vcs_list = [ 'git', 'hg' ]
@@ -249,6 +257,10 @@ Plug 'garbas/vim-snipmate'
 Plug 'sheerun/vim-polyglot'
 Plug 'vim-scripts/iptables'
 Plug 'w0rp/ale'
+  let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+  let g:ale_fixers = { 'python': ['isort', 'yapf']}
+  let g:ale_python_pylint_executable = 'pylint3'
+  let g:ale_python_yapf_executable = 'yapf3'
 Plug 'itchyny/lightline.vim'
 Plug 'vim-scripts/xoria256.vim'
 Plug 'tomasr/molokai'
@@ -258,9 +270,6 @@ call plug#end()
 
 try " catch all on first run without installed plugins
   call togglebg#map("<F5>")
-  if has('gui_running')
-      set background=light
-  endif
   if &t_Co == 256 || has('gui_running')
     colorscheme molokai
   endif
