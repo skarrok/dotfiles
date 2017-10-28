@@ -186,10 +186,10 @@ map <F3> :q<CR>
 map <Leader><F3> :q!<CR>
 
 " Quickfix and location navigation
-map ]q :cnext<CR>
-map [q :cprev<CR>
-map ]l :lnext<CR>
-map [l :lprev<CR>
+map <silent> ]q :cnext<CR>
+map <silent> [q :cprev<CR>
+map <silent> ]l :lnext<CR>
+map <silent> [l :lprev<CR>
 
 " Make
 "map <F5> :make<CR>
@@ -248,7 +248,9 @@ Plug 'mhinz/vim-signify'
   let g:signify_sign_changedelete = g:signify_sign_change
 Plug 'vim-scripts/bufexplorer.zip'
 Plug 'vim-scripts/clang-complete', { 'for': 'c' }
-Plug 'godlygeek/tabular'
+Plug 'junegunn/vim-easy-align'
+  xmap ga <Plug>(EasyAlign)
+  nmap ga <Plug>(EasyAlign)
 Plug 'garbas/vim-snipmate'
   Plug 'tomtom/tlib_vim'
   Plug 'MarcWeber/vim-addon-mw-utils'
