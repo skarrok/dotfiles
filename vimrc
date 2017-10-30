@@ -243,6 +243,8 @@ Plug 'mileszs/ack.vim'
   if executable('ag')
     let g:ackprg = 'ag --vimgrep'
   endif
+  nnoremap <Leader>aa :Ack<Space>
+  nnoremap <Leader>af :AckFile<Space>
 Plug 'tpope/vim-fugitive'
 Plug 'mhinz/vim-signify'
   let g:signify_vcs_list = [ 'git', 'hg' ]
