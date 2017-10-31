@@ -276,6 +276,18 @@ Plug 'w0rp/ale'
   let g:ale_fixers = { 'python': ['isort', 'yapf']}
   let g:ale_python_pylint_executable = 'pylint3'
   let g:ale_python_yapf_executable = 'yapf3'
+Plug 'davidhalter/jedi-vim', { 'for': 'python' }
+  let g:jedi#auto_vim_configuration = 1
+  let g:jedi#popup_on_dot = 0
+  let g:jedi#popup_select_first = 0
+  let g:jedi#show_call_signatures = 0
+  let g:jedi#goto_command = "<Leader>pg"
+  let g:jedi#goto_assignments_command= "<Leader>pa"
+  let g:jedi#goto_definitions_command = "<Leader>pd"
+  let g:jedi#usages_command = "<leader>pn"
+  let g:jedi#completions_command = ""
+  let g:jedi#rename_command = "<leader>pr"
+
 Plug 'itchyny/lightline.vim'
 Plug 'vim-scripts/xoria256.vim'
 Plug 'tomasr/molokai'
