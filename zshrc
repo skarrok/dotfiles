@@ -45,6 +45,10 @@ unsetopt beep
 autoload -Uz compinit
 compinit
 
+# Words are alphanumeric characters only
+autoload -U select-word-style
+select-word-style bash
+
 autoload colors && colors
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _correct _approximate
