@@ -150,7 +150,8 @@ endif
 
 
 " Mapping
-let mapleader = ","
+nnoremap <Space> <Nop>
+let mapleader = " "
 
 " Change current working directory
 nnoremap <Leader>cd :cd %:p:h<CR>:pwd<CR>
@@ -170,8 +171,6 @@ nnoremap <silent> <Leader>s :set spell!<CR>:set spell?<CR>
 " Tabs
 nnoremap <Leader>tc :tabnew<CR>
 nnoremap <Leader>tx :tabclose<CR>
-nnoremap <Leader>tn :tabnext<CR>
-nnoremap <Leader>tp :tabprev<CR>
 
 " Toggle wrap mode
 noremap <silent> <Leader>w :set wrap!<CR>:set wrap?<CR>
@@ -227,9 +226,10 @@ Plug 'milkypostman/vim-togglelist'
   nmap <silent> <leader>wl :call ToggleLocationList()<CR>
   nmap <silent> <leader>wq :call ToggleQuickfixList()<CR>
 Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle'}
+Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind']}
   noremap <silent> <Leader>f :NERDTreeToggle<CR>
   ounmap <Leader>f
+  noremap <silent> <leader>gf :NERDTreeFind<CR>
 Plug 'machakann/vim-sandwich'
 Plug 'justinmk/vim-gtfo'
 Plug 'coderifous/textobj-word-column.vim'
@@ -248,6 +248,9 @@ Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'mhinz/vim-signify'
   let g:signify_vcs_list = [ 'git', 'hg' ]
+  let g:signify_realtime = 1
+  let g:signify_cursorhold_normal = 0
+  let g:signify_cursorhold_insert = 0
   let g:signify_sign_add = '·'
   let g:signify_sign_delete = '·'
   let g:signify_sign_delete_first_line = '·'
@@ -258,6 +261,9 @@ Plug 'vim-scripts/clang-complete', { 'for': 'c' }
 Plug 'junegunn/vim-easy-align'
   xmap ga <Plug>(EasyAlign)
   nmap ga <Plug>(EasyAlign)
+Plug 'junegunn/vim-peekaboo'
+Plug 'takac/vim-hardtime'
+  let g:hardtime_default_on = 1
 Plug 'garbas/vim-snipmate'
   Plug 'tomtom/tlib_vim'
   Plug 'MarcWeber/vim-addon-mw-utils'
@@ -274,7 +280,7 @@ Plug 'vim-scripts/iptables'
 Plug 'w0rp/ale'
   let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
   let g:ale_fixers = { 'python': ['isort', 'yapf']}
-  let g:ale_python_pylint_executable = 'pylint3'
+  let g:ale_python_pylint_executable = 'pylint'
   let g:ale_python_yapf_executable = 'yapf3'
 Plug 'davidhalter/jedi-vim', { 'for': 'python' }
   let g:jedi#auto_vim_configuration = 1
