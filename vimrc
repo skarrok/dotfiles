@@ -253,7 +253,9 @@ Plug 'mhinz/vim-signify'
   let g:signify_cursorhold_normal = 0
   let g:signify_cursorhold_insert = 0
   let g:signify_sign_add = '·'
+  let g:signify_sign_add = '✚'
   let g:signify_sign_delete = '·'
+  let g:signify_sign_delete = '✖'
   let g:signify_sign_delete_first_line = '·'
   let g:signify_sign_change = '·'
   let g:signify_sign_changedelete = g:signify_sign_change
