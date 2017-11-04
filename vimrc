@@ -227,6 +227,7 @@ Plug 'milkypostman/vim-togglelist'
   nmap <silent> <leader>wq :call ToggleQuickfixList()<CR>
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind']}
+  let NERDTreeMinimalUI = 1
   noremap <silent> <Leader>f :NERDTreeToggle<CR>
   ounmap <Leader>f
   noremap <silent> <leader>gf :NERDTreeFind<CR>
