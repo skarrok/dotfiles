@@ -137,6 +137,12 @@ if has("autocmd")
     \   exe "normal! g`\"" |
     \ endif
 
+  autocmd ColorScheme *
+    \ highlight SignColumn ctermbg=NONE guibg=NONE |
+    \ highlight LineNr ctermbg=NONE guibg=NONE |
+    \ highlight SignifySignAdd    ctermbg=NONE guibg=NONE ctermfg=119 |
+    \ highlight SignifySignDelete ctermbg=NONE guibg=NONE ctermfg=167 |
+    \ highlight SignifySignChange ctermbg=NONE guibg=NONE ctermfg=227
   augroup END
 endif " has("autocmd")
 
@@ -253,7 +259,7 @@ Plug 'mhinz/vim-signify'
   let g:signify_cursorhold_normal = 0
   let g:signify_cursorhold_insert = 0
   let g:signify_sign_add = '·'
-  let g:signify_sign_add = '✚'
+  let g:signify_sign_add = '+'
   let g:signify_sign_delete = '·'
   let g:signify_sign_delete = '✖'
   let g:signify_sign_delete_first_line = '·'
@@ -302,6 +308,7 @@ Plug 'vim-scripts/xoria256.vim'
 Plug 'tomasr/molokai'
   let g:rehash256 = 1
 Plug 'altercation/vim-colors-solarized'
+Plug 'joshdick/onedark.vim'
 call plug#end()
 
 try " catch all on first run without installed plugins
