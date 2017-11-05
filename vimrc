@@ -288,9 +288,9 @@ Plug 'sheerun/vim-polyglot'
 Plug 'vim-scripts/iptables'
 Plug 'w0rp/ale'
   let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-  let g:ale_fixers = { 'python': ['isort', 'yapf']}
-  let g:ale_python_pylint_executable = 'pylint'
-  let g:ale_python_yapf_executable = 'yapf3'
+  "let g:ale_fixers = { 'python': ['isort', 'yapf']}
+  "let g:ale_python_pylint_executable = 'pylint'
+  "let g:ale_python_yapf_executable = 'yapf3'
 Plug 'davidhalter/jedi-vim', { 'for': 'python' }
   let g:jedi#auto_vim_configuration = 1
   let g:jedi#popup_on_dot = 0
@@ -304,6 +304,7 @@ Plug 'davidhalter/jedi-vim', { 'for': 'python' }
   let g:jedi#rename_command = "<leader>pr"
 
 Plug 'itchyny/lightline.vim'
+  let g:lightline = { 'colorscheme': 'default' }
 Plug 'vim-scripts/xoria256.vim'
 Plug 'tomasr/molokai'
   let g:rehash256 = 1
