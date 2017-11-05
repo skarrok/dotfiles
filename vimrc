@@ -258,12 +258,12 @@ Plug 'mhinz/vim-signify'
   let g:signify_realtime = 1
   let g:signify_cursorhold_normal = 0
   let g:signify_cursorhold_insert = 0
-  let g:signify_sign_add = '·'
+  let g:signify_sign_add = '•'
   let g:signify_sign_add = '+'
-  let g:signify_sign_delete = '·'
+  let g:signify_sign_delete = '•'
   let g:signify_sign_delete = '✖'
-  let g:signify_sign_delete_first_line = '·'
-  let g:signify_sign_change = '·'
+  let g:signify_sign_delete_first_line = '•'
+  let g:signify_sign_change = '•'
   let g:signify_sign_changedelete = g:signify_sign_change
 Plug 'vim-scripts/bufexplorer.zip'
 Plug 'vim-scripts/clang-complete', { 'for': 'c' }
@@ -288,7 +288,9 @@ Plug 'sheerun/vim-polyglot'
 Plug 'vim-scripts/iptables'
 Plug 'w0rp/ale'
   let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-  "let g:ale_fixers = { 'python': ['isort', 'yapf']}
+  let g:ale_fixers = { 'python': ['isort', 'yapf']}
+  let g:ale_sign_error = '»»'
+  let g:ale_sign_warning = '≈≈'
   "let g:ale_python_pylint_executable = 'pylint'
   "let g:ale_python_yapf_executable = 'yapf3'
 Plug 'davidhalter/jedi-vim', { 'for': 'python' }
