@@ -140,9 +140,9 @@ if has("autocmd")
   autocmd ColorScheme *
     \ highlight SignColumn ctermbg=NONE guibg=NONE |
     \ highlight LineNr ctermbg=NONE guibg=NONE |
-    \ highlight SignifySignAdd    ctermbg=NONE guibg=NONE ctermfg=119 |
-    \ highlight SignifySignDelete ctermbg=NONE guibg=NONE ctermfg=167 |
-    \ highlight SignifySignChange ctermbg=NONE guibg=NONE ctermfg=227
+    \ highlight SignifySignAdd    ctermbg=NONE guibg=NONE ctermfg=119 guifg=#A6E22E |
+    \ highlight SignifySignDelete ctermbg=NONE guibg=NONE ctermfg=167 guifg=#F92672 |
+    \ highlight SignifySignChange ctermbg=NONE guibg=NONE ctermfg=227 guifg=#E6DB74
   augroup END
 endif " has("autocmd")
 
