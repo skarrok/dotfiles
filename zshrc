@@ -80,9 +80,9 @@ autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git svn cvs hg bzr
 zstyle ':vcs_info:*' get-revision true
 zstyle ':vcs_info:*' actionformats \
- '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '
+ '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{10}%b%F{3}|%F{1}%a%F{5}]%f '
 zstyle ':vcs_info:*' formats       \
- '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{5}]%f '
+ '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{10}%b%F{5}]%f '
 zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r'
 zstyle ':vcs_info:*' branchformat '%b%F{1}:%F{3}%r'
 zstyle ':vcs_info:*' hgrevformat '%r'
@@ -90,7 +90,7 @@ precmd () { vcs_info }
 
 # Prompt
 PROMPT="%F{237}--------------------------------------------------------------------------------%f
-%F{green}%B%n@%M%f:%F{blue}%3~%f%#%b "
+%F{10}%B%n@%M%f:%F{12}%3~%f%#%b "
 #PROMPT="%{$fg[green]%}%B%n@%M%{$reset_color%}:%{$fg[blue]%}%3~%{$reset_color%}%#%b "
 RPROMPT='${vcs_info_msg_0_}'
 SPROMPT="zsh: correct '%R' to '%r'? [ynea]"
