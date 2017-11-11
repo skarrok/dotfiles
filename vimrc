@@ -25,6 +25,11 @@ set statusline=%<%f\ %h%m%r%{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\
 set ruler               " show the cursor position all the time
 set wildmenu            " command line completion shows a list of matches
 set confirm             " start a dialog when a command fails
+set noshowmode          " dont show mode in the last line
+set diffopt=filler,vertical " vertical diff by default
+let &showbreak = '↳ '
+set breakindent
+set breakindentopt=sbr
 
 " Tabs and indenting
 set autoindent          " copy indent from previous line
@@ -43,6 +48,7 @@ set smartcase           " override 'ignorecase' when pattern has upper case char
 
 " Buffer options
 set hidden              " don't unload a buffer when no longer shown in a window
+set autoread            " Auto read changed outside of vim files
 
 " Edit
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
