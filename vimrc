@@ -291,6 +291,7 @@ Plug 'garbas/vim-snipmate'
 "Plug 'puppetlabs/puppet-syntax-vim'
 "Plug 'pearofducks/ansible-vim'
 Plug 'sheerun/vim-polyglot'
+  let python_highlight_all = 1
 Plug 'vim-scripts/iptables'
 Plug 'w0rp/ale'
   let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
@@ -314,8 +315,12 @@ Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 Plug 'itchyny/lightline.vim'
   let g:lightline = { 'colorscheme': 'default' }
 Plug 'vim-scripts/xoria256.vim'
+Plug 'crusoexia/vim-monokai'
 Plug 'tomasr/molokai'
   let g:rehash256 = 1
+Plug 'fmoralesc/molokayo'
+Plug 'morhetz/gruvbox'
+Plug 'sjl/badwolf'
 Plug 'altercation/vim-colors-solarized'
 Plug 'joshdick/onedark.vim'
 call plug#end()
