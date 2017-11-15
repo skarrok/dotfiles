@@ -278,7 +278,7 @@ Plug 'junegunn/vim-easy-align'
   nmap ga <Plug>(EasyAlign)
 Plug 'junegunn/vim-peekaboo'
 Plug 'takac/vim-hardtime'
-  let g:hardtime_default_on = 1
+  let g:hardtime_default_on = 0
 Plug 'garbas/vim-snipmate'
   Plug 'tomtom/tlib_vim'
   Plug 'MarcWeber/vim-addon-mw-utils'
