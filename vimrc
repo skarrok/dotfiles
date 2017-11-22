@@ -296,21 +296,26 @@ Plug 'vim-scripts/iptables'
 Plug 'w0rp/ale'
   let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
   let g:ale_fixers = { 'python': ['isort', 'yapf']}
+  let g:ale_linters = { 'python': ['flake8']}
   let g:ale_sign_error = '»»'
   let g:ale_sign_warning = '≈≈'
   "let g:ale_python_pylint_executable = 'pylint'
   "let g:ale_python_yapf_executable = 'yapf3'
-Plug 'davidhalter/jedi-vim', { 'for': 'python' }
-  let g:jedi#auto_vim_configuration = 1
-  let g:jedi#popup_on_dot = 0
-  let g:jedi#popup_select_first = 0
-  let g:jedi#show_call_signatures = 0
-  let g:jedi#goto_command = "<Leader>pg"
-  let g:jedi#goto_assignments_command= "<Leader>pa"
-  let g:jedi#goto_definitions_command = "<Leader>pd"
-  let g:jedi#usages_command = "<leader>pn"
-  let g:jedi#completions_command = ""
-  let g:jedi#rename_command = "<leader>pr"
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+  if executable('pyls')
+    " pip install python-language-server
+    au User lsp_setup call lsp#register_server({
+      \ 'name': 'pyls',
+      \ 'cmd': {server_info->['pyls']},
+      \ 'whitelist': ['python'],
+      \ })
+    autocmd FileType python setlocal omnifunc=lsp#complete
+    nmap <silent> <Leader>pd :LspDefinition<CR>
+    nmap <silent> <Leader>pg :LspReferences<CR>
+  endif
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
 Plug 'itchyny/lightline.vim'
   let g:lightline = { 'colorscheme': 'default' }
