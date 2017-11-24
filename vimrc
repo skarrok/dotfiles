@@ -244,6 +244,8 @@ Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind']}
   ounmap <Leader>f
   noremap <silent> <leader>gf :NERDTreeFind<CR>
 Plug 'machakann/vim-sandwich'
+  nmap s <Nop>
+  xmap s <Nop>
 Plug 'justinmk/vim-gtfo'
 Plug 'coderifous/textobj-word-column.vim'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
@@ -264,11 +266,9 @@ Plug 'mhinz/vim-signify'
   let g:signify_realtime = 1
   let g:signify_cursorhold_normal = 0
   let g:signify_cursorhold_insert = 0
-  let g:signify_sign_add = '•'
   let g:signify_sign_add = '+'
-  let g:signify_sign_delete = '•'
   let g:signify_sign_delete = '✖'
-  let g:signify_sign_delete_first_line = '•'
+  let g:signify_sign_delete_first_line = '✖'
   let g:signify_sign_change = '•'
   let g:signify_sign_changedelete = g:signify_sign_change
 Plug 'vim-scripts/bufexplorer.zip'
@@ -279,28 +279,20 @@ Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-peekaboo'
 Plug 'takac/vim-hardtime'
   let g:hardtime_default_on = 0
-Plug 'garbas/vim-snipmate'
-  Plug 'tomtom/tlib_vim'
-  Plug 'MarcWeber/vim-addon-mw-utils'
-  Plug 'honza/vim-snippets'
-  let g:snipMate = get(g:, 'snipMate', {}) " Allow for vimrc re-sourcing
-  let g:snipMate.scope_aliases = {}
-  let g:snipMate.scope_aliases['ansible_template']  = 'jinja'
-  let g:snipMate.scope_aliases['ansible']  = 'jinja'
-  let g:snipMate.scope_aliases['yaml']  = 'jinja'
-"Plug 'puppetlabs/puppet-syntax-vim'
-"Plug 'pearofducks/ansible-vim'
 Plug 'sheerun/vim-polyglot'
   let python_highlight_all = 1
 Plug 'vim-scripts/iptables'
+Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+  let g:tagbar_autofocus = 1
+  let g:tagbar_autoclose = 1
+  let g:tagbar_compact = 1
+  nnoremap <silent> <F9> :TagbarToggle<CR>
 Plug 'w0rp/ale'
   let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
   let g:ale_fixers = { 'python': ['isort', 'yapf']}
   let g:ale_linters = { 'python': ['flake8']}
   let g:ale_sign_error = '»»'
   let g:ale_sign_warning = '≈≈'
-  "let g:ale_python_pylint_executable = 'pylint'
-  "let g:ale_python_yapf_executable = 'yapf3'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
   if executable('pyls')
@@ -315,7 +307,11 @@ Plug 'prabirshrestha/vim-lsp'
     nmap <silent> <Leader>pg :LspReferences<CR>
   endif
 Plug 'prabirshrestha/asyncomplete.vim'
+  let g:asyncomplete_remove_duplicates = 1
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'SirVer/ultisnips'
+  Plug 'honza/vim-snippets'
+  Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 
 Plug 'itchyny/lightline.vim'
   let g:lightline = { 'colorscheme': 'default' }
@@ -329,6 +325,12 @@ Plug 'sjl/badwolf'
 Plug 'altercation/vim-colors-solarized'
 Plug 'joshdick/onedark.vim'
 call plug#end()
+
+call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
+        \ 'name': 'ultisnips',
+        \ 'whitelist': ['*'],
+        \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
+        \ }))
 
 try " catch all on first run without installed plugins
   call togglebg#map("<F5>")
