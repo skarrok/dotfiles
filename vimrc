@@ -261,6 +261,7 @@ Plug 'mileszs/ack.vim'
   nnoremap <Leader>aa :Ack<Space>
   nnoremap <Leader>af :AckFile<Space>
 Plug 'tpope/vim-fugitive'
+  nnoremap <silent> <Leader>gs :Gstatus<CR>
 Plug 'mhinz/vim-signify'
   let g:signify_vcs_list = [ 'git', 'hg' ]
   let g:signify_realtime = 1
