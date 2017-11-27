@@ -165,6 +165,9 @@ endif
 nnoremap <Space> <Nop>
 let mapleader = " "
 
+" Use Enter for command line
+nnoremap <CR> :
+
 " Change current working directory
 nnoremap <Leader>cd :cd %:p:h<CR>:pwd<CR>
 
@@ -262,6 +265,10 @@ Plug 'mileszs/ack.vim'
   nnoremap <Leader>af :AckFile<Space>
 Plug 'tpope/vim-fugitive'
   nnoremap <silent> <Leader>gs :Gstatus<CR>
+  nnoremap <silent> <Leader>gd :Gdiff<CR>
+Plug 'Yggdroot/indentLine', { 'on': ['IndentLinesEnable', 'IndentLinesToggle'] }
+  let g:indentLine_enabled = 0
+  nnoremap <silent> <Leader>I :IndentLinesToggle<CR>
 Plug 'mhinz/vim-signify'
   let g:signify_vcs_list = [ 'git', 'hg' ]
   let g:signify_realtime = 1
@@ -304,12 +311,14 @@ Plug 'prabirshrestha/vim-lsp'
       \ 'whitelist': ['python'],
       \ })
     autocmd FileType python setlocal omnifunc=lsp#complete
-    nmap <silent> <Leader>pd :LspDefinition<CR>
+    autocmd FileType python nnoremap <buffer><silent> K :LspHover<CR>
+    nmap <silent> gd :LspDefinition<CR>
     nmap <silent> <Leader>pg :LspReferences<CR>
   endif
 Plug 'prabirshrestha/asyncomplete.vim'
   let g:asyncomplete_remove_duplicates = 1
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'yami-beta/asyncomplete-omni.vim'
 Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
   Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
@@ -328,10 +337,16 @@ Plug 'joshdick/onedark.vim'
 call plug#end()
 
 call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
-        \ 'name': 'ultisnips',
-        \ 'whitelist': ['*'],
-        \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
-        \ }))
+      \ 'name': 'ultisnips',
+      \ 'whitelist': ['*'],
+      \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
+      \ }))
+"call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+      "\ 'name': 'omni',
+      "\ 'whitelist': ['*'],
+      "\ 'blacklist': ['html'],
+      "\ 'completor': function('asyncomplete#sources#omni#completor')
+      "\  }))
 
 try " catch all on first run without installed plugins
   call togglebg#map("<F5>")
