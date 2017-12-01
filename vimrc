@@ -196,6 +196,9 @@ noremap <silent> <Leader>l :set list!<CR>:set list?<CR>
 " Toggle numbers
 noremap <silent> <Leader>n :set number!<CR>:set number?<CR>
 
+" Toggle crosshair
+nnoremap <silent> <Leader>x :set cursorline!<CR>:set cursorcolumn!<CR>
+
 " Write file
 map <F2> :w<CR>
 map <Leader><F2> :w !sudo tee %<CR>
