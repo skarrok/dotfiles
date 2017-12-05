@@ -94,7 +94,7 @@ if has("gui_running")
   set guioptions+=c " use console dialog for simple choices
 
   if has('gui_win32')
-    set guifont=Consolas:h11:cRUSSIAN
+    set guifont=Ubuntu_Mono:h12:cRUSSIAN:qDRAFT,Consolas:h11:cRUSSIAN
   elseif has ('gui_gtk2')
     set guifont=Ubuntu\ Mono\ 12,Droid\ Sans\ Mono\ 10
   endif
