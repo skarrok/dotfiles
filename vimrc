@@ -59,7 +59,7 @@ set splitright
 
 " X-clipboard
 if has('unnamedplus')
-  set clipboard+=unnamed
+  set clipboard=autoselect,unnamed,unnamedplus,exclude:cons\|linux
 endif
 
 set nobackup              " keep a backup file
@@ -246,6 +246,7 @@ Plug 'milkypostman/vim-togglelist'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind']}
   let NERDTreeMinimalUI = 1
+  let NERDTreeIgnore = ['\~$', ',cover$']
   noremap <silent> <Leader>f :NERDTreeToggle<CR>
   ounmap <Leader>f
   noremap <silent> <leader>gf :NERDTreeFind<CR>
@@ -256,6 +257,7 @@ Plug 'justinmk/vim-gtfo'
 Plug 'coderifous/textobj-word-column.vim'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'ctrlpvim/ctrlp.vim'
+  let g:ctrlp_switch_buffer = 'et'
   if executable('ag')
     let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
     let g:ctrlp_use_caching = 0
@@ -293,6 +295,9 @@ Plug 'takac/vim-hardtime'
 Plug 'sheerun/vim-polyglot'
   let python_highlight_all = 1
 Plug 'vim-scripts/iptables'
+Plug 'vim-scripts/dbext.vim'
+  let g:dbext_default_profile_psql = 'type=PGSQL:host=127.0.0.1:port=5432:dbname=cabinet:user=cabinet'
+  let g:dbext_default_profile = 'psql'
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
   let g:tagbar_autofocus = 1
   let g:tagbar_autoclose = 1
