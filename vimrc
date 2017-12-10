@@ -62,9 +62,23 @@ if has('unnamedplus')
   set clipboard=autoselect,unnamed,unnamedplus,exclude:cons\|linux
 endif
 
-set nobackup              " keep a backup file
 set history=50          " keep 50 lines of command line history
 set pastetoggle=        " key sequence to toggle paste mode
+
+" backups, swapfiles, & undofiles in one place
+let s:myvimdir ="~/.vim"
+let s:tempdir=expand(s:myvimdir."/tmp")
+if !isdirectory(expand(s:tempdir))
+  call mkdir(expand(s:tempdir), "p")
+endif
+set backup
+let &backupdir=s:tempdir
+set swapfile
+let &directory=s:tempdir
+if has('persistent_undo')
+  set undofile
+  let &undodir=s:tempdir
+endif
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
@@ -95,7 +109,7 @@ if has("gui_running")
 
   if has('gui_win32')
     set guifont=Ubuntu_Mono:h12:cRUSSIAN:qDRAFT,Consolas:h11:cRUSSIAN
-  elseif has ('gui_gtk2')
+  elseif has ('gui_gtk3')
     set guifont=Ubuntu\ Mono\ 12,Droid\ Sans\ Mono\ 10
   endif
 endif
@@ -229,6 +243,22 @@ if empty(glob(vim_plug_dir))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 call plug#begin('~/.vim/bundle')
+" VCS
+Plug 'tpope/vim-fugitive'
+  nnoremap <silent> <Leader>gs :Gstatus<CR>
+  nnoremap <silent> <Leader>gd :Gdiff<CR>
+
+" Editing
+Plug 'scrooloose/nerdcommenter'
+Plug 'coderifous/textobj-word-column.vim'
+Plug 'takac/vim-hardtime'
+  let g:hardtime_default_on = 0
+Plug 'junegunn/vim-easy-align'
+  xmap ga <Plug>(EasyAlign)
+  nmap ga <Plug>(EasyAlign)
+Plug 'machakann/vim-sandwich'
+  nmap s <Nop>
+  xmap s <Nop>
 Plug 'AndrewRadev/switch.vim'
   let g:switch_mapping = ""
   nmap <silent> <leader>t :call switch#Switch()<CR>
@@ -239,23 +269,9 @@ Plug 'AndrewRadev/switch.vim'
         \   [ 'Yes', 'No' ],
         \   [ 'TRUE', 'FALSE' ]
         \ ]
-Plug 'milkypostman/vim-togglelist'
-  let g:toggle_list_no_mappings = 1
-  nmap <silent> <leader>wl :call ToggleLocationList()<CR>
-  nmap <silent> <leader>wq :call ToggleQuickfixList()<CR>
-Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind']}
-  let NERDTreeMinimalUI = 1
-  let NERDTreeIgnore = ['\~$', ',cover$']
-  noremap <silent> <Leader>f :NERDTreeToggle<CR>
-  ounmap <Leader>f
-  noremap <silent> <leader>gf :NERDTreeFind<CR>
-Plug 'machakann/vim-sandwich'
-  nmap s <Nop>
-  xmap s <Nop>
+  
+" Files and searching
 Plug 'justinmk/vim-gtfo'
-Plug 'coderifous/textobj-word-column.vim'
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'ctrlpvim/ctrlp.vim'
   let g:ctrlp_switch_buffer = 'et'
   if executable('ag')
@@ -268,12 +284,17 @@ Plug 'mileszs/ack.vim'
   endif
   nnoremap <Leader>aa :Ack<Space>
   nnoremap <Leader>af :AckFile<Space>
-Plug 'tpope/vim-fugitive'
-  nnoremap <silent> <Leader>gs :Gstatus<CR>
-  nnoremap <silent> <Leader>gd :Gdiff<CR>
-Plug 'Yggdroot/indentLine', { 'on': ['IndentLinesEnable', 'IndentLinesToggle'] }
-  let g:indentLine_enabled = 0
-  nnoremap <silent> <Leader>I :IndentLinesToggle<CR>
+Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind']}
+  let NERDTreeMinimalUI = 1
+  let NERDTreeIgnore = ['\~$', ',cover$']
+  noremap <silent> <Leader>f :NERDTreeToggle<CR>
+  ounmap <Leader>f
+  noremap <silent> <leader>gf :NERDTreeFind<CR>
+
+" Interface
+Plug 'junegunn/vim-peekaboo'
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+Plug 'vim-scripts/bufexplorer.zip'
 Plug 'mhinz/vim-signify'
   let g:signify_vcs_list = [ 'git', 'hg' ]
   let g:signify_realtime = 1
@@ -284,25 +305,29 @@ Plug 'mhinz/vim-signify'
   let g:signify_sign_delete_first_line = '✖'
   let g:signify_sign_change = '•'
   let g:signify_sign_changedelete = g:signify_sign_change
-Plug 'vim-scripts/bufexplorer.zip'
-Plug 'vim-scripts/clang-complete', { 'for': 'c' }
-Plug 'junegunn/vim-easy-align'
-  xmap ga <Plug>(EasyAlign)
-  nmap ga <Plug>(EasyAlign)
-Plug 'junegunn/vim-peekaboo'
-Plug 'takac/vim-hardtime'
-  let g:hardtime_default_on = 0
+Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+  let g:tagbar_autofocus = 1
+  let g:tagbar_autoclose = 1
+  let g:tagbar_compact = 1
+  nnoremap <silent> <F9> :TagbarToggle<CR>
+Plug 'Yggdroot/indentLine', { 'on': ['IndentLinesEnable', 'IndentLinesToggle'] }
+  let g:indentLine_enabled = 0
+  nnoremap <silent> <Leader>I :IndentLinesToggle<CR>
+Plug 'milkypostman/vim-togglelist'
+  let g:toggle_list_no_mappings = 1
+  nmap <silent> <leader>wl :call ToggleLocationList()<CR>
+  nmap <silent> <leader>wq :call ToggleQuickfixList()<CR>
+
+" Filetypes
 Plug 'sheerun/vim-polyglot'
   let python_highlight_all = 1
 Plug 'vim-scripts/iptables'
 Plug 'vim-scripts/dbext.vim'
   let g:dbext_default_profile_psql = 'type=PGSQL:host=127.0.0.1:port=5432:dbname=cabinet:user=cabinet'
   let g:dbext_default_profile = 'psql'
-Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
-  let g:tagbar_autofocus = 1
-  let g:tagbar_autoclose = 1
-  let g:tagbar_compact = 1
-  nnoremap <silent> <F9> :TagbarToggle<CR>
+
+" Linting, snippets and completion
+Plug 'vim-scripts/clang-complete', { 'for': 'c' }
 Plug 'w0rp/ale'
   let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
   let g:ale_fixers = { 'python': ['isort', 'yapf']}
@@ -330,9 +355,11 @@ Plug 'yami-beta/asyncomplete-omni.vim'
 Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
   Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+    
 
+" Colors
 Plug 'itchyny/lightline.vim'
-  let g:lightline = { 'colorscheme': 'default' }
+  let g:lightline = { 'colorscheme': 'gruvbox' }
 Plug 'vim-scripts/xoria256.vim'
 Plug 'crusoexia/vim-monokai'
 Plug 'tomasr/molokai'
@@ -344,22 +371,26 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'joshdick/onedark.vim'
 call plug#end()
 
-call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
+try
+  call asyncompleted#register_source(asyncompleted#sources#ultisnips#get_source_options({
       \ 'name': 'ultisnips',
       \ 'whitelist': ['*'],
       \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
       \ }))
-"call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-      "\ 'name': 'omni',
-      "\ 'whitelist': ['*'],
-      "\ 'blacklist': ['html'],
-      "\ 'completor': function('asyncomplete#sources#omni#completor')
-      "\  }))
+  "autocmd! User asyncomplete-omni.vim call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+        "\ 'name': 'omni',
+        "\ 'whitelist': ['*'],
+        "\ 'blacklist': ['html'],
+        "\ 'completor': function('asyncomplete#sources#omni#completor')
+        "\  }))
+catch
+endtry
 
 try " catch all on first run without installed plugins
   call togglebg#map("<F5>")
   if &t_Co == 256 || has('gui_running')
-    colorscheme molokai
+    set background=dark
+    colorscheme gruvbox
   endif
 catch 
 endtry
