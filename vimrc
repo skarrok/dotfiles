@@ -1,7 +1,3 @@
-" Use Vim settings, rather than Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
-set nocompatible
-
 " Localization
 language messages C
 set langmenu=none       " use English menus
@@ -274,12 +270,17 @@ Plug 'AndrewRadev/switch.vim'
 Plug 'justinmk/vim-gtfo'
 Plug 'ctrlpvim/ctrlp.vim'
   let g:ctrlp_switch_buffer = 'et'
-  if executable('ag')
+  if executable('rg')
+    let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
+    let g:ctrlp_use_caching = 0
+  elseif executable('ag')
     let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
     let g:ctrlp_use_caching = 0
   endif
 Plug 'mileszs/ack.vim'
-  if executable('ag')
+  if executable('rg')
+    let g:ackprg = 'rg --vimgrep --no-heading'
+  elseif executable('ag')
     let g:ackprg = 'ag --vimgrep'
   endif
   nnoremap <Leader>aa :Ack<Space>
@@ -372,7 +373,7 @@ Plug 'joshdick/onedark.vim'
 call plug#end()
 
 try
-  call asyncompleted#register_source(asyncompleted#sources#ultisnips#get_source_options({
+  call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
       \ 'name': 'ultisnips',
       \ 'whitelist': ['*'],
       \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
