@@ -295,7 +295,8 @@ Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind']}
 " Interface
 Plug 'junegunn/vim-peekaboo'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
-Plug 'vim-scripts/bufexplorer.zip'
+Plug 'jlanzarotta/bufexplorer'
+    let g:bufExplorerDefaultHelp = 0
 Plug 'mhinz/vim-signify'
   let g:signify_vcs_list = [ 'git', 'hg' ]
   let g:signify_realtime = 1
@@ -321,7 +322,6 @@ Plug 'milkypostman/vim-togglelist'
 
 " Filetypes
 Plug 'sheerun/vim-polyglot'
-  let python_highlight_all = 1
 Plug 'vim-scripts/iptables'
 Plug 'vim-scripts/dbext.vim'
   let g:dbext_default_profile_psql = 'type=PGSQL:host=127.0.0.1:port=5432:dbname=cabinet:user=cabinet'
@@ -351,6 +351,7 @@ Plug 'prabirshrestha/vim-lsp'
   endif
 Plug 'prabirshrestha/asyncomplete.vim'
   let g:asyncomplete_remove_duplicates = 1
+  inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'yami-beta/asyncomplete-omni.vim'
 Plug 'SirVer/ultisnips'
@@ -367,6 +368,8 @@ Plug 'tomasr/molokai'
   let g:rehash256 = 1
 Plug 'fmoralesc/molokayo'
 Plug 'morhetz/gruvbox'
+  let g:gruvbox_contrast_dark = 'medium'
+  let g:gruvbox_contrast_light = 'soft'
 Plug 'sjl/badwolf'
 Plug 'altercation/vim-colors-solarized'
 Plug 'joshdick/onedark.vim'
