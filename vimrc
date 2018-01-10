@@ -206,6 +206,9 @@ noremap <silent> <Leader>l :set list!<CR>:set list?<CR>
 " Toggle numbers
 noremap <silent> <Leader>n :set number!<CR>:set number?<CR>
 
+" Toggle relative numbers
+noremap <silent> <Leader>r :set relativenumber!<CR>:set relativenumber?<CR>
+
 " Toggle crosshair
 nnoremap <silent> <Leader>x :set cursorline!<CR>:set cursorcolumn!<CR>
 
