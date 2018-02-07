@@ -106,7 +106,7 @@ if has("gui_running")
   if has('gui_win32')
     set guifont=Ubuntu_Mono:h12:cRUSSIAN:qDRAFT,Consolas:h11:cRUSSIAN
   elseif has ('gui_gtk3')
-    set guifont=Ubuntu\ Mono\ 12,Droid\ Sans\ Mono\ 10
+    set guifont=Hack\ 10,Ubuntu\ Mono\ 12,Droid\ Sans\ Mono\ 10
   endif
 endif
 
@@ -315,6 +315,7 @@ Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
   let g:tagbar_autofocus = 1
   let g:tagbar_autoclose = 1
   let g:tagbar_compact = 1
+  let g:tagbar_foldlevel = 0
   nnoremap <silent> <F9> :TagbarToggle<CR>
 Plug 'Yggdroot/indentLine', { 'on': ['IndentLinesEnable', 'IndentLinesToggle'] }
   let g:indentLine_enabled = 0
