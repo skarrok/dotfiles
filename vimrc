@@ -366,7 +366,9 @@ Plug 'SirVer/ultisnips'
 
 " Colors
 Plug 'itchyny/lightline.vim'
-  let g:lightline = { 'colorscheme': 'gruvbox' }
+  if &t_Co == 256 || has('gui_running')
+    let g:lightline = { 'colorscheme': 'gruvbox' }
+  endif
 Plug 'vim-scripts/xoria256.vim'
 Plug 'crusoexia/vim-monokai'
 Plug 'tomasr/molokai'
