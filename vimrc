@@ -301,6 +301,7 @@ Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'jlanzarotta/bufexplorer'
     let g:bufExplorerDefaultHelp = 0
     let g:bufExplorerFindActive = 0
+    let g:bufExplorerShowRelativePath=1
 Plug 'mhinz/vim-signify'
   let g:signify_vcs_list = [ 'git', 'hg' ]
   let g:signify_realtime = 1
