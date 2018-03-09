@@ -74,6 +74,7 @@ zstyle ':completion:*:sudo:*' command-path /usr/local/sbin \
 
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
 
 # VCS
 autoload -Uz vcs_info
@@ -99,6 +100,44 @@ SPROMPT="zsh: correct '%R' to '%r'? [ynea]"
 export EDITOR=vim
 export VISUAL=vim
 
+colorize_via_pygmentize() {
+    if [ ! -x "$(which pygmentize)" ]; then
+        echo "package \'Pygments\' is not installed!"
+        return -1
+    fi
+
+    if [ $# -eq 0 ]; then
+        pygmentize -g $@
+    fi
+
+    for FNAME in $@
+    do
+        filename=$(basename "$FNAME")
+        lexer=`pygmentize -N \"$filename\"`
+        if [ "Z$lexer" != "Ztext" ]; then
+            pygmentize -l $lexer "$FNAME"
+        else
+            pygmentize -g "$FNAME"
+        fi
+    done
+}
+alias ccat='colorize_via_pygmentize'
+
+function man() {
+        env \
+                LESS_TERMCAP_mb=$(printf "\e[1;31m") \
+                LESS_TERMCAP_md=$(printf "\e[1;31m") \
+                LESS_TERMCAP_me=$(printf "\e[0m") \
+                LESS_TERMCAP_se=$(printf "\e[0m") \
+                LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
+                LESS_TERMCAP_ue=$(printf "\e[0m") \
+                LESS_TERMCAP_us=$(printf "\e[1;32m") \
+                PAGER="${commands[less]:-$PAGER}" \
+                _NROFF_U=1 \
+                        man "$@"
+}
+
+
 # Aliases
 alias s='sudo -E'
 alias sc='sudo systemctl'
@@ -112,6 +151,7 @@ alias l='ls -lhvp'
 alias lsd='ls -ld *(-/DN)'
 alias lsdir='for dir in *;do;if [ -d $dir ];then;du -hsL $dir;fi;done'
 alias duh="du -h --max-depth=1 | sort -h"
+alias t='tail -f'
 alias -g L='| less'
 alias -g G='| grep'
 alias -g GI='| grep -i'
