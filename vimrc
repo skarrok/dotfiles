@@ -26,6 +26,7 @@ set diffopt=filler,vertical " vertical diff by default
 let &showbreak = '↳ '
 set breakindent
 set breakindentopt=sbr
+set completeopt-=preview
 
 " Tabs and indenting
 set autoindent          " copy indent from previous line
