@@ -90,8 +90,7 @@ zstyle ':vcs_info:*' hgrevformat '%r'
 precmd () { vcs_info }
 
 # Prompt
-PROMPT="%F{237}--------------------------------------------------------------------------------%f
-%F{10}%B%n@%M%f:%F{12}%3~%f%#%b "
+PROMPT="%F{10}%B%n@%M%f:%F{12}%3~%f%#%b "
 #PROMPT="%{$fg[green]%}%B%n@%M%{$reset_color%}:%{$fg[blue]%}%3~%{$reset_color%}%#%b "
 RPROMPT='${vcs_info_msg_0_}'
 SPROMPT="zsh: correct '%R' to '%r'? [ynea]"
