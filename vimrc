@@ -276,6 +276,7 @@ Plug 'AndrewRadev/switch.vim'
         \   [ 'Yes', 'No' ],
         \   [ 'TRUE', 'FALSE' ]
         \ ]
+Plug 'jiangmiao/auto-pairs'
   
 " Files and searching
 Plug 'justinmk/vim-gtfo'
