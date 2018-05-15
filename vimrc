@@ -199,7 +199,7 @@ nnoremap * *N
 noremap <Leader><Space> :nohls<CR>
 
 " Toggle spell
-nnoremap <silent> <Leader>s :set spell!<CR>:set spell?<CR>
+nnoremap <silent> <Leader>os :set spell!<CR>:set spell?<CR>
 
 " Tabs
 nnoremap <Leader>tc :tabnew<CR>
@@ -277,6 +277,17 @@ Plug 'AndrewRadev/switch.vim'
         \   [ 'TRUE', 'FALSE' ]
         \ ]
 Plug 'jiangmiao/auto-pairs'
+Plug 'justinmk/vim-sneak'
+    let g:sneak#label = 1
+    " 2-character Sneak (default)
+    nmap ss <Plug>Sneak_s
+    nmap sS <Plug>Sneak_S
+    " visual-mode
+    xmap ss <Plug>Sneak_s
+    xmap sS <Plug>Sneak_S
+    " operator-pending-mode
+    omap ss <Plug>Sneak_s
+    omap sS <Plug>Sneak_S
   
 " Files and searching
 Plug 'justinmk/vim-gtfo'
