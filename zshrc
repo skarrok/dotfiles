@@ -49,6 +49,8 @@ compinit
 autoload -U select-word-style
 select-word-style bash
 
+export PATH=$PATH:$HOME/.yarn/bin
+
 autoload colors && colors
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _correct _approximate

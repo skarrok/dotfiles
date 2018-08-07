@@ -357,8 +357,14 @@ Plug 'vim-scripts/dbext.vim'
 Plug 'vim-scripts/clang-complete', { 'for': 'c' }
 Plug 'w0rp/ale'
   let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-  let g:ale_fixers = { 'python': ['isort', 'yapf']}
-  let g:ale_linters = { 'python': ['flake8']}
+  let g:ale_fixers = {
+    \ 'python': ['isort', 'yapf'],
+    \ 'javascript': ['prettier_standard'],
+  \ }
+  let g:ale_linters = {
+    \ 'python': ['flake8'],
+    \ 'javascript': ['eslint'],
+  \ }
   let g:ale_sign_error = '»»'
   let g:ale_sign_warning = '≈≈'
 Plug 'prabirshrestha/async.vim'
@@ -374,6 +380,22 @@ Plug 'prabirshrestha/vim-lsp'
     autocmd FileType python nnoremap <buffer><silent> K :LspHover<CR>
     nmap <silent> gd :LspDefinition<CR>
     nmap <silent> <Leader>pg :LspReferences<CR>
+  endif
+  " yarn global add javascript-typescipt-langserver
+  if executable('javascript-typescript-stdio')
+    au User lsp_setup call lsp#register_server({
+      \ 'name': 'javascript-typescript-stdio',
+      \ 'cmd': {server_info->['javascript-typescript-stdio']},
+      \ 'whitelist': ['typescript', 'javascript', 'javascript.jsx', 'html', 'html.django']
+    \ })
+  endif
+  " yarn global add vscode-css-languageserver-bin
+  if executable('css-languageserver')
+    au User lsp_setup call lsp#register_server({
+      \ 'name': 'css-languageserver',
+      \ 'cmd': {server_info->[&shell, &shellcmdflag, 'css-languageserver --stdio']},
+      \ 'whitelist': ['css', 'less', 'sass', 'html', 'html.django'],
+      \ })
   endif
 Plug 'prabirshrestha/asyncomplete.vim'
   let g:asyncomplete_remove_duplicates = 1
