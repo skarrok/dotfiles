@@ -202,6 +202,7 @@ noremap <Leader><Space> :nohls<CR>
 nnoremap <silent> <Leader>os :set spell!<CR>:set spell?<CR>
 
 " Tabs
+nnoremap gb gT
 nnoremap <Leader>tc :tabnew<CR>
 nnoremap <Leader>tx :tabclose<CR>
 
@@ -377,6 +378,7 @@ Plug 'prabirshrestha/vim-lsp'
       \ 'whitelist': ['python'],
       \ })
     autocmd FileType python setlocal omnifunc=lsp#complete
+    autocmd FileType python setlocal nofixendofline
     autocmd FileType python nnoremap <buffer><silent> K :LspHover<CR>
     nmap <silent> gd :LspDefinition<CR>
     nmap <silent> <Leader>pg :LspReferences<CR>
