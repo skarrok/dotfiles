@@ -311,6 +311,7 @@ Plug 'mileszs/ack.vim'
   nnoremap <Leader>af :AckFile<Space>
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind']}
   let NERDTreeMinimalUI = 1
+  let NERDTreeNaturalSort = 1
   let NERDTreeIgnore = ['\~$', ',cover$', '__pycache__']
   noremap <silent> <Leader>f :NERDTreeToggle<CR>
   ounmap <Leader>f
