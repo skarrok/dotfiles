@@ -343,6 +343,7 @@ Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 Plug 'Yggdroot/indentLine', { 'on': ['IndentLinesEnable', 'IndentLinesToggle'] }
   let g:indentLine_enabled = 0
   nnoremap <silent> <Leader>I :IndentLinesToggle<CR>
+Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'milkypostman/vim-togglelist'
   let g:toggle_list_no_mappings = 1
   nmap <silent> <leader>wl :call ToggleLocationList()<CR>
