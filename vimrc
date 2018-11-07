@@ -368,6 +368,8 @@ Plug 'w0rp/ale'
     \ 'python': ['flake8'],
     \ 'javascript': ['eslint'],
   \ }
+  let g:ale_python_flake8_options = '--extend-ignore=W503 --max-line-length=100'
+  let g:ale_python_isort_options = '--combine-as --order-by-type --trailing-comma --use-parentheses --multi-line 3'
   let g:ale_sign_error = '»»'
   let g:ale_sign_warning = '≈≈'
 Plug 'prabirshrestha/async.vim'
@@ -380,7 +382,6 @@ Plug 'prabirshrestha/vim-lsp'
       \ 'whitelist': ['python'],
       \ })
     autocmd FileType python setlocal omnifunc=lsp#complete
-    autocmd FileType python setlocal nofixendofline
     autocmd FileType python nnoremap <buffer><silent> K :LspHover<CR>
     nmap <silent> gd :LspDefinition<CR>
     nmap <silent> <Leader>pg :LspReferences<CR>
