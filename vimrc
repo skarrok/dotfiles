@@ -361,7 +361,7 @@ Plug 'vim-scripts/clang-complete', { 'for': 'c' }
 Plug 'w0rp/ale'
   let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
   let g:ale_fixers = {
-    \ 'python': ['isort', 'yapf'],
+    \ 'python': ['black', 'isort'],
     \ 'javascript': ['prettier_standard'],
   \ }
   let g:ale_linters = {
@@ -370,6 +370,7 @@ Plug 'w0rp/ale'
   \ }
   let g:ale_python_flake8_options = '--extend-ignore=W503 --max-line-length=100'
   let g:ale_python_isort_options = '--combine-as --order-by-type --trailing-comma --use-parentheses --multi-line 3'
+  let g:ale_python_black_options = '--line-length 99 --skip-string-normalization'
   let g:ale_sign_error = '»»'
   let g:ale_sign_warning = '≈≈'
 Plug 'prabirshrestha/async.vim'
