@@ -253,7 +253,7 @@ endif
 call plug#begin('~/.vim/bundle')
 " VCS
 Plug 'tpope/vim-fugitive'
-  nnoremap <silent> <Leader>gs :Gstatus<CR>
+  nnoremap <silent> <Leader>gs :belowright Gstatus<CR>
   nnoremap <silent> <Leader>gd :Gdiff<CR>
 
 " Editing
