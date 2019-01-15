@@ -405,6 +405,9 @@ Plug 'prabirshrestha/vim-lsp'
   endif
 Plug 'prabirshrestha/asyncomplete.vim'
   let g:asyncomplete_remove_duplicates = 1
+  imap <c-space> <Plug>(asyncomplete_force_refresh)
+  inoremap <expr> <C-y> pumvisible() ? "\<C-e>\<C-y>" : "\<C-y>"
+  inoremap <expr> <C-e> pumvisible() ? "\<C-e>\<C-e>" : "\<C-e>"
   inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'yami-beta/asyncomplete-omni.vim'
