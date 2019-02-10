@@ -253,7 +253,7 @@ endif
 call plug#begin('~/.vim/bundle')
 " VCS
 Plug 'tpope/vim-fugitive'
-  nnoremap <silent> <Leader>gs :Gstatus<CR>
+  nnoremap <silent> <Leader>gs :belowright Gstatus<CR>
   nnoremap <silent> <Leader>gd :Gdiff<CR>
 
 " Editing
@@ -405,6 +405,9 @@ Plug 'prabirshrestha/vim-lsp'
   endif
 Plug 'prabirshrestha/asyncomplete.vim'
   let g:asyncomplete_remove_duplicates = 1
+  imap <c-space> <Plug>(asyncomplete_force_refresh)
+  inoremap <expr> <C-y> pumvisible() ? "\<C-e>\<C-y>" : "\<C-y>"
+  inoremap <expr> <C-e> pumvisible() ? "\<C-e>\<C-e>" : "\<C-e>"
   inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'yami-beta/asyncomplete-omni.vim'
