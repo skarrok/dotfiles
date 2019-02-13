@@ -265,8 +265,17 @@ Plug 'junegunn/vim-easy-align'
   xmap ga <Plug>(EasyAlign)
   nmap ga <Plug>(EasyAlign)
 Plug 'machakann/vim-sandwich'
-  nmap s <Nop>
-  xmap s <Nop>
+  let g:sandwich_no_default_key_mappings = 1
+  let g:operator_sandwich_no_default_key_mappings = 1
+  silent! nmap <unique> csa <Plug>(operator-sandwich-add)
+  silent! xmap <unique> csa <Plug>(operator-sandwich-add)
+  silent! omap <unique> csa <Plug>(operator-sandwich-g@)
+  silent! xmap <unique> csd <Plug>(operator-sandwich-delete)
+  silent! xmap <unique> csr <Plug>(operator-sandwich-replace)
+  silent! nmap <unique><silent> csd <Plug>(operator-sandwich-delete)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-query-a)
+  silent! nmap <unique><silent> csr <Plug>(operator-sandwich-replace)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-query-a)
+  silent! nmap <unique><silent> csdb <Plug>(operator-sandwich-delete)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-auto-a)
+  silent! nmap <unique><silent> csrb <Plug>(operator-sandwich-replace)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-auto-a)
 Plug 'AndrewRadev/switch.vim'
   let g:switch_mapping = ""
   nmap <silent> <leader>t :call switch#Switch()<CR>
@@ -279,16 +288,18 @@ Plug 'AndrewRadev/switch.vim'
         \ ]
 Plug 'jiangmiao/auto-pairs'
 Plug 'justinmk/vim-sneak'
-    let g:sneak#label = 1
-    " 2-character Sneak (default)
-    nmap ss <Plug>Sneak_s
-    nmap sS <Plug>Sneak_S
-    " visual-mode
-    xmap ss <Plug>Sneak_s
-    xmap sS <Plug>Sneak_S
-    " operator-pending-mode
-    omap ss <Plug>Sneak_s
-    omap sS <Plug>Sneak_S
+  nmap s <Nop>
+  xmap s <Nop>
+  let g:sneak#label = 1
+  " 2-character Sneak (default)
+  nmap s <Plug>Sneak_s
+  nmap S <Plug>Sneak_S
+  " visual-mode
+  xmap s <Plug>Sneak_s
+  xmap S <Plug>Sneak_S
+  " operator-pending-mode
+  omap s <Plug>Sneak_s
+  omap S <Plug>Sneak_S
   
 " Files and searching
 Plug 'justinmk/vim-gtfo'
