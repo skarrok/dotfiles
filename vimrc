@@ -288,8 +288,6 @@ Plug 'AndrewRadev/switch.vim'
         \ ]
 Plug 'jiangmiao/auto-pairs'
 Plug 'justinmk/vim-sneak'
-  nmap s <Nop>
-  xmap s <Nop>
   let g:sneak#label = 1
   " 2-character Sneak (default)
   nmap s <Plug>Sneak_s
@@ -379,13 +377,15 @@ Plug 'w0rp/ale'
     \ 'python': ['flake8'],
     \ 'javascript': ['eslint'],
   \ }
-  let g:ale_python_flake8_options = '--extend-ignore=W503 --max-line-length=100'
+  let g:ale_python_flake8_options = '--extend-ignore=W503 --max-line-length=99 --max-complexity 15'
   let g:ale_python_isort_options = '--combine-as --order-by-type --trailing-comma --use-parentheses --multi-line 3'
-  let g:ale_python_black_options = '--line-length 99 --skip-string-normalization'
+  let g:ale_python_black_options = '--line-length 88 --skip-string-normalization'
   let g:ale_sign_error = '»»'
   let g:ale_sign_warning = '≈≈'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
+  let g:lsp_diagnostics_enabled = 0
+  let g:lsp_highlight_references_enabled = 1
   if executable('pyls')
     " pip install python-language-server
     au User lsp_setup call lsp#register_server({
@@ -394,9 +394,9 @@ Plug 'prabirshrestha/vim-lsp'
       \ 'whitelist': ['python'],
       \ })
     autocmd FileType python setlocal omnifunc=lsp#complete
-    autocmd FileType python nnoremap <buffer><silent> K :LspHover<CR>
-    nmap <silent> gd :LspDefinition<CR>
-    nmap <silent> <Leader>pg :LspReferences<CR>
+    autocmd FileType python nnoremap <buffer><silent> K <plug>(lsp-hover)
+    nmap <silent> gd <plug>(lsp-definition)
+    nmap <silent> <Leader>pg <plug>(lsp-references)
   endif
   " yarn global add javascript-typescipt-langserver
   if executable('javascript-typescript-stdio')
