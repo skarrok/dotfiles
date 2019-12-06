@@ -425,9 +425,12 @@ Plug 'prabirshrestha/asyncomplete.vim'
   inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'yami-beta/asyncomplete-omni.vim'
+
+if has('python3')
 Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
   Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+endif
     
 
 " Colors
