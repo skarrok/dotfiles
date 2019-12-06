@@ -359,7 +359,10 @@ Plug 'milkypostman/vim-togglelist'
   nmap <silent> <leader>wq :call ToggleQuickfixList()<CR>
 
 " Filetypes
+Plug 'skarrok/vim-hcl'
+  autocmd FileType hcl setlocal foldlevel=999 foldmethod=syntax
 Plug 'sheerun/vim-polyglot'
+  let g:polyglot_disabled = ['hcl']
 Plug 'vim-scripts/iptables'
 Plug 'vim-scripts/dbext.vim'
   let g:dbext_default_profile_psql = 'type=PGSQL:host=127.0.0.1:port=5432:dbname=cabinet:user=cabinet'
