@@ -1,3 +1,4 @@
+" vim: sw=2
 " Localization
 language messages C
 set langmenu=none       " use English menus
@@ -286,7 +287,7 @@ Plug 'AndrewRadev/switch.vim'
         \   [ 'Yes', 'No' ],
         \   [ 'TRUE', 'FALSE' ]
         \ ]
-Plug 'jiangmiao/auto-pairs'
+Plug 'tmsvg/pear-tree'
 Plug 'justinmk/vim-sneak'
   let g:sneak#label = 1
   " 2-character Sneak (default)
@@ -370,53 +371,41 @@ Plug 'vim-scripts/dbext.vim'
 
 " Linting, snippets and completion
 Plug 'vim-scripts/clang-complete', { 'for': 'c' }
-Plug 'w0rp/ale'
-  let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+Plug 'dense-analysis/ale'
+  "let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
   let g:ale_fixers = {
+    \ '*': ['remove_trailing_lines', 'trim_whitespace'],
     \ 'python': ['black', 'isort'],
-    \ 'javascript': ['prettier_standard'],
+    \ 'javascript': ['eslint', 'prettier_standard'],
+  \ }
+  let g:ale_linter_aliases = {
+    \ 'vue': ['vue', 'javascript'],
   \ }
   let g:ale_linters = {
     \ 'python': ['flake8'],
     \ 'javascript': ['eslint'],
+    \ 'vue': ['eslint', 'vls'],
   \ }
-  let g:ale_python_flake8_options = '--extend-ignore=W503 --max-line-length=99 --max-complexity 15'
-  let g:ale_python_isort_options = '--combine-as --order-by-type --trailing-comma --use-parentheses --multi-line 3'
-  let g:ale_python_black_options = '--line-length 88 --skip-string-normalization'
+  "let g:ale_python_flake8_options = '--extend-ignore=W503 --max-line-length=99 --max-complexity 15'
+  "let g:ale_python_isort_options = '--combine-as --order-by-type --trailing-comma --use-parentheses --multi-line 3'
+  "let g:ale_python_black_options = '--line-length 88 --skip-string-normalization'
   let g:ale_sign_error = '»»'
-  let g:ale_sign_warning = '≈≈'
+  "let g:ale_sign_warning = '≈≈'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
+  " yarn global add vscode-css-languageserver-bin
+  " yarn global add dockerfile-language-server-nodejs
+  " yarn global add typescript-language-server
+  " yarn global add vue-language-server
+  " pip install python language-server
   let g:lsp_diagnostics_enabled = 0
   let g:lsp_highlight_references_enabled = 1
-  if executable('pyls')
-    " pip install python-language-server
-    au User lsp_setup call lsp#register_server({
-      \ 'name': 'pyls',
-      \ 'cmd': {server_info->['pyls']},
-      \ 'whitelist': ['python'],
-      \ })
-    autocmd FileType python setlocal omnifunc=lsp#complete
-    autocmd FileType python nnoremap <buffer><silent> K <plug>(lsp-hover)
-    nmap <silent> gd <plug>(lsp-definition)
-    nmap <silent> <Leader>pg <plug>(lsp-references)
-  endif
-  " yarn global add javascript-typescipt-langserver
-  if executable('javascript-typescript-stdio')
-    au User lsp_setup call lsp#register_server({
-      \ 'name': 'javascript-typescript-stdio',
-      \ 'cmd': {server_info->['javascript-typescript-stdio']},
-      \ 'whitelist': ['typescript', 'javascript', 'javascript.jsx', 'html', 'html.django']
-    \ })
-  endif
-  " yarn global add vscode-css-languageserver-bin
-  if executable('css-languageserver')
-    au User lsp_setup call lsp#register_server({
-      \ 'name': 'css-languageserver',
-      \ 'cmd': {server_info->[&shell, &shellcmdflag, 'css-languageserver --stdio']},
-      \ 'whitelist': ['css', 'less', 'sass', 'html', 'html.django'],
-      \ })
-  endif
+  autocmd FileType python setlocal omnifunc=lsp#complete
+  autocmd FileType python nmap <buffer><silent> K <plug>(lsp-hover)
+  nmap <silent> gd <plug>(lsp-definition)
+  nmap <silent> <Leader>pg <plug>(lsp-references)
+  "endif
+Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/asyncomplete.vim'
   let g:asyncomplete_remove_duplicates = 1
   imap <c-space> <Plug>(asyncomplete_force_refresh)
@@ -424,7 +413,6 @@ Plug 'prabirshrestha/asyncomplete.vim'
   inoremap <expr> <C-e> pumvisible() ? "\<C-e>\<C-e>" : "\<C-e>"
   inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'yami-beta/asyncomplete-omni.vim'
 
 if has('python3')
 Plug 'SirVer/ultisnips'
@@ -436,7 +424,19 @@ endif
 " Colors
 Plug 'itchyny/lightline.vim'
   if &t_Co == 256 || has('gui_running')
-    let g:lightline = { 'colorscheme': 'gruvbox' }
+    let g:lightline = {
+      \ 'colorscheme': 'gruvbox',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'readonly', 'filename', 'modified' ]],
+      \   'right': [ [ 'lineinfo' ],
+      \              [ 'percent' ],
+      \              [ 'gitbranch', 'fileformat', 'fileencoding', 'filetype' ] ],
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead',
+      \ },
+      \ }
   endif
 Plug 'vim-scripts/xoria256.vim'
 Plug 'crusoexia/vim-monokai'
@@ -457,12 +457,6 @@ try
       \ 'whitelist': ['*'],
       \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
       \ }))
-  "autocmd! User asyncomplete-omni.vim call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-        "\ 'name': 'omni',
-        "\ 'whitelist': ['*'],
-        "\ 'blacklist': ['html'],
-        "\ 'completor': function('asyncomplete#sources#omni#completor')
-        "\  }))
 catch
 endtry
 
