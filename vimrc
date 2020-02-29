@@ -57,7 +57,11 @@ set splitright
 
 " X-clipboard
 if has('unnamedplus')
-  set clipboard=autoselect,unnamed,unnamedplus,exclude:cons\|linux
+  if has('nvim')
+    set clipboard+=unnamedplus
+  else
+    set clipboard=autoselect,unnamed,unnamedplus,exclude:cons\|linux
+  endif
 endif
 
 set history=50          " keep 50 lines of command line history
@@ -83,11 +87,13 @@ if has('mouse')
   set mouse=a
   set mousemodel=popup_setpos " what the right mouse button is used for
 endif
-if has("mouse_sgr")
-  set ttymouse=sgr
-else
-  set ttymouse=xterm2
-end
+if !has('nvim')
+  if has("mouse_sgr")
+    set ttymouse=sgr
+  else
+    set ttymouse=xterm2
+  endif
+endif
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
