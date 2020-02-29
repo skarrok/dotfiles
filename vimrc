@@ -358,10 +358,11 @@ Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
   let g:tagbar_compact = 1
   let g:tagbar_foldlevel = 0
   nnoremap <silent> <F9> :TagbarToggle<CR>
-Plug 'Yggdroot/indentLine', { 'on': ['IndentLinesEnable', 'IndentLinesToggle'] }
+Plug 'Yggdroot/indentLine'
   let g:indentLine_enabled = 0
   nnoremap <silent> <Leader>I :IndentLinesToggle<CR>
 Plug 'junegunn/rainbow_parentheses.vim'
+  let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
 Plug 'milkypostman/vim-togglelist'
   let g:toggle_list_no_mappings = 1
   nmap <silent> <leader>wl :call ToggleLocationList()<CR>
@@ -373,12 +374,8 @@ Plug 'skarrok/vim-hcl'
 Plug 'sheerun/vim-polyglot'
   let g:polyglot_disabled = ['hcl']
 Plug 'vim-scripts/iptables'
-Plug 'vim-scripts/dbext.vim'
-  let g:dbext_default_profile_psql = 'type=PGSQL:host=127.0.0.1:port=5432:dbname=cabinet:user=cabinet'
-  let g:dbext_default_profile = 'psql'
 
 " Linting, snippets and completion
-Plug 'vim-scripts/clang-complete', { 'for': 'c' }
 Plug 'dense-analysis/ale'
   "let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
   let g:ale_fixers = {
@@ -401,18 +398,26 @@ Plug 'dense-analysis/ale'
   "let g:ale_sign_warning = '≈≈'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
+  " yarn global add bash-language-server
+  " yarn global add vim-language-server
   " yarn global add vscode-css-languageserver-bin
   " yarn global add dockerfile-language-server-nodejs
   " yarn global add typescript-language-server
   " yarn global add vue-language-server
-  " pip install python language-server
+  " pip install python-language-server
   let g:lsp_diagnostics_enabled = 0
   let g:lsp_highlight_references_enabled = 1
-  autocmd FileType python setlocal omnifunc=lsp#complete
-  autocmd FileType python nmap <buffer><silent> K <plug>(lsp-hover)
-  nmap <silent> gd <plug>(lsp-definition)
-  nmap <silent> <Leader>pg <plug>(lsp-references)
-  "endif
+  function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    nmap <silent><buffer> gd <plug>(lsp-definition)
+    nmap <silent><buffer> <Leader>gr <plug>(lsp-references)
+    nmap <silent><buffer> K <plug>(lsp-hover)
+    nmap <silent><buffer> <c-k> <plug>
+  endfunction
+  augroup lsp_install
+    au!
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+  augroup END
 Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/asyncomplete.vim'
   let g:asyncomplete_remove_duplicates = 1
