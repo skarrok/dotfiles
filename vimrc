@@ -228,6 +228,8 @@ noremap <silent> <Leader>r :set relativenumber!<CR>:set relativenumber?<CR>
 " Toggle crosshair
 nnoremap <silent> <Leader>x :set cursorline!<CR>:set cursorcolumn!<CR>
 
+nnoremap <silent> <Leader>ob :let &background = (&background == "dark" ? "light": "dark")<CR>:set background?<CR>
+
 " Write file
 map <F2> :w<CR>
 map <Leader><F2> :w !sudo tee %<CR>
@@ -453,7 +455,7 @@ Plug 'morhetz/gruvbox'
   let g:gruvbox_contrast_dark = 'medium'
   let g:gruvbox_contrast_light = 'soft'
 Plug 'sjl/badwolf'
-Plug 'altercation/vim-colors-solarized'
+Plug 'iCyMind/NeoSolarized'
 Plug 'joshdick/onedark.vim'
 call plug#end()
 
@@ -467,7 +469,6 @@ catch
 endtry
 
 try " catch all on first run without installed plugins
-  call togglebg#map("<F5>")
   if &t_Co == 256 || has('gui_running')
     set background=dark
     colorscheme gruvbox
