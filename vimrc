@@ -372,7 +372,8 @@ Plug 'milkypostman/vim-togglelist'
 Plug 'skarrok/vim-hcl'
   autocmd FileType hcl setlocal foldlevel=999 foldmethod=syntax
 Plug 'sheerun/vim-polyglot'
-  let g:polyglot_disabled = ['hcl']
+  let g:polyglot_disabled = ['hcl', 'jsx']
+  let g:vue_pre_processors = []
 Plug 'vim-scripts/iptables'
 
 " Linting, snippets and completion
