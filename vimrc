@@ -383,6 +383,7 @@ Plug 'dense-analysis/ale'
     \ '*': ['remove_trailing_lines', 'trim_whitespace'],
     \ 'python': ['black', 'isort'],
     \ 'javascript': ['eslint', 'prettier_standard'],
+    \ 'go': ['gofmt']
   \ }
   let g:ale_linter_aliases = {
     \ 'vue': ['vue', 'javascript'],
