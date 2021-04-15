@@ -95,10 +95,6 @@ if !has('nvim')
   endif
 endif
 
-if has('nvim')
-  let g:python3_host_prog = '/usr/bin/python3'
-endif
-
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
 if &t_Co > 2 || has("gui_running")
@@ -388,7 +384,7 @@ Plug 'dense-analysis/ale'
     \ '*': ['remove_trailing_lines', 'trim_whitespace'],
     \ 'python': ['black', 'isort'],
     \ 'javascript': ['eslint', 'prettier'],
-    \ 'vue': ['eslint', 'prettier', 'vls'],
+    \ 'vue': ['eslint', 'prettier'],
     \ 'go': ['gofmt'],
   \ }
   let g:ale_linter_aliases = {
