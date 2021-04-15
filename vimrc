@@ -95,6 +95,10 @@ if !has('nvim')
   endif
 endif
 
+if has('nvim')
+  let g:python3_host_prog = '/usr/bin/python3'
+endif
+
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
 if &t_Co > 2 || has("gui_running")
@@ -262,7 +266,7 @@ endif
 call plug#begin('~/.vim/bundle')
 " VCS
 Plug 'tpope/vim-fugitive'
-  nnoremap <silent> <Leader>gs :belowright Gstatus<CR>
+  nnoremap <silent> <Leader>gs :belowright Git<CR>
   nnoremap <silent> <Leader>gd :Gdiff<CR>
 
 " Editing
@@ -296,6 +300,7 @@ Plug 'AndrewRadev/switch.vim'
         \   [ 'TRUE', 'FALSE' ]
         \ ]
 Plug 'tmsvg/pear-tree'
+  let g:pear_tree_repeatable_expand = 0
 Plug 'justinmk/vim-sneak'
   let g:sneak#label = 1
   " 2-character Sneak (default)
@@ -382,16 +387,17 @@ Plug 'dense-analysis/ale'
   let g:ale_fixers = {
     \ '*': ['remove_trailing_lines', 'trim_whitespace'],
     \ 'python': ['black', 'isort'],
-    \ 'javascript': ['eslint', 'prettier_standard'],
-    \ 'go': ['gofmt']
+    \ 'javascript': ['eslint', 'prettier'],
+    \ 'vue': ['eslint', 'prettier', 'vls'],
+    \ 'go': ['gofmt'],
   \ }
   let g:ale_linter_aliases = {
     \ 'vue': ['vue', 'javascript'],
   \ }
   let g:ale_linters = {
     \ 'python': ['flake8'],
-    \ 'javascript': ['eslint'],
-    \ 'vue': ['eslint', 'vls'],
+    \ 'javascript': ['eslint', 'prettier'],
+    \ 'vue': ['eslint', 'prettier', 'vls'],
   \ }
   "let g:ale_python_flake8_options = '--extend-ignore=W503 --max-line-length=99 --max-complexity 15'
   "let g:ale_python_isort_options = '--combine-as --order-by-type --trailing-comma --use-parentheses --multi-line 3'
@@ -408,13 +414,22 @@ Plug 'prabirshrestha/vim-lsp'
   " yarn global add vue-language-server
   " pip install python-language-server
   let g:lsp_diagnostics_enabled = 0
-  let g:lsp_highlight_references_enabled = 1
+  let g:lsp_document_highlight_enabled = 1
+  let g:lsp_document_code_action_signs_enabled = 0
   function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
     nmap <silent><buffer> gd <plug>(lsp-definition)
-    nmap <silent><buffer> <Leader>gr <plug>(lsp-references)
+    nmap <silent><buffer> gs <plug>(lsp-document-symbol-search)
+    nmap <silent><buffer> gS <plug>(lsp-workspace-symbol-search)
+    nmap <silent><buffer> gr <plug>(lsp-references)
+    nmap <silent><buffer> <Leader>gi <plug>(lsp-implementation)
+    nmap <silent><buffer> <Leader>gt <plug>(lsp-type-definition)
     nmap <silent><buffer> K <plug>(lsp-hover)
-    nmap <silent><buffer> <c-k> <plug>
+    inoremap <buffer> <expr><c-f> lsp#scroll(+4)
+    inoremap <buffer> <expr><c-d> lsp#scroll(-4)
+
+    let g:lsp_format_sync_timeout = 1000
+    autocmd! BufWritePre *.go call execute('LspDocumentFormatSync')
   endfunction
   augroup lsp_install
     au!
@@ -424,9 +439,9 @@ Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/asyncomplete.vim'
   let g:asyncomplete_remove_duplicates = 1
   imap <c-space> <Plug>(asyncomplete_force_refresh)
-  inoremap <expr> <C-y> pumvisible() ? "\<C-e>\<C-y>" : "\<C-y>"
-  inoremap <expr> <C-e> pumvisible() ? "\<C-e>\<C-e>" : "\<C-e>"
-  inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
+  "inoremap <expr> <C-y> pumvisible() ? "\<C-e>\<C-y>" : "\<C-y>"
+  "inoremap <expr> <C-e> pumvisible() ? "\<C-e>\<C-e>" : "\<C-e>"
+  inoremap <expr> <CR> pumvisible() ? asyncomplete#close_popup() : "\<CR>"
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
 if has('python3')
