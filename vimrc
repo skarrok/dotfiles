@@ -268,6 +268,7 @@ Plug 'tpope/vim-fugitive'
 
 " Editing
 Plug 'scrooloose/nerdcommenter'
+Plug 'michaeljsmith/vim-indent-object'
 Plug 'coderifous/textobj-word-column.vim'
 Plug 'takac/vim-hardtime'
   let g:hardtime_default_on = 0
@@ -426,18 +427,15 @@ Plug 'prabirshrestha/vim-lsp'
     inoremap <buffer> <expr><c-d> lsp#scroll(-4)
 
     let g:lsp_format_sync_timeout = 1000
-    autocmd! BufWritePre *.go call execute('LspDocumentFormatSync')
-    augroup lsp_folding
-      autocmd!
-      autocmd FileType python setlocal
-            \ foldmethod=expr
-            \ foldexpr=lsp#ui#vim#folding#foldexpr()
-            \ foldtext=lsp#ui#vim#folding#foldtext()
-    augroup end
   endfunction
   augroup lsp_install
     au!
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+    autocmd BufWritePre *.go call execute('LspDocumentFormatSync')
+    autocmd FileType python setlocal
+          \ foldmethod=expr
+          \ foldexpr=lsp#ui#vim#folding#foldexpr()
+          \ foldtext=lsp#ui#vim#folding#foldtext()
   augroup END
 Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/asyncomplete.vim'
