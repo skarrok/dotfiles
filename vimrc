@@ -28,6 +28,7 @@ let &showbreak = '↳ '
 set breakindent
 set breakindentopt=sbr
 set completeopt-=preview
+set foldlevelstart=999
 
 " Tabs and indenting
 set autoindent          " copy indent from previous line
@@ -426,6 +427,13 @@ Plug 'prabirshrestha/vim-lsp'
 
     let g:lsp_format_sync_timeout = 1000
     autocmd! BufWritePre *.go call execute('LspDocumentFormatSync')
+    augroup lsp_folding
+      autocmd!
+      autocmd FileType python setlocal
+            \ foldmethod=expr
+            \ foldexpr=lsp#ui#vim#folding#foldexpr()
+            \ foldtext=lsp#ui#vim#folding#foldtext()
+    augroup end
   endfunction
   augroup lsp_install
     au!
