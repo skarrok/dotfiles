@@ -384,7 +384,7 @@ Plug 'dense-analysis/ale'
   "let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
   let g:ale_fixers = {
     \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-    \ 'python': ['black', 'isort'],
+    \ 'python': ['autoimport', 'isort', 'black'],
     \ 'javascript': ['eslint', 'prettier'],
     \ 'vue': ['eslint', 'prettier'],
     \ 'go': ['gofmt'],
