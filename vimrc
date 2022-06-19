@@ -289,7 +289,7 @@ Plug 'machakann/vim-sandwich'
   silent! nmap <unique><silent> csrb <Plug>(operator-sandwich-replace)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-auto-a)
 Plug 'AndrewRadev/switch.vim'
   let g:switch_mapping = ""
-  nmap <silent> <leader>t :call switch#Switch()<CR>
+  nmap <silent> <leader>tt <Plug>(Switch)
   let g:switch_custom_definitions = 
         \ [
         \   [ 'yes', 'no' ],
@@ -382,6 +382,8 @@ Plug 'vim-scripts/iptables'
 " Linting, snippets and completion
 Plug 'dense-analysis/ale'
   "let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+  let g:ale_virtualtext_cursor = 1
+  nmap <silent> <F8> <Plug>(ale_fix)
   let g:ale_fixers = {
     \ '*': ['remove_trailing_lines', 'trim_whitespace'],
     \ 'python': ['autoimport', 'isort', 'black'],
@@ -423,8 +425,8 @@ Plug 'prabirshrestha/vim-lsp'
     nmap <silent><buffer> <Leader>gi <plug>(lsp-implementation)
     nmap <silent><buffer> <Leader>gt <plug>(lsp-type-definition)
     nmap <silent><buffer> K <plug>(lsp-hover)
-    inoremap <buffer> <expr><c-f> lsp#scroll(+4)
-    inoremap <buffer> <expr><c-d> lsp#scroll(-4)
+    "inoremap <buffer> <expr><c-f> lsp#scroll(+4)
+    "inoremap <buffer> <expr><c-d> lsp#scroll(-4)
 
     let g:lsp_format_sync_timeout = 1000
   endfunction
@@ -432,10 +434,10 @@ Plug 'prabirshrestha/vim-lsp'
     au!
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
     autocmd BufWritePre *.go call execute('LspDocumentFormatSync')
-    autocmd FileType python setlocal
-          \ foldmethod=expr
-          \ foldexpr=lsp#ui#vim#folding#foldexpr()
-          \ foldtext=lsp#ui#vim#folding#foldtext()
+    "autocmd FileType python setlocal
+    "      \ foldmethod=expr
+    "      \ foldexpr=lsp#ui#vim#folding#foldexpr()
+    "      \ foldtext=lsp#ui#vim#folding#foldtext()
   augroup END
 Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/asyncomplete.vim'
@@ -446,12 +448,16 @@ Plug 'prabirshrestha/asyncomplete.vim'
   inoremap <expr> <CR> pumvisible() ? asyncomplete#close_popup() : "\<CR>"
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
+if has('nvim')
+  let g:python3_host_prog = '/usr/bin/python3'
+endif
+
 if has('python3')
 Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
   Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 endif
-    
+
 
 " Colors
 Plug 'itchyny/lightline.vim'
