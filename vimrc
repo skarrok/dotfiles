@@ -313,23 +313,6 @@ Plug 'justinmk/vim-sneak'
   
 " Files and searching
 Plug 'justinmk/vim-gtfo'
-Plug 'ctrlpvim/ctrlp.vim'
-  let g:ctrlp_switch_buffer = 'et'
-  if executable('rg')
-    let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
-    let g:ctrlp_use_caching = 0
-  elseif executable('ag')
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-    let g:ctrlp_use_caching = 0
-  endif
-Plug 'mileszs/ack.vim'
-  if executable('rg')
-    let g:ackprg = 'rg --vimgrep --no-heading'
-  elseif executable('ag')
-    let g:ackprg = 'ag --vimgrep'
-  endif
-  nnoremap <Leader>aa :Ack<Space>
-  nnoremap <Leader>af :AckFile<Space>
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind']}
   let NERDTreeMinimalUI = 1
   let NERDTreeNaturalSort = 1
@@ -337,6 +320,36 @@ Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind']}
   noremap <silent> <Leader>f :NERDTreeToggle<CR>
   ounmap <Leader>f
   noremap <silent> <leader>gf :NERDTreeFind<CR>
+if has('nvim')
+  "Plug 'kyazdani42/nvim-tree.lua'
+  "  noremap <silent> <Leader>f :NvimTreeToggle<CR>
+  "  ounmap <Leader>f
+  "  noremap <silent> <leader>gf :NvimTreeFindFile<CR>
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+    nnoremap <C-p> <cmd>Telescope find_files<CR>
+    nnoremap <Leader>aa <cmd>Telescope live_grep<CR>
+    nnoremap <Leader>af <cmd>Telescope grep_string<CR>
+else
+  Plug 'ctrlpvim/ctrlp.vim'
+    let g:ctrlp_switch_buffer = 'et'
+    if executable('rg')
+      let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
+      let g:ctrlp_use_caching = 0
+    elseif executable('ag')
+      let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+      let g:ctrlp_use_caching = 0
+    endif
+  Plug 'mileszs/ack.vim'
+    if executable('rg')
+      let g:ackprg = 'rg --vimgrep --no-heading'
+    elseif executable('ag')
+      let g:ackprg = 'ag --vimgrep'
+    endif
+    nnoremap <Leader>aa :Ack<Space>
+    nnoremap <Leader>af :AckFile<Space>
+endif
 
 " Interface
 Plug 'junegunn/vim-peekaboo'
@@ -404,60 +417,71 @@ Plug 'dense-analysis/ale'
   "let g:ale_python_black_options = '--line-length 88 --skip-string-normalization'
   let g:ale_sign_error = '»»'
   "let g:ale_sign_warning = '≈≈'
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-  " yarn global add bash-language-server
-  " yarn global add vim-language-server
-  " yarn global add vscode-css-languageserver-bin
-  " yarn global add dockerfile-language-server-nodejs
-  " yarn global add typescript-language-server
-  " yarn global add vue-language-server
-  " pip install python-language-server
-  let g:lsp_diagnostics_enabled = 0
-  let g:lsp_document_highlight_enabled = 1
-  let g:lsp_document_code_action_signs_enabled = 0
-  function! s:on_lsp_buffer_enabled() abort
-    setlocal omnifunc=lsp#complete
-    nmap <silent><buffer> gd <plug>(lsp-definition)
-    nmap <silent><buffer> gs <plug>(lsp-document-symbol-search)
-    nmap <silent><buffer> gS <plug>(lsp-workspace-symbol-search)
-    nmap <silent><buffer> gr <plug>(lsp-references)
-    nmap <silent><buffer> <Leader>gi <plug>(lsp-implementation)
-    nmap <silent><buffer> <Leader>gt <plug>(lsp-type-definition)
-    nmap <silent><buffer> K <plug>(lsp-hover)
-    "inoremap <buffer> <expr><c-f> lsp#scroll(+4)
-    "inoremap <buffer> <expr><c-d> lsp#scroll(-4)
+if has('nvim')
+  Plug 'williamboman/mason.nvim'
+  Plug 'williamboman/mason-lspconfig.nvim'
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-cmdline'
+  Plug 'hrsh7th/nvim-cmp'
+else
+  Plug 'prabirshrestha/async.vim'
+  Plug 'prabirshrestha/vim-lsp'
+    " yarn global add bash-language-server
+    " yarn global add vim-language-server
+    " yarn global add vscode-css-languageserver-bin
+    " yarn global add dockerfile-language-server-nodejs
+    " yarn global add typescript-language-server
+    " yarn global add vue-language-server
+    " pip install python-language-server
+    let g:lsp_diagnostics_enabled = 0
+    let g:lsp_document_highlight_enabled = 1
+    let g:lsp_document_code_action_signs_enabled = 0
+    function! s:on_lsp_buffer_enabled() abort
+      setlocal omnifunc=lsp#complete
+      nmap <silent><buffer> gd <plug>(lsp-definition)
+      nmap <silent><buffer> gs <plug>(lsp-document-symbol-search)
+      nmap <silent><buffer> gS <plug>(lsp-workspace-symbol-search)
+      nmap <silent><buffer> gr <plug>(lsp-references)
+      nmap <silent><buffer> <Leader>gi <plug>(lsp-implementation)
+      nmap <silent><buffer> <Leader>gt <plug>(lsp-type-definition)
+      nmap <silent><buffer> K <plug>(lsp-hover)
+      "inoremap <buffer> <expr><c-f> lsp#scroll(+4)
+      "inoremap <buffer> <expr><c-d> lsp#scroll(-4)
 
-    let g:lsp_format_sync_timeout = 1000
-  endfunction
-  augroup lsp_install
-    au!
-    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-    autocmd BufWritePre *.go call execute('LspDocumentFormatSync')
-    "autocmd FileType python setlocal
-    "      \ foldmethod=expr
-    "      \ foldexpr=lsp#ui#vim#folding#foldexpr()
-    "      \ foldtext=lsp#ui#vim#folding#foldtext()
-  augroup END
-Plug 'mattn/vim-lsp-settings'
-Plug 'prabirshrestha/asyncomplete.vim'
-  let g:asyncomplete_remove_duplicates = 1
-  imap <c-space> <Plug>(asyncomplete_force_refresh)
-  "inoremap <expr> <C-y> pumvisible() ? "\<C-e>\<C-y>" : "\<C-y>"
-  "inoremap <expr> <C-e> pumvisible() ? "\<C-e>\<C-e>" : "\<C-e>"
-  inoremap <expr> <CR> pumvisible() ? asyncomplete#close_popup() : "\<CR>"
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
+      let g:lsp_format_sync_timeout = 1000
+    endfunction
+    augroup lsp_install
+      au!
+      autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+      autocmd BufWritePre *.go call execute('LspDocumentFormatSync')
+      "autocmd FileType python setlocal
+      "      \ foldmethod=expr
+      "      \ foldexpr=lsp#ui#vim#folding#foldexpr()
+      "      \ foldtext=lsp#ui#vim#folding#foldtext()
+    augroup END
+  Plug 'mattn/vim-lsp-settings'
+  Plug 'prabirshrestha/asyncomplete.vim'
+    let g:asyncomplete_remove_duplicates = 1
+    imap <c-space> <Plug>(asyncomplete_force_refresh)
+    "inoremap <expr> <C-y> pumvisible() ? "\<C-e>\<C-y>" : "\<C-y>"
+    "inoremap <expr> <C-e> pumvisible() ? "\<C-e>\<C-e>" : "\<C-e>"
+    inoremap <expr> <CR> pumvisible() ? asyncomplete#close_popup() : "\<CR>"
+  Plug 'prabirshrestha/asyncomplete-lsp.vim'
+endif
 
 if has('nvim')
   let g:python3_host_prog = '/usr/bin/python3'
 endif
 
-if has('python3')
+if has('nvim') && has('python3')
 Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
-  Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+  Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+  " Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 endif
-
 
 " Colors
 Plug 'itchyny/lightline.vim'
@@ -489,12 +513,99 @@ Plug 'iCyMind/NeoSolarized'
 Plug 'joshdick/onedark.vim'
 call plug#end()
 
+if has('nvim')
+lua << EOF
+-- require("nvim-tree").setup()
+  require('mason').setup()
+  require('mason-lspconfig').setup()
+
+	local opts = { noremap=true, silent=true }
+	vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+	vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+	vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+	vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+
+	-- Use an on_attach function to only map the following keys
+	-- after the language server attaches to the current buffer
+	local on_attach = function(client, bufnr)
+		-- Enable completion triggered by <c-x><c-o>
+		vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+		-- Mappings.
+		-- See `:help vim.lsp.*` for documentation on any of the below functions
+		local bufopts = { noremap=true, silent=true, buffer=bufnr }
+		vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+		vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+		vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+		vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+		-- vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+		-- vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+		-- vim.keymap.set('n', '<space>wl', function()
+		--  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+		-- end, bufopts)
+		vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+		vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+		vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+		vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+		-- vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
+	end
+
+	local lsp_flags = {
+		-- This is the default in Nvim 0.7+
+		debounce_text_changes = 150,
+	}
+  local cmp = require'cmp'
+  cmp.setup({
+    snippet = {
+      -- REQUIRED - you must specify a snippet engine
+      expand = function(args)
+        vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+        -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+      end,
+    },
+    window = {
+      -- completion = cmp.config.window.bordered(),
+      -- documentation = cmp.config.window.bordered(),
+    },
+    mapping = cmp.mapping.preset.insert({
+      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.abort(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    }),
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'ultisnips' }, -- For ultisnips users.
+      -- { name = 'vsnip' }, -- For vsnip users.
+      -- { name = 'luasnip' }, -- For luasnip users.
+      -- { name = 'snippy' }, -- For snippy users.
+    }, {
+      { name = 'buffer' },
+    })
+  })
+
+  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+  require('lspconfig')['pyright'].setup {
+    on_attach = on_attach,
+    flags = lsp_flags,
+    capabilities = capabilities
+  }
+EOF
+endif
+
 try
-  call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
-      \ 'name': 'ultisnips',
-      \ 'whitelist': ['*'],
-      \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
-      \ }))
+  if !has('nvim')
+    call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
+        \ 'name': 'ultisnips',
+        \ 'whitelist': ['*'],
+        \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
+        \ }))
+    endif
 catch
 endtry
 
