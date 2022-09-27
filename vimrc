@@ -394,31 +394,6 @@ Plug 'sheerun/vim-polyglot'
 Plug 'vim-scripts/iptables'
 
 " Linting, snippets and completion
-Plug 'dense-analysis/ale'
-  "let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-  let g:ale_disable_lsp = 1
-  let g:ale_virtualtext_cursor = 1
-  nmap <silent> <F8> <Plug>(ale_fix)
-  let g:ale_fixers = {
-    \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-    \ 'python': ['autoimport', 'isort', 'black'],
-    \ 'javascript': ['eslint', 'prettier'],
-    \ 'vue': ['eslint', 'prettier'],
-    \ 'go': ['gofmt'],
-  \ }
-  let g:ale_linter_aliases = {
-    \ 'vue': ['vue', 'javascript'],
-  \ }
-  let g:ale_linters = {
-    \ 'python': ['flake8'],
-    \ 'javascript': ['eslint', 'prettier'],
-    \ 'vue': ['eslint', 'prettier', 'vls'],
-  \ }
-  "let g:ale_python_flake8_options = '--extend-ignore=W503 --max-line-length=99 --max-complexity 15'
-  "let g:ale_python_isort_options = '--combine-as --order-by-type --trailing-comma --use-parentheses --multi-line 3'
-  "let g:ale_python_black_options = '--line-length 88 --skip-string-normalization'
-  let g:ale_sign_error = '»»'
-  "let g:ale_sign_warning = '≈≈'
 Plug 'hrsh7th/vim-vsnip'
   " Expand
   imap <expr> <Tab> vsnip#expandable() ? '<Plug>(vsnip-expand)'         : '<Tab>'
@@ -443,7 +418,38 @@ if has('nvim')
   Plug 'hrsh7th/cmp-cmdline'
   Plug 'hrsh7th/nvim-cmp'
   Plug 'hrsh7th/cmp-vsnip'
+  Plug 'folke/lsp-colors.nvim'
+  Plug 'kyazdani42/nvim-web-devicons'
+  Plug 'folke/trouble.nvim'
+  Plug 'jose-elias-alvarez/null-ls.nvim'
+    nmap <silent> <F8> <cmd>lua vim.lsp.buf.formatting()<CR>
 else
+  Plug 'dense-analysis/ale'
+    "let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+    let g:ale_disable_lsp = 1
+    let g:ale_virtualtext_cursor = 1
+    nmap <silent> <F8> <Plug>(ale_fix)
+    let g:ale_fixers = {
+      \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+      \ 'python': ['autoimport', 'isort', 'black'],
+      \ 'javascript': ['eslint', 'prettier'],
+      \ 'vue': ['eslint', 'prettier'],
+      \ 'go': ['gofmt'],
+    \ }
+    let g:ale_linter_aliases = {
+      \ 'vue': ['vue', 'javascript'],
+    \ }
+    let g:ale_linters = {
+      \ 'python': ['flake8'],
+      \ 'javascript': ['eslint', 'prettier'],
+      \ 'vue': ['eslint', 'prettier', 'vls'],
+    \ }
+    "let g:ale_python_flake8_options = '--extend-ignore=W503 --max-line-length=99 --max-complexity 15'
+    "let g:ale_python_isort_options = '--combine-as --order-by-type --trailing-comma --use-parentheses --multi-line 3'
+    "let g:ale_python_black_options = '--line-length 88 --skip-string-normalization'
+    let g:ale_sign_error = '»»'
+    "let g:ale_sign_warning = '≈≈'
+  Plug 'ryanoasis/vim-devicons'
   Plug 'prabirshrestha/async.vim'
   Plug 'prabirshrestha/vim-lsp'
     " yarn global add bash-language-server
@@ -525,6 +531,14 @@ lua << EOF
   require('mason').setup()
   require('mason-lspconfig').setup()
 
+  require("null-ls").setup({
+    sources = {
+        require("null-ls").builtins.formatting.isort,
+        require("null-ls").builtins.formatting.black,
+        require("null-ls").builtins.diagnostics.flake8,
+    },
+  })
+
   local opts = { noremap=true, silent=true }
   vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
   vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
@@ -592,9 +606,11 @@ lua << EOF
   require('lspconfig')['pyright'].setup {
     on_attach = on_attach,
     flags = lsp_flags,
-    capabilities = capabilities
+    capabilities = capabilities,
+    handlers = {
+      ['textDocument/publishDiagnostics'] = function() end
+    }
   }
-  vim.diagnostic.disable()
   vim.opt.foldmethod = "expr"
   vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 EOF
