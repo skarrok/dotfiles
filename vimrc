@@ -419,6 +419,20 @@ Plug 'dense-analysis/ale'
   "let g:ale_python_black_options = '--line-length 88 --skip-string-normalization'
   let g:ale_sign_error = '»»'
   "let g:ale_sign_warning = '≈≈'
+Plug 'hrsh7th/vim-vsnip'
+  " Expand
+  imap <expr> <Tab> vsnip#expandable() ? '<Plug>(vsnip-expand)'         : '<Tab>'
+  smap <expr> <Tab> vsnip#expandable() ? '<Plug>(vsnip-expand)'         : '<Tab>'
+  " Expand or jump
+  imap <expr> <C-l> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+  smap <expr> <C-l> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+  " Jump forward or backward
+  imap <expr> <C-j> vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)'      : '<C-j>'
+  smap <expr> <C-j> vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)'      : '<C-j>'
+  imap <expr> <C-k> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)'      : '<C-k>'
+  smap <expr> <C-k> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)'      : '<C-k>'
+Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'rafamadriz/friendly-snippets'
 if has('nvim')
   Plug 'williamboman/mason.nvim'
   Plug 'williamboman/mason-lspconfig.nvim'
@@ -428,6 +442,7 @@ if has('nvim')
   Plug 'hrsh7th/cmp-path'
   Plug 'hrsh7th/cmp-cmdline'
   Plug 'hrsh7th/nvim-cmp'
+  Plug 'hrsh7th/cmp-vsnip'
 else
   Plug 'prabirshrestha/async.vim'
   Plug 'prabirshrestha/vim-lsp'
@@ -474,17 +489,6 @@ else
   Plug 'prabirshrestha/asyncomplete-lsp.vim'
 endif
 
-if has('nvim')
-  let g:python3_host_prog = '/usr/bin/python3'
-endif
-
-if has('nvim') && has('python3')
-Plug 'SirVer/ultisnips'
-  Plug 'honza/vim-snippets'
-  Plug 'quangnguyen30192/cmp-nvim-ultisnips'
-  " Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
-endif
-
 " Colors
 Plug 'itchyny/lightline.vim'
   if &t_Co == 256 || has('gui_running')
@@ -517,7 +521,7 @@ call plug#end()
 
 if has('nvim')
 lua << EOF
--- require("nvim-tree").setup()
+  -- require("nvim-tree").setup()
   require('mason').setup()
   require('mason-lspconfig').setup()
 
@@ -562,10 +566,7 @@ lua << EOF
     snippet = {
       -- REQUIRED - you must specify a snippet engine
       expand = function(args)
-        vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
-        -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+        vim.fn["vsnip#anonymous"](args.body)
       end,
     },
     window = {
@@ -581,17 +582,13 @@ lua << EOF
     }),
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
-      { name = 'ultisnips' }, -- For ultisnips users.
-      -- { name = 'vsnip' }, -- For vsnip users.
-      -- { name = 'luasnip' }, -- For luasnip users.
-      -- { name = 'snippy' }, -- For snippy users.
+      { name = 'vsnip' },
     }, {
       { name = 'buffer' },
     })
   })
 
   local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-  -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
   require('lspconfig')['pyright'].setup {
     on_attach = on_attach,
     flags = lsp_flags,
@@ -602,17 +599,6 @@ lua << EOF
   vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 EOF
 endif
-
-try
-  if !has('nvim')
-    call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
-        \ 'name': 'ultisnips',
-        \ 'whitelist': ['*'],
-        \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
-        \ }))
-    endif
-catch
-endtry
 
 try " catch all on first run without installed plugins
   if &t_Co == 256 || has('gui_running')
