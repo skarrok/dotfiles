@@ -104,7 +104,7 @@ if &t_Co > 2 || has("gui_running")
 endif
 
 " Enable true color
-if &term =~# '^tmux-256color\|^xterm-256color\|^screen-256color'
+if $TERM =~# '^tmux-256color\|^xterm-256color\|^screen-256color'
   set termguicolors
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
