@@ -531,11 +531,34 @@ lua << EOF
   require('mason').setup()
   require('mason-lspconfig').setup()
 
+  local h = require("null-ls.helpers")
+  local methods = require("null-ls.methods")
+  local FORMATTING = methods.internal.FORMATTING
+  local autoimport = h.make_builtin({
+      name = "autoimport",
+      meta = {
+          url = "https://lyz-code.github.io/autoimport/",
+          description = "Autoimport missing python libraries",
+      },
+      method = FORMATTING,
+      filetypes = { "python" },
+      generator_opts = {
+          command = "autoimport",
+          args = {
+              "-",
+          },
+          to_stdin = true,
+      },
+      factory = h.formatter_factory,
+  })
   require("null-ls").setup({
     sources = {
+        autoimport,
         require("null-ls").builtins.formatting.isort,
         require("null-ls").builtins.formatting.black,
-        require("null-ls").builtins.diagnostics.flake8,
+        require("null-ls").builtins.diagnostics.flake8.with({
+          extra_args = {'--extend-ignore=BLK'},
+        }),
     },
   })
 
