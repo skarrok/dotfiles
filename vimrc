@@ -299,6 +299,7 @@ Plug 'AndrewRadev/switch.vim'
         \ ]
 Plug 'tmsvg/pear-tree'
   let g:pear_tree_repeatable_expand = 0
+  let g:pear_tree_ft_disabled = ['TelescopePrompt']
 Plug 'justinmk/vim-sneak'
   let g:sneak#label = 1
   " 2-character Sneak (default)
