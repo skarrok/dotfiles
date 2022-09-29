@@ -174,7 +174,10 @@ if has("autocmd")
     \ highlight LineNr ctermbg=NONE guibg=NONE |
     \ highlight SignifySignAdd    ctermbg=NONE guibg=NONE ctermfg=119 guifg=#A6E22E |
     \ highlight SignifySignDelete ctermbg=NONE guibg=NONE ctermfg=167 guifg=#F92672 |
-    \ highlight SignifySignChange ctermbg=NONE guibg=NONE ctermfg=227 guifg=#E6DB74
+    \ highlight SignifySignChange ctermbg=NONE guibg=NONE ctermfg=227 guifg=#E6DB74 |
+    \ highlight GitSignsAdd    ctermbg=NONE guibg=NONE ctermfg=119 guifg=#A6E22E |
+    \ highlight GitSignsDelete ctermbg=NONE guibg=NONE ctermfg=167 guifg=#F92672 |
+    \ highlight GitSignsChange ctermbg=NONE guibg=NONE ctermfg=227 guifg=#E6DB74
   augroup END
 endif " has("autocmd")
 
@@ -359,16 +362,20 @@ Plug 'jlanzarotta/bufexplorer'
     let g:bufExplorerDefaultHelp = 0
     let g:bufExplorerFindActive = 0
     let g:bufExplorerShowRelativePath=1
-Plug 'mhinz/vim-signify'
-  let g:signify_vcs_list = [ 'git', 'hg' ]
-  let g:signify_realtime = 1
-  let g:signify_cursorhold_normal = 0
-  let g:signify_cursorhold_insert = 0
-  let g:signify_sign_add = '+'
-  let g:signify_sign_delete = 'x'
-  let g:signify_sign_delete_first_line = 'x'
-  let g:signify_sign_change = '•'
-  let g:signify_sign_changedelete = g:signify_sign_change
+if has('nvim')
+  Plug 'lewis6991/gitsigns.nvim'
+else
+  Plug 'mhinz/vim-signify'
+    let g:signify_vcs_list = [ 'git', 'hg' ]
+    let g:signify_realtime = 1
+    let g:signify_cursorhold_normal = 0
+    let g:signify_cursorhold_insert = 0
+    let g:signify_sign_add = '+'
+    let g:signify_sign_delete = 'x'
+    let g:signify_sign_delete_first_line = 'x'
+    let g:signify_sign_change = '•'
+    let g:signify_sign_changedelete = g:signify_sign_change
+endif
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
   let g:tagbar_autofocus = 1
   let g:tagbar_autoclose = 1
@@ -528,6 +535,29 @@ call plug#end()
 if has('nvim')
 lua << EOF
   -- require("nvim-tree").setup()
+  require('gitsigns').setup{
+    on_attach = function(bufnr)
+      local gs = package.loaded.gitsigns
+
+      local function map(mode, l, r, opts)
+        opts = opts or {}
+        opts.buffer = bufnr
+        vim.keymap.set(mode, l, r, opts)
+      end
+      -- Navigation
+      map('n', ']c', function()
+        if vim.wo.diff then return ']c' end
+        vim.schedule(function() gs.next_hunk() end)
+        return '<Ignore>'
+      end, {expr=true})
+
+      map('n', '[c', function()
+        if vim.wo.diff then return '[c' end
+        vim.schedule(function() gs.prev_hunk() end)
+        return '<Ignore>'
+      end, {expr=true})
+    end
+  }
   require('mason').setup()
   require('mason-lspconfig').setup()
 
