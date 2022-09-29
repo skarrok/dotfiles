@@ -264,6 +264,7 @@ if empty(glob(vim_plug_dir))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 call plug#begin('~/.vim/bundle')
+Plug 'junegunn/vim-plug'
 " VCS
 Plug 'tpope/vim-fugitive'
   nnoremap <silent> <Leader>gs :belowright Git<CR>
@@ -504,6 +505,22 @@ endif
 
 " Colors
 Plug 'itchyny/lightline.vim'
+  function! s:set_lightline_colorscheme(name) abort
+    let g:lightline.colorscheme = a:name
+    execute 'source' globpath(&rtp, "autoload/lightline/colorscheme/".a:name.".vim")
+    call lightline#init()
+    call lightline#colorscheme()
+    call lightline#update()
+  endfunction
+
+  function! s:lightline_colorschemes(...) abort
+    return join(map(
+          \ globpath(&rtp, "autoload/lightline/colorscheme/*.vim",1,1),
+          \ "fnamemodify(v:val,':t:r')"),
+          \ "\n")
+  endfunction
+  command! -nargs=1 -complete=custom,s:lightline_colorschemes LightlineColorscheme
+        \ call s:set_lightline_colorscheme(<q-args>)
   if &t_Co == 256 || has('gui_running')
     let g:lightline = {
       \ 'colorscheme': 'gruvbox',
@@ -526,7 +543,7 @@ Plug 'tomasr/molokai'
 Plug 'fmoralesc/molokayo'
 Plug 'morhetz/gruvbox'
   let g:gruvbox_contrast_dark = 'medium'
-  let g:gruvbox_contrast_light = 'soft'
+  let g:gruvbox_contrast_light = 'medium'
 Plug 'sjl/badwolf'
 Plug 'iCyMind/NeoSolarized'
 Plug 'joshdick/onedark.vim'
