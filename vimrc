@@ -251,6 +251,9 @@ map <silent> [l :lprev<CR>
 " Make
 "map <F5> :make<CR>
 
+" Trigger InsertLeave on Control-C
+inoremap <C-C> <Esc>
+
 if has('win32') || has('win64')
   " use ~/.vim on windows
   set runtimepath^=~/.vim
@@ -431,6 +434,10 @@ if has('nvim')
   Plug 'folke/trouble.nvim'
   Plug 'jose-elias-alvarez/null-ls.nvim'
   nmap <silent> <F8> <cmd>lua vim.lsp.buf.formatting()<CR>
+	sign define DiagnosticSignError text= texthl=DiagnosticSignError linehl= numhl=
+	sign define DiagnosticSignWarn text= texthl=DiagnosticSignWarn linehl= numhl=
+	sign define DiagnosticSignInfo text= texthl=DiagnosticSignInfo linehl= numhl=
+	sign define DiagnosticSignHint text= texthl=DiagnosticSignHint linehl= numhl=
 else
   Plug 'dense-analysis/ale'
     "let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
@@ -544,6 +551,7 @@ Plug 'fmoralesc/molokayo'
 Plug 'gruvbox-community/gruvbox'
   let g:gruvbox_contrast_dark = 'medium'
   let g:gruvbox_contrast_light = 'medium'
+  let g:gruvbox_sign_column = 'none'
 Plug 'sjl/badwolf'
 Plug 'iCyMind/NeoSolarized'
 Plug 'joshdick/onedark.vim'
