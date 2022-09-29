@@ -430,7 +430,7 @@ if has('nvim')
   Plug 'kyazdani42/nvim-web-devicons'
   Plug 'folke/trouble.nvim'
   Plug 'jose-elias-alvarez/null-ls.nvim'
-    nmap <silent> <F8> <cmd>lua vim.lsp.buf.formatting()<CR>
+  nmap <silent> <F8> <cmd>lua vim.lsp.buf.formatting()<CR>
 else
   Plug 'dense-analysis/ale'
     "let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
@@ -541,7 +541,7 @@ Plug 'crusoexia/vim-monokai'
 Plug 'tomasr/molokai'
   let g:rehash256 = 1
 Plug 'fmoralesc/molokayo'
-Plug 'morhetz/gruvbox'
+Plug 'gruvbox-community/gruvbox'
   let g:gruvbox_contrast_dark = 'medium'
   let g:gruvbox_contrast_light = 'medium'
 Plug 'sjl/badwolf'
@@ -549,7 +549,9 @@ Plug 'iCyMind/NeoSolarized'
 Plug 'joshdick/onedark.vim'
 call plug#end()
 
-if has('nvim')
+" Setup nvim lua plugins
+if has('nvim') && exists('plugs')
+if has_key(plugs, 'gitsigns.nvim')
 lua << EOF
   -- require("nvim-tree").setup()
   require('gitsigns').setup{
@@ -575,9 +577,32 @@ lua << EOF
       end, {expr=true})
     end
   }
-  require('mason').setup()
-  require('mason-lspconfig').setup()
+EOF
+endif
 
+"if has_key(plugs, 'telescope.nvim')
+"lua << EOF
+"require("telescope").setup{
+"  pickers = {
+"    find_files = {
+"      find_command = { "fd", "--type", "f", "--strip-cwd-prefix" }
+"    },
+"  }
+"}
+"EOF
+"endif
+
+if has_key(plugs, 'mason.nvim') && has_key(plugs, 'mason-lspconfig.nvim')
+lua << EOF
+  require('mason').setup()
+  require('mason-lspconfig').setup({
+    ensure_installed = { "bashls", "dockerls", "jsonls", "marksman", "sqlls", "vimls", "yamlls", "sumneko_lua", "pyright" }
+  })
+EOF
+endif
+
+if has_key(plugs, 'null-ls.nvim')
+lua << EOF
   local h = require("null-ls.helpers")
   local methods = require("null-ls.methods")
   local FORMATTING = methods.internal.FORMATTING
@@ -608,7 +633,11 @@ lua << EOF
         }),
     },
   })
+EOF
+endif
 
+if has_key(plugs, 'nvim-lspconfig') && has_key(plugs, 'nvim-cmp')
+lua << EOF
   local opts = { noremap=true, silent=true }
   vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
   vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
@@ -681,9 +710,18 @@ lua << EOF
       ['textDocument/publishDiagnostics'] = function() end
     }
   }
+  require('lspconfig')['bashls'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
+  require('lspconfig')['dockerls'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
+  require('lspconfig')['jsonls'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
+  require('lspconfig')['marksman'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
+  require('lspconfig')['sqlls'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
+  require('lspconfig')['vimls'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
+  require('lspconfig')['yamlls'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
+  require('lspconfig')['sumneko_lua'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
   vim.opt.foldmethod = "expr"
   vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 EOF
+endif
 endif
 
 try " catch all on first run without installed plugins
