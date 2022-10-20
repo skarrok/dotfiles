@@ -161,7 +161,7 @@ if has("autocmd")
 
   " higlight yanked text
   if has("nvim")
-    autocmd TextYankPost * silent! lua vim.highlight.on_yank({higroup="IncSearch", timeout=150, on_visual=true})
+    autocmd TextYankPost * silent! lua vim.highlight.on_yank({higroup="IncSearch", timeout=100, on_visual=true})
   endif
 
   " When editing a file, always jump to the last known cursor position.
@@ -205,28 +205,41 @@ nnoremap <CR> :
 " Change current working directory
 nnoremap <Leader>cd :cd %:p:h<CR>:pwd<CR>
 
-" Toggle paste mode
-nnoremap <silent> <Leader>p :set paste!<CR>:set paste?<CR>
-
 " Not jump on star, only highlight
 nnoremap * *N
 
 " Drop highlight search result
-noremap <Leader><Space> :nohls<CR>
+nnoremap <Leader><Space> :nohls<CR>
 
-" Toggle spell
-nnoremap <silent> <Leader>os :set spell!<CR>:set spell?<CR>
+" Paste/Replace with overwiting default register
+xnoremap <Leader>p "_dP
 
 " Tabs
 nnoremap gb gT
-nnoremap <Leader>tc :tabnew<CR>
-nnoremap <Leader>tx :tabclose<CR>
+nnoremap <silent> <Leader>tc :tabnew<CR>
+nnoremap <silent> <Leader>tx :tabclose<CR>
+
+" Windows
+tnoremap <A-h> <C-\><C-N><C-w>h
+tnoremap <A-j> <C-\><C-N><C-w>j
+tnoremap <A-k> <C-\><C-N><C-w>k
+tnoremap <A-l> <C-\><C-N><C-w>l
+inoremap <A-h> <C-\><C-N><C-w>h
+inoremap <A-j> <C-\><C-N><C-w>j
+inoremap <A-k> <C-\><C-N><C-w>k
+inoremap <A-l> <C-\><C-N><C-w>l
+nnoremap <A-h> <C-w>h
+nnoremap <A-j> <C-w>j
+nnoremap <A-k> <C-w>k
+nnoremap <A-l> <C-w>l
 
 " Toggle some options
-noremap <silent> <Leader>ow :set wrap!<CR>:set wrap?<CR>
-noremap <silent> <Leader>ol :set list!<CR>:set list?<CR>
-noremap <silent> <Leader>on :set number!<CR>:set number?<CR>
-noremap <silent> <Leader>or :set relativenumber!<CR>:set relativenumber?<CR>
+nnoremap <silent> <Leader>op :set paste!<CR>:set paste?<CR>
+nnoremap <silent> <Leader>os :set spell!<CR>:set spell?<CR>
+nnoremap <silent> <Leader>ow :set wrap!<CR>:set wrap?<CR>
+nnoremap <silent> <Leader>ol :set list!<CR>:set list?<CR>
+nnoremap <silent> <Leader>on :set number!<CR>:set number?<CR>
+nnoremap <silent> <Leader>or :set relativenumber!<CR>:set relativenumber?<CR>
 nnoremap <silent> <Leader>ox :set cursorline!<CR>:set cursorcolumn!<CR>
 nnoremap <silent> <Leader>ob :let &background = (&background == "dark" ? "light": "dark")<CR>:set background?<CR>
 nnoremap <silent> <Leader>oc :let &colorcolumn = (&colorcolumn == 80 ? 0: 80)<CR>:echo "colorcolumn=".&colorcolumn<CR>
@@ -562,6 +575,7 @@ if has_key(plugs, 'gitsigns.nvim')
 lua << EOF
   -- require("nvim-tree").setup()
   require('gitsigns').setup{
+    attach_to_untracked = false,
     on_attach = function(bufnr)
       local gs = package.loaded.gitsigns
 
