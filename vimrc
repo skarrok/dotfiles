@@ -285,10 +285,13 @@ Plug 'tpope/vim-fugitive'
 
 " Editing
 Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-commentary'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'coderifous/textobj-word-column.vim'
 Plug 'takac/vim-hardtime'
-  let g:hardtime_default_on = 0
+  let g:hardtime_default_on = 1
+  let g:list_of_normal_keys = ["<Up>", "<Down>", "<Left>", "<Right>"]
+  let g:list_of_visual_keys = ["<Up>", "<Down>", "<Left>", "<Right>"]
 Plug 'junegunn/vim-easy-align'
   xmap ga <Plug>(EasyAlign)
   nmap ga <Plug>(EasyAlign)
@@ -331,6 +334,12 @@ Plug 'justinmk/vim-sneak'
   
 " Files and searching
 Plug 'justinmk/vim-gtfo'
+"Plug 'lambdalisue/fern.vim'
+  "let g:loaded_netrwPlugin = 1
+  "let g:loaded_netrw = 1
+  "noremap <silent> <Leader>f :Fern . -drawer -toggle<CR>
+  "ounmap <Leader>f
+  "noremap <silent> <leader>gf :Fern . -reveal=% -drawer<CR>
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind']}
   let NERDTreeMinimalUI = 1
   let NERDTreeNaturalSort = 1
@@ -345,7 +354,7 @@ if has('nvim')
   "  noremap <silent> <leader>gf :NvimTreeFindFile<CR>
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'nvim-lua/plenary.nvim'
-  Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+  Plug 'nvim-telescope/telescope.nvim', { 'branch': '0.1.x' }
     nnoremap <C-p> <cmd>Telescope find_files<CR>
     nnoremap <Leader>aa <cmd>Telescope live_grep<CR>
     nnoremap <Leader>af <cmd>Telescope grep_string<CR>
@@ -742,7 +751,7 @@ lua << EOF
     })
   })
 
-  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  local capabilities = require('cmp_nvim_lsp').default_capabilities()
   require('lspconfig')['pyright'].setup {
     on_attach = on_attach,
     flags = lsp_flags,
