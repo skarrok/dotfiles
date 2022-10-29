@@ -278,6 +278,17 @@ if empty(glob(vim_plug_dir))
 endif
 call plug#begin('~/.vim/bundle')
 Plug 'junegunn/vim-plug'
+Plug 'christoomey/vim-tmux-navigator'
+  let g:tmux_navigator_no_wrap = 1
+  let g:tmux_navigator_no_mappings = 1
+  tnoremap <silent> <A-h> <C-\><C-n>:TmuxNavigateLeft<CR>
+  tnoremap <silent> <A-j> <C-\><C-n>:TmuxNavigateDown<CR>
+  tnoremap <silent> <A-k> <C-\><C-n>:TmuxNavigateUp<CR>
+  tnoremap <silent> <A-l> <C-\><C-n>:TmuxNavigateRight<CR>
+  noremap <silent> <A-h> :<C-U>TmuxNavigateLeft<CR>
+  noremap <silent> <A-j> :<C-U>TmuxNavigateDown<CR>
+  noremap <silent> <A-k> :<C-U>TmuxNavigateUp<CR>
+  noremap <silent> <A-l> :<C-U>TmuxNavigateRight<CR>
 " VCS
 Plug 'tpope/vim-fugitive'
   nnoremap <silent> <Leader>gs :belowright Git<CR>
