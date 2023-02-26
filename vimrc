@@ -468,6 +468,9 @@ if has('nvim')
   Plug 'folke/lsp-colors.nvim'
   Plug 'kyazdani42/nvim-web-devicons'
   Plug 'folke/trouble.nvim'
+  Plug 'mfussenegger/nvim-dap'
+  Plug 'leoluz/nvim-dap-go'
+  Plug 'rcarriga/nvim-dap-ui'
   Plug 'jose-elias-alvarez/null-ls.nvim'
   nmap <silent> <F8> <cmd>lua vim.lsp.buf.formatting()<CR>
   sign define DiagnosticSignError text= texthl=DiagnosticSignError linehl= numhl=
@@ -784,6 +787,18 @@ lua << EOF
   require('lspconfig')['yamlls'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
   require('lspconfig')['sumneko_lua'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
   require('lspconfig')['gopls'].setup{ on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
+EOF
+endif
+
+if has_key(plugs, 'nvim-dap')
+lua << EOF
+  require('dap-go').setup()
+  require("dapui").setup()
+  vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
+  vim.keymap.set('n', '<F10>', function() require('dap').step_over() end)
+  vim.keymap.set('n', '<F11>', function() require('dap').step_into() end)
+  vim.keymap.set('n', '<F12>', function() require('dap').step_out() end)
+  vim.keymap.set('n', '<Leader>du', function() require('dapui').toggle() end)
 EOF
 endif
 endif
