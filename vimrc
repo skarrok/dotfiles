@@ -374,7 +374,9 @@ if has('nvim')
     nnoremap <Leader>aa <cmd>Telescope live_grep<CR>
     nnoremap <Leader>af <cmd>Telescope grep_string<CR>
     nnoremap <Leader>al :Telescope lsp_<C-z>
+    nnoremap z=  <cmd>Telescope spell_suggest theme=cursor<CR>
   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+  Plug 'nvim-telescope/telescope-ui-select.nvim'
 else
   Plug 'ctrlpvim/ctrlp.vim'
     let g:ctrlp_switch_buffer = 'et'
@@ -421,6 +423,33 @@ Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
   let g:tagbar_autoclose = 1
   let g:tagbar_compact = 1
   let g:tagbar_foldlevel = 0
+  let g:tagbar_type_go = {
+	  \ 'ctagstype' : 'go',
+	  \ 'kinds'     : [
+		  \ 'p:package',
+		  \ 'i:imports:1',
+		  \ 'c:constants',
+		  \ 'v:variables',
+		  \ 't:types',
+		  \ 'n:interfaces',
+		  \ 'w:fields',
+		  \ 'e:embedded',
+		  \ 'm:methods',
+		  \ 'r:constructor',
+		  \ 'f:functions'
+	  \ ],
+	  \ 'sro' : '.',
+	  \ 'kind2scope' : {
+		  \ 't' : 'ctype',
+		  \ 'n' : 'ntype'
+	  \ },
+	  \ 'scope2kind' : {
+		  \ 'ctype' : 't',
+		  \ 'ntype' : 'n'
+	  \ },
+	  \ 'ctagsbin'  : 'gotags',
+	  \ 'ctagsargs' : '-sort -silent'
+  \ }
   nnoremap <silent> <F9> :TagbarToggle<CR>
 Plug 'Yggdroot/indentLine'
   let g:indentLine_enabled = 0
@@ -468,11 +497,13 @@ if has('nvim')
   Plug 'folke/lsp-colors.nvim'
   Plug 'kyazdani42/nvim-web-devicons'
   Plug 'folke/trouble.nvim'
+    nmap <silent> <Leader>wt <cmd>TroubleToggle<CR>
   Plug 'mfussenegger/nvim-dap'
   Plug 'leoluz/nvim-dap-go'
   Plug 'rcarriga/nvim-dap-ui'
   Plug 'jose-elias-alvarez/null-ls.nvim'
-  nmap <silent> <F8> <cmd>lua vim.lsp.buf.formatting()<CR>
+  Plug 'simrat39/rust-tools.nvim'
+  nmap <silent> <F8> <cmd>lua vim.lsp.buf.format({async=true})<CR>
   sign define DiagnosticSignError text= texthl=DiagnosticSignError linehl= numhl=
   sign define DiagnosticSignWarn text= texthl=DiagnosticSignWarn linehl= numhl=
   sign define DiagnosticSignInfo text= texthl=DiagnosticSignInfo linehl= numhl=
@@ -637,8 +668,15 @@ lua << EOF
   --     },
   --   }
   -- }
-  require('telescope').setup()
+  require('telescope').setup({
+    extensions = {
+      ["ui-select"] = {
+        require("telescope.themes").get_cursor {}
+      }
+    }
+  })
   require('telescope').load_extension('fzf')
+  require('telescope').load_extension('ui-select')
 EOF
 endif
 
@@ -659,7 +697,7 @@ if has_key(plugs, 'mason.nvim') && has_key(plugs, 'mason-lspconfig.nvim')
 lua << EOF
   require('mason').setup()
   require('mason-lspconfig').setup({
-    ensure_installed = { "bashls", "dockerls", "jsonls", "marksman", "sqlls", "vimls", "yamlls", "sumneko_lua", "pyright" }
+    ensure_installed = { "bashls", "dockerls", "jsonls", "marksman", "sqlls", "vimls", "yamlls", "lua_ls", "pyright" }
   })
 EOF
 endif
@@ -687,6 +725,7 @@ lua << EOF
       factory = h.formatter_factory,
   })
   require("null-ls").setup({
+    temp_dir = "/tmp",
     sources = {
         autoimport.with({ prefer_local = ".venv/bin" }),
         require("null-ls").builtins.formatting.isort.with({ prefer_local = ".venv/bin" }),
@@ -699,6 +738,8 @@ lua << EOF
         require("null-ls").builtins.code_actions.gitsigns,
         require("null-ls").builtins.formatting.golines.with({ extra_args = {"-m", "88", "-t", "4"} }),
         require("null-ls").builtins.diagnostics.golangci_lint,
+		require("null-ls").builtins.code_actions.gomodifytags,
+		require("null-ls").builtins.formatting.sql_formatter,
     },
   })
 EOF
@@ -711,6 +752,20 @@ lua << EOF
   vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
   vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
   vim.keymap.set('n', '<Leader>q', vim.diagnostic.setloclist, opts)
+
+  function diagnostic_toggle_virtual_text(global)
+    local vars, bufnr, cmd
+    if global then
+      vars = vim.g
+      bufnr = nil
+    else
+      vars = vim.b
+      bufnr = 0
+    end
+    vars.diagnosics_virtual_text = not vars.diagnosics_virtual_text
+    vim.diagnostic.show(nil, bufnr, nil, {virtual_text = vars.diagnosics_virtual_text})
+  end
+  vim.keymap.set('n', '<Leader>odl', diagnostic_toggle_virtual_text, {noremap = true, silent = true, buffer=bufnr})
 
   -- Use an on_attach function to only map the following keys
   -- after the language server attaches to the current buffer
@@ -735,7 +790,7 @@ lua << EOF
     vim.keymap.set('n', '<Leader>cr', vim.lsp.buf.rename, bufopts)
     vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, bufopts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-    vim.keymap.set('n', '<Leader>cf', vim.lsp.buf.formatting, bufopts)
+    vim.keymap.set('n', '<Leader>cf', function() vim.lsp.buf.format { async = true } end, bufopts)
   end
 
   local lsp_flags = {
@@ -759,7 +814,7 @@ lua << EOF
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
       ['<C-Space>'] = cmp.mapping.complete(),
       ['<C-e>'] = cmp.mapping.abort(),
-      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+      ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     }),
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
@@ -784,9 +839,49 @@ lua << EOF
   require('lspconfig')['marksman'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
   require('lspconfig')['sqlls'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
   require('lspconfig')['vimls'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
-  require('lspconfig')['yamlls'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
-  require('lspconfig')['sumneko_lua'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
+  require('lspconfig')['lua_ls'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
   require('lspconfig')['gopls'].setup{ on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
+  require('lspconfig')['yamlls'].setup {
+    on_attach = on_attach,
+    flags = lsp_flags,
+    capabilities = capabilities,
+    settings = {
+      yaml = {
+        keyOrdering = false
+      }
+    }
+  }
+  -- require('lspconfig')['rust_analyzer'].setup{
+  --   on_attach = on_attach,
+  --   flags = lsp_flags,
+  --   capabilities = capabilities,
+  --   settings = {
+  --     ["rust-analyzer"] = {}
+  --   }
+  -- }
+  local rt = require("rust-tools")
+
+  rt.setup({
+    tools = {
+      runnables = {
+        use_telescope = true,
+      },
+      inlay_hints = {
+        auto = true,
+        show_parameter_hints = true,
+      }
+    },
+    server = {
+      on_attach = on_attach,
+      settings = {
+        ["rust-analyzer"] = {
+          checkOnSave = {
+            command = "clippy",
+          }
+        }
+      }
+    }
+  })
 EOF
 endif
 
@@ -794,11 +889,13 @@ if has_key(plugs, 'nvim-dap')
 lua << EOF
   require('dap-go').setup()
   require("dapui").setup()
+  vim.fn.sign_define('DapBreakpoint', {text='🛑', texthl='', linehl='', numhl=''})
   vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
   vim.keymap.set('n', '<F10>', function() require('dap').step_over() end)
   vim.keymap.set('n', '<F11>', function() require('dap').step_into() end)
   vim.keymap.set('n', '<F12>', function() require('dap').step_out() end)
   vim.keymap.set('n', '<Leader>du', function() require('dapui').toggle() end)
+  vim.keymap.set('n', '<Leader>db', function() require('dap').toggle_breakpoint() end)
 EOF
 endif
 endif
