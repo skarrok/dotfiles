@@ -181,6 +181,14 @@ function _virtualenv_auto_activate() {
     fi
 }
 
+function dotenv() {
+    if [ -f "$1" ]; then
+        export $(echo $(cat "$1" | sed 's/#.*//g' | xargs) | envsubst)
+    else
+        echo File "$1" does not exist
+    fi
+}
+
 export PROMPT_COMMAND=_virtualenv_auto_activate
 if [ -n "$ZSH_VERSION" ]; then
   function chpwd() {
