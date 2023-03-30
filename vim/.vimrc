@@ -267,7 +267,8 @@ map <silent> [l :lprev<CR>
 
 " Trigger InsertLeave on Control-C
 inoremap <C-C> <Esc>
-cnoremap <C-C> <Esc>
+" see :h c_<Esc> for why this is neccessary
+cnoremap <C-C> <C-C>
 
 if has('win32') || has('win64')
   " use ~/.vim on windows
