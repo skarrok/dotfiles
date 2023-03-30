@@ -1,8 +1,9 @@
 #!/bin/sh
 
-ln -vrfs vimrc ~/.vimrc
-ln -vrfs gvimrc ~/.gvimrc
-ln -vrfs tmux.conf ~/.tmux.conf
-ln -vrfs zshrc ~/.zshrc
-ln -vrfs ginit.vim ~/.config/nvim/ginit.vim
-ln -vrfs init.vim ~/.config/nvim/init.vim
+if ! command -v stow &> /dev/null
+then
+    echo "stow required to install dotfiles"
+    exit
+fi
+
+stow -vR */

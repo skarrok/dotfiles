@@ -227,4 +227,3 @@ alias clogin='sudo -u rancid /usr/lib/rancid/bin/clogin'
 
 # On start
 date "+%A %d %B %T %Y"
-

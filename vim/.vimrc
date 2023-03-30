@@ -267,6 +267,7 @@ map <silent> [l :lprev<CR>
 
 " Trigger InsertLeave on Control-C
 inoremap <C-C> <Esc>
+cnoremap <C-C> <Esc>
 
 if has('win32') || has('win64')
   " use ~/.vim on windows
@@ -349,12 +350,12 @@ Plug 'justinmk/vim-sneak'
   
 " Files and searching
 Plug 'justinmk/vim-gtfo'
-"Plug 'lambdalisue/fern.vim'
-  "let g:loaded_netrwPlugin = 1
-  "let g:loaded_netrw = 1
-  "noremap <silent> <Leader>f :Fern . -drawer -toggle<CR>
-  "ounmap <Leader>f
-  "noremap <silent> <leader>gf :Fern . -reveal=% -drawer<CR>
+" Plug 'lambdalisue/fern.vim'
+"   let g:loaded_netrwPlugin = 1
+"   let g:loaded_netrw = 1
+"   noremap <silent> <Leader>f :Fern . -drawer -toggle<CR>
+"   ounmap <Leader>f
+"   noremap <silent> <leader>gf :Fern . -reveal=% -drawer<CR>
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind']}
   let NERDTreeMinimalUI = 1
   let NERDTreeNaturalSort = 1
@@ -632,7 +633,7 @@ call plug#end()
 if has('nvim') && exists('plugs')
 if has_key(plugs, 'gitsigns.nvim')
 lua << EOF
-  -- require("nvim-tree").setup()
+  --require("nvim-tree").setup()
   require('gitsigns').setup{
     attach_to_untracked = false,
     on_attach = function(bufnr)
