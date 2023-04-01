@@ -1,9 +1,9 @@
 #!/bin/sh
 
-if ! command -v stow &> /dev/null
+if [ -x "$(command -v stow &> /dev/null)" ]
 then
     echo "stow required to install dotfiles"
-    exit
+    exit 1
 fi
 
 stow -vR */
