@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ -x "$(command -v stow &> /dev/null)" ]
+if ! [ -x "$(command -v stow)" ]
 then
     echo "stow required to install dotfiles"
     exit 1
