@@ -183,7 +183,14 @@ function _virtualenv_auto_activate() {
 
 function dotenv() {
     if [ -f "$1" ]; then
-        export $(echo $(cat "$1" | sed 's/#.*//g' | xargs) | envsubst)
+        ENV_VARS="$(cat "$1" | awk '!/^\s*#/' | awk '!/^\s*$/')"
+        eval "$(
+        printf '%s\n' "$ENV_VARS" | while IFS='' read -r line; do
+            key=$(printf '%s\n' "$line"| sed 's/"/\\"/g' | cut -d '=' -f 1)
+            value=$(printf '%s\n' "$line" | cut -d '=' -f 2- | sed 's/"/\\\"/g')
+            printf '%s\n' "export $key=\"$value\""
+        done
+        )"
     else
         echo File "$1" does not exist
     fi

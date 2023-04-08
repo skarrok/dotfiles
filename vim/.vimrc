@@ -497,6 +497,7 @@ if has('nvim')
   Plug 'hrsh7th/cmp-cmdline'
   Plug 'hrsh7th/nvim-cmp'
   Plug 'hrsh7th/cmp-vsnip'
+  Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
   Plug 'folke/lsp-colors.nvim'
   Plug 'kyazdani42/nvim-web-devicons'
   Plug 'folke/trouble.nvim'
@@ -822,8 +823,9 @@ lua << EOF
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
       { name = 'vsnip' },
+      { name = 'nvim_lsp_signature_help' },
     }, {
-      { name = 'buffer' },
+      { name = 'buffer', keyword_length = 3 },
     })
   })
 
