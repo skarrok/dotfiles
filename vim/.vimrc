@@ -329,6 +329,9 @@ Plug 'AndrewRadev/switch.vim'
   nmap <silent> <leader>tt <Plug>(Switch)
   let g:switch_custom_definitions = 
         \ [
+        \   [ 'on', 'off' ],
+        \   [ 'ON', 'OFF' ],
+        \   [ 'On', 'Off' ],
         \   [ 'yes', 'no' ],
         \   [ 'YES', 'NO' ],
         \   [ 'Yes', 'No' ],
