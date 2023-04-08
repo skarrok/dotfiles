@@ -282,5 +282,5 @@ include /etc/sway/config.d/*
 
 exec_always systemctl --user start sway-session.target
 #exec_always /usr/lib/sway-systemd/locale1-xkb-config --oneshot
-exec /usr/lib/sway-systemd/wait-sni-ready && \
-    systemctl --user start sway-xdg-autostart.target
+#exec /usr/lib/sway-systemd/wait-sni-ready && \
+#    systemctl --user start sway-xdg-autostart.target
