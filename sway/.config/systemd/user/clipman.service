@@ -1,0 +1,14 @@
+[Unit]
+Description=Clipboard management service
+Documentation=man:clipman(1)
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStartPre=/usr/bin/sleep 5
+ExecStart=/usr/bin/wl-paste -t text --watch bash -c "app_id=$( swaymsg -t get_tree | jq -r '.. | select(.type?) | select(.focused==true) | .app_id' ); if [[ $app_id != "org.keepassxc.KeePassXC" ]]; then clipman store --no-persist; fi"
+Restart=on-failure
+
+[Install]
+WantedBy=sway-session.target
