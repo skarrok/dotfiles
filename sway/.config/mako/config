@@ -1,0 +1,16 @@
+background-color=#282828
+text-color=#ebdbb2
+
+default-timeout=3000
+ignore-timeout=1
+
+font=FontAwesome
+
+border-radius=5
+border-size=3
+border-color=#689d6a
+margin=20
+padding=10
+
+icons=1
+markup=1
