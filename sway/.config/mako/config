@@ -12,5 +12,7 @@ border-color=#689d6a
 margin=20
 padding=10
 
+icon-path=/usr/share/icons/breeze-dark/
+
 icons=1
 markup=1
