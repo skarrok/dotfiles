@@ -1,0 +1,11 @@
+[Unit]
+Description=RClone Google Drive Timer
+After=network.target
+
+[Timer]
+Unit=rclone.service
+OnCalendar=*-*-* *:1/2:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

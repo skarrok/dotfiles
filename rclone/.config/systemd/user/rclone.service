@@ -1,0 +1,6 @@
+[Unit]
+Description=RClone Google Drive
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/rclone bisync --include personal.kdbx --verbose --force drive: %h/drive
