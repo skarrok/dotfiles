@@ -256,8 +256,8 @@ bindsym XF86AudioPrev exec playerctl previous
 
 bindsym XF86Search exec $menu
 
-bindsym $mod+bracketright exec pactl set-default-sink alsa_output.usb-Generic_USB_Audio-00.HiFi__hw_Audio__sink
-bindsym $mod+backslash exec pactl set-default-sink alsa_output.usb-Generic_USB_Audio-00.HiFi__hw_Audio_1__sink
+bindsym $mod+bracketright exec pactl set-default-sink alsa_output.usb-Generic_USB_Audio-00.HiFi__Headphones__sink
+bindsym $mod+backslash exec pactl set-default-sink alsa_output.usb-Generic_USB_Audio-00.HiFi__Speaker__sink
 bindsym $mod+bracketleft exec pactl set-default-sink alsa_output.usb-Kingston_HyperX_QuadCast_S_4100-00.analog-stereo
 
 #
