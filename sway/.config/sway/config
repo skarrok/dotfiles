@@ -14,7 +14,7 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term konsole
+set $term wezterm
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
@@ -33,8 +33,10 @@ output * bg /usr/share/wallpapers/MilkyWay/contents/images/5120x2880.png fill
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
-output DP-3 position 1920,0
-output HDMI-A-1 position 0,0
+set $rightmon DP-3
+set $leftmon HDMI-A-1
+output $rightmon mode 3440x1440@144Hz position 1920,0
+output $leftmon mode 1920x1080@60Hz position 0,0
 
 ### Input configuration
 #
@@ -51,7 +53,7 @@ output HDMI-A-1 position 0,0
 # Read `man 5 sway-input` for more information about this section.
 input "type:keyboard" {
     xkb_layout us,ru
-    xkb_options grp:alt_shift_toggle
+    xkb_options grp:alt_shift_toggle,grp_led:scroll,ctrl:nocaps
 }
 
 font pango:FontAwesome 11
@@ -76,15 +78,22 @@ set $fg       #ebdbb2
 # blue gruvbox
 #                       border    backgr    text      indicator child_border
 client.focused          $blue     $blue     $darkgray $blue     $aqua
-client.focused_inactive $darkgray $darkgray $yellow   $darkgray $darkgray
-client.unfocused        $darkgray $darkgray $yellow   $darkgray $darkgray
+client.focused_inactive $darkgray $darkgray $fg       $darkgray $darkgray
+client.unfocused        $darkgray $darkgray $fg       $darkgray $darkgray
 client.urgent           $red      $red      $fg       $red      $red
 client.placeholder      $darkgray $darkgray $yellow   $purple   $darkgray
 
-client.background $bg
+client.background       $bg
 
 default_border pixel 3
 default_floating_border pixel 3
+
+workspace 1 output $rightmon
+workspace 2 output $rightmon
+workspace 3 output $rightmon
+workspace 4 output $leftmon
+workspace 5 output $leftmon
+workspace 6 output $leftmon
 
 ### Key bindings
 #
@@ -253,19 +262,22 @@ bindsym $mod+bracketright exec pactl set-default-sink alsa_output.usb-Generic_US
 bindsym $mod+backslash exec pactl set-default-sink alsa_output.usb-Generic_USB_Audio-00.HiFi__Speaker__sink && $notify-sink Stereo
 bindsym $mod+bracketleft exec pactl set-default-sink alsa_output.usb-Kingston_HyperX_QuadCast_S_4100-00.analog-stereo && $notify-sink Microphone
 
+for_window [title = "Firefox — Sharing Indicator"] floating enable
+
 #
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
 bar {
     position bottom
+    icon_theme 'breeze-dark'
 
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
     #status_command while date +'%Y-%m-%d %H:%M:%S'; do sleep 1; done
     status_command i3status-rs
 
-    font monospace 12
+    font monospace 13
     colors {
         background $bg
         statusline $yellow
@@ -274,6 +286,7 @@ bar {
         inactive_workspace $darkgray $darkgray  $yellow
         active_workspace   $darkgray $gray      $darkgray
         urgent_workspace   $red      $red       $bg
+
     }
     #swaybar_command waybar
 }
