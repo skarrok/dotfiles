@@ -263,6 +263,8 @@ bindsym $mod+backslash exec pactl set-default-sink alsa_output.usb-Generic_USB_A
 bindsym $mod+bracketleft exec pactl set-default-sink alsa_output.usb-Kingston_HyperX_QuadCast_S_4100-00.analog-stereo && $notify-sink Microphone
 
 for_window [title = "Firefox — Sharing Indicator"] floating enable
+for_window [title = "KeePassXC - Browser Access Request"] floating enable
+for_window [app_id = "pavucontrol" ] floating enable
 
 #
 # Status Bar:
