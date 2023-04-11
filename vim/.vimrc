@@ -641,7 +641,11 @@ call plug#end()
 if has('nvim') && exists('plugs')
 if has_key(plugs, 'gitsigns.nvim')
 lua << EOF
-  require("nvim-tree").setup()
+  require("nvim-tree").setup({
+    filters = {
+      dotfiles = true,
+    }
+  })
   require('gitsigns').setup{
     attach_to_untracked = false,
     on_attach = function(bufnr)
