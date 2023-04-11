@@ -247,6 +247,7 @@ nnoremap <silent> <Leader>or :set relativenumber!<CR>:set relativenumber?<CR>
 nnoremap <silent> <Leader>ox :set cursorline!<CR>:set cursorcolumn!<CR>
 nnoremap <silent> <Leader>ob :let &background = (&background == "dark" ? "light": "dark")<CR>:set background?<CR>
 nnoremap <silent> <Leader>oc :let &colorcolumn = (&colorcolumn == 80 ? 0: 80)<CR>:echo "colorcolumn=".&colorcolumn<CR>
+nnoremap <silent> <Leader>ot :highlight Normal guibg=None ctermbg=None<CR>
 
 " Write file
 map <F2> :w<CR>
@@ -354,24 +355,13 @@ Plug 'justinmk/vim-sneak'
   
 " Files and searching
 Plug 'justinmk/vim-gtfo'
-" Plug 'lambdalisue/fern.vim'
-"   let g:loaded_netrwPlugin = 1
-"   let g:loaded_netrw = 1
-"   noremap <silent> <Leader>f :Fern . -drawer -toggle<CR>
-"   ounmap <Leader>f
-"   noremap <silent> <leader>gf :Fern . -reveal=% -drawer<CR>
-Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind']}
-  let NERDTreeMinimalUI = 1
-  let NERDTreeNaturalSort = 1
-  let NERDTreeIgnore = ['\~$', ',cover$', '__pycache__']
-  noremap <silent> <Leader>f :NERDTreeToggle<CR>
-  ounmap <Leader>f
-  noremap <silent> <leader>gf :NERDTreeFind<CR>
 if has('nvim')
-  "Plug 'kyazdani42/nvim-tree.lua'
-  "  noremap <silent> <Leader>f :NvimTreeToggle<CR>
-  "  ounmap <Leader>f
-  "  noremap <silent> <leader>gf :NvimTreeFindFile<CR>
+  Plug 'kyazdani42/nvim-tree.lua'
+    let g:loaded_netrwPlugin = 1
+    let g:loaded_netrw = 1
+    noremap <silent> <Leader>f :NvimTreeToggle<CR>
+    ounmap <Leader>f
+    noremap <silent> <leader>gf :NvimTreeFindFile!<CR>
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim', { 'branch': '0.1.x' }
@@ -384,6 +374,19 @@ if has('nvim')
   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
   Plug 'nvim-telescope/telescope-ui-select.nvim'
 else
+  "Plug 'lambdalisue/fern.vim'
+  "  let g:loaded_netrwPlugin = 1
+  "  let g:loaded_netrw = 1
+  "  noremap <silent> <Leader>f :Fern . -drawer -toggle<CR>
+  "  ounmap <Leader>f
+  "  noremap <silent> <leader>gf :Fern . -reveal=% -drawer<CR>
+  Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind']}
+    let NERDTreeMinimalUI = 1
+    let NERDTreeNaturalSort = 1
+    let NERDTreeIgnore = ['\~$', ',cover$', '__pycache__']
+    noremap <silent> <Leader>f :NERDTreeToggle<CR>
+    ounmap <Leader>f
+    noremap <silent> <leader>gf :NERDTreeFind<CR>
   Plug 'ctrlpvim/ctrlp.vim'
     let g:ctrlp_switch_buffer = 'et'
     if executable('rg')
@@ -638,7 +641,7 @@ call plug#end()
 if has('nvim') && exists('plugs')
 if has_key(plugs, 'gitsigns.nvim')
 lua << EOF
-  --require("nvim-tree").setup()
+  require("nvim-tree").setup()
   require('gitsigns').setup{
     attach_to_untracked = false,
     on_attach = function(bufnr)
@@ -745,8 +748,8 @@ lua << EOF
         require("null-ls").builtins.code_actions.gitsigns,
         require("null-ls").builtins.formatting.golines.with({ extra_args = {"-m", "88", "-t", "4"} }),
         require("null-ls").builtins.diagnostics.golangci_lint,
-		require("null-ls").builtins.code_actions.gomodifytags,
-		require("null-ls").builtins.formatting.sql_formatter,
+        require("null-ls").builtins.code_actions.gomodifytags,
+        require("null-ls").builtins.formatting.sql_formatter,
     },
   })
 EOF
