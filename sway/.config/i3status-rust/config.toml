@@ -1,0 +1,32 @@
+icons_format = "{icon}"
+
+[theme]
+theme = "gruvbox-dark"
+
+[icons]
+icons = "awesome6"
+
+[[block]]
+block = "keyboard_layout"
+driver = "sway"
+format = "$layout "
+[block.mappings]
+"English (US)" = "en"
+"Russian (N/A)" = "ru"
+
+[[block]]
+block = "sound"
+format = "$icon{ $volume|} $output_name"
+[block.mappings]
+"Headphones" = "\uf025"
+"Earphones" = "\uf130"
+"Stereo" = "\uf8d7"
+
+[[block.click]]
+button = "left"
+cmd = "pavucontrol"
+
+[[block]]
+block = "time"
+interval = 5
+format = "$icon $timestamp.datetime(f:'%a %Y-%m-%d %R') "

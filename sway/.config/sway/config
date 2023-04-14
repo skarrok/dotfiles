@@ -1,9 +1,3 @@
-# Default config for sway
-#
-# Copy this to ~/.config/sway/config and edit it to your liking.
-#
-# Read `man 5 sway` for a complete reference.
-
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.
@@ -13,14 +7,13 @@ set $left h
 set $down j
 set $up k
 set $right l
-# Your preferred terminal emulator
+
 set $term wezterm
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
 #set $menu dmenu_path | dmenu | xargs swaymsg exec --
 #set $menu j4-dmenu-desktop --dmenu='bemenu -i -nb "#3f3f3f" --nf "#dcdccc" --fn "pango:DejaVu Sans Mono 14"' --term='konsole'
-#set $menu wofi --show drun
 set $menu fuzzel --show-actions
 
 ### Output configuration
@@ -263,9 +256,9 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86Search exec $menu
 
 set $notify-sink notify-send -i player-volume -h string:x-canonical-private-synchronous:volume 
-bindsym $mod+bracketright exec pactl set-default-sink alsa_output.usb-Generic_USB_Audio-00.HiFi__Headphones__sink && $notify-sink Headphones
-bindsym $mod+backslash exec pactl set-default-sink alsa_output.usb-Generic_USB_Audio-00.HiFi__Speaker__sink && $notify-sink Stereo
-bindsym $mod+bracketleft exec pactl set-default-sink alsa_output.usb-Kingston_HyperX_QuadCast_S_4100-00.analog-stereo && $notify-sink Microphone
+bindsym $mod+bracketright exec pactl set-default-sink Headphones && $notify-sink Headphones
+bindsym $mod+backslash exec pactl set-default-sink Stereo && $notify-sink Stereo
+bindsym $mod+bracketleft exec pactl set-default-sink Earphones && $notify-sink Microphone
 
 for_window [title = "Firefox — Sharing Indicator"] floating enable
 for_window [title = "KeePassXC - Browser Access Request"] floating enable
@@ -283,8 +276,9 @@ bar {
     # The default just shows the current date and time.
     #status_command while date +'%Y-%m-%d %H:%M:%S'; do sleep 1; done
     status_command i3status-rs
+    status_padding 0
 
-    font monospace 13
+    font pango:DejaVu Sans Mono, FontAwesome 6 Free 12
     colors {
         background $bg
         statusline $yellow
