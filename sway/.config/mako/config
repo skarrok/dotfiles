@@ -1,5 +1,6 @@
 background-color=#282828
 text-color=#ebdbb2
+height=300
 
 default-timeout=3000
 ignore-timeout=1
@@ -16,3 +17,8 @@ icon-path=/usr/share/icons/breeze-dark/
 
 icons=1
 markup=1
+
+on-button-middle=exec makoctl menu -n "$id" fuzzel --dmenu
+
+[urgency=critical]
+border-color=#d65d0e
