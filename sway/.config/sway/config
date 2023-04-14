@@ -56,6 +56,11 @@ input "type:keyboard" {
     xkb_options grp:alt_shift_toggle,grp_led:scroll,ctrl:nocaps
 }
 
+input "type:pointer" {
+    accel_profile flat
+    pointer_accel 0.6
+}
+
 font pango:FontAwesome 11
 #gaps outer 20
 gaps inner 10
