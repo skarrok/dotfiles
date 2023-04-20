@@ -51,7 +51,7 @@ input "type:keyboard" {
 
 input "type:pointer" {
     accel_profile flat
-    pointer_accel 0.6
+    pointer_accel 0.4
 }
 
 font pango:FontAwesome 11
@@ -60,7 +60,7 @@ gaps inner 10
 smart_gaps off
 
 # set primary gruvbox colorscheme colors
-set $bg       #282828
+set $bg       #282828cc
 set $red      #cc241d
 set $green    #98971a
 set $yellow   #d79921
@@ -259,6 +259,9 @@ set $notify-sink notify-send -i player-volume -h string:x-canonical-private-sync
 bindsym $mod+bracketright exec pactl set-default-sink Headphones && $notify-sink Headphones
 bindsym $mod+backslash exec pactl set-default-sink Stereo && $notify-sink Stereo
 bindsym $mod+bracketleft exec pactl set-default-sink Earphones && $notify-sink Microphone
+
+bindsym $mod+Delete exec makoctl dismiss
+bindsym $mod+Insert exec makoctl restore
 
 for_window [title = "Firefox — Sharing Indicator"] floating enable
 for_window [title = "KeePassXC - Browser Access Request"] floating enable
