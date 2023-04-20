@@ -9,7 +9,7 @@ set spelllang=en,ru     " list of accepted languages
 " Display options
 set title               " show info in the window title
 set listchars=eol:$,tab:>-,trail:-,precedes:<,extends:>  "list of strings used for list mode
-set listchars=eol:¬,tab:▸\ ,trail:·,precedes:«,extends:» "list of strings used for list mode
+set listchars=eol:¬,tab:▸\ ,trail:·,precedes:«,extends:»,space:⋅ "list of strings used for list mode
 set fillchars=fold:-,vert:\| " fill chars
 set fillchars=fold:-,vert:\│ " fill chars
 set vb noeb t_vb=       " disable beep and flash
@@ -199,6 +199,7 @@ endif
 " Mapping
 nnoremap <Space> <Nop>
 let mapleader = " "
+let maplocalleader = " "
 
 " Use Enter for command line
 nnoremap <CR> :
@@ -216,7 +217,7 @@ nnoremap <Leader><Space> :nohls<CR>
 xnoremap <Leader>p "_dP
 
 " Prefill replace with current word
-nnoremap <Leader>s :%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>
+nnoremap <Leader>ss :%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>
 
 " Tabs
 nnoremap gb gT
@@ -366,11 +367,11 @@ if has('nvim')
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim', { 'branch': '0.1.x' }
     nnoremap <C-p> <cmd>Telescope find_files<CR>
-    nnoremap <Leader>aa <cmd>Telescope live_grep<CR>
-    nnoremap <Leader>af <cmd>Telescope grep_string<CR>
-    nnoremap <Leader>al :Telescope lsp_<C-z>
+    nnoremap <Leader>sa <cmd>Telescope live_grep<CR>
+    nnoremap <Leader>sw <cmd>Telescope grep_string<CR>
+    nnoremap <Leader>sl :Telescope lsp_<C-z>
     nnoremap z=  <cmd>Telescope spell_suggest theme=cursor<CR>
-    nnoremap <Leader>tr <cmd>Telescope resume<CR>
+    nnoremap <Leader>sr <cmd>Telescope resume<CR>
   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
   Plug 'nvim-telescope/telescope-ui-select.nvim'
 else
@@ -433,36 +434,42 @@ Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
   let g:tagbar_compact = 1
   let g:tagbar_foldlevel = 0
   let g:tagbar_type_go = {
-	  \ 'ctagstype' : 'go',
-	  \ 'kinds'     : [
-		  \ 'p:package',
-		  \ 'i:imports:1',
-		  \ 'c:constants',
-		  \ 'v:variables',
-		  \ 't:types',
-		  \ 'n:interfaces',
-		  \ 'w:fields',
-		  \ 'e:embedded',
-		  \ 'm:methods',
-		  \ 'r:constructor',
-		  \ 'f:functions'
-	  \ ],
-	  \ 'sro' : '.',
-	  \ 'kind2scope' : {
-		  \ 't' : 'ctype',
-		  \ 'n' : 'ntype'
-	  \ },
-	  \ 'scope2kind' : {
-		  \ 'ctype' : 't',
-		  \ 'ntype' : 'n'
-	  \ },
-	  \ 'ctagsbin'  : 'gotags',
-	  \ 'ctagsargs' : '-sort -silent'
+          \ 'ctagstype' : 'go',
+          \ 'kinds'     : [
+                  \ 'p:package',
+                  \ 'i:imports:1',
+                  \ 'c:constants',
+                  \ 'v:variables',
+                  \ 't:types',
+                  \ 'n:interfaces',
+                  \ 'w:fields',
+                  \ 'e:embedded',
+                  \ 'm:methods',
+                  \ 'r:constructor',
+                  \ 'f:functions'
+          \ ],
+          \ 'sro' : '.',
+          \ 'kind2scope' : {
+                  \ 't' : 'ctype',
+                  \ 'n' : 'ntype'
+          \ },
+          \ 'scope2kind' : {
+                  \ 'ctype' : 't',
+                  \ 'ntype' : 'n'
+          \ },
+          \ 'ctagsbin'  : 'gotags',
+          \ 'ctagsargs' : '-sort -silent'
   \ }
   nnoremap <silent> <F9> :TagbarToggle<CR>
-Plug 'Yggdroot/indentLine'
-  let g:indentLine_enabled = 0
-  nnoremap <silent> <Leader>I :IndentLinesToggle<CR>
+if has('nvim')
+  Plug 'lukas-reineke/indent-blankline.nvim', { 'on': 'IndentBlanklineToggle' }
+    let g:indent_blankline_enabled = v:false
+    nnoremap <silent> <Leader>I :IndentBlanklineToggle<CR>
+else
+  Plug 'Yggdroot/indentLine'
+    let g:indentLine_enabled = 0
+    nnoremap <silent> <Leader>I :IndentLinesToggle<CR>
+end
 Plug 'junegunn/rainbow_parentheses.vim'
   let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
 Plug 'milkypostman/vim-togglelist'
@@ -513,6 +520,7 @@ if has('nvim')
   Plug 'rcarriga/nvim-dap-ui'
   Plug 'jose-elias-alvarez/null-ls.nvim'
   Plug 'simrat39/rust-tools.nvim'
+  Plug 'j-hui/fidget.nvim'
   nmap <silent> <F8> <cmd>lua vim.lsp.buf.format({async=true})<CR>
   sign define DiagnosticSignError text= texthl=DiagnosticSignError linehl= numhl=
   sign define DiagnosticSignWarn text= texthl=DiagnosticSignWarn linehl= numhl=
@@ -644,7 +652,10 @@ lua << EOF
   require("nvim-tree").setup({
     filters = {
       dotfiles = true,
-    }
+    },
+    git = {
+      enable = false,
+    },
   })
   require('gitsigns').setup{
     attach_to_untracked = false,
