@@ -11,6 +11,6 @@
 \timing on
 \x auto
 
-\set PROMPT1 '%[%033[1;33;40m%]%/%R%x%033[0m%]%# '
+--\set PROMPT1 '%[%033[1;33;40m%]%/%R%x%033[0m%]%# '
 
 --\set PROMPT1 '%M:%> %n@%/%R%#%x '
