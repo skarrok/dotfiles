@@ -286,6 +286,7 @@ if empty(glob(vim_plug_dir))
 endif
 call plug#begin('~/.vim/bundle')
 Plug 'junegunn/vim-plug'
+Plug 'lambdalisue/suda.vim'
 Plug 'christoomey/vim-tmux-navigator'
   let g:tmux_navigator_no_wrap = 1
   let g:tmux_navigator_no_mappings = 1
