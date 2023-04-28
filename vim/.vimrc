@@ -518,6 +518,7 @@ if has('nvim')
     nmap <silent> <Leader>wt <cmd>TroubleToggle<CR>
   Plug 'mfussenegger/nvim-dap'
   Plug 'leoluz/nvim-dap-go'
+  Plug 'mfussenegger/nvim-dap-python'
   Plug 'rcarriga/nvim-dap-ui'
   Plug 'jose-elias-alvarez/null-ls.nvim'
   Plug 'simrat39/rust-tools.nvim'
@@ -921,8 +922,18 @@ lua << EOF
   vim.keymap.set('n', '<F10>', function() require('dap').step_over() end)
   vim.keymap.set('n', '<F11>', function() require('dap').step_into() end)
   vim.keymap.set('n', '<F12>', function() require('dap').step_out() end)
-  vim.keymap.set('n', '<Leader>du', function() require('dapui').toggle() end)
+  vim.keymap.set('n', '<Leader>du', function() require('dapui').toggle({reset=true}) end)
   vim.keymap.set('n', '<Leader>db', function() require('dap').toggle_breakpoint() end)
+
+  require('dap-python').setup()
+  table.insert(require('dap').configurations.python, {
+    type = 'python',
+    request = 'launch',
+    name = 'python -m ${module}',
+    module = function() return vim.fn.input('Module: ') end,
+  })
+  require('dap-python').test_runner = 'pytest'
+  vim.keymap.set('n', '<Leader>df', function() require('dap-python').test_method() end)
 EOF
 endif
 endif
