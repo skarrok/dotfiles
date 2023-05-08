@@ -265,6 +265,7 @@ bindsym $mod+Insert exec makoctl restore
 
 for_window [title = "Firefox — Sharing Indicator"] floating enable
 for_window [title = "KeePassXC - Browser Access Request"] floating enable
+for_window [title = "KeePassXC -  Access Request"] floating enable
 for_window [app_id = "pavucontrol" ] floating enable
 
 #
