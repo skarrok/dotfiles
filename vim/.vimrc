@@ -656,8 +656,18 @@ lua << EOF
       dotfiles = true,
     },
     git = {
-      enable = false,
+      enable = true,
+      ignore = true,
+      show_on_dirs = false,
+      show_on_open_dirs = false,
     },
+    renderer = {
+      icons = {
+        show = {
+          git = false
+        }
+      }
+    }
   })
   require('gitsigns').setup{
     attach_to_untracked = false,
@@ -826,6 +836,7 @@ lua << EOF
   }
   local cmp = require'cmp'
   cmp.setup({
+    preselect = cmp.PreselectMode.None,
     snippet = {
       -- REQUIRED - you must specify a snippet engine
       expand = function(args)
@@ -863,12 +874,17 @@ lua << EOF
   }
   require('lspconfig')['bashls'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
   require('lspconfig')['dockerls'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
+  require('lspconfig')['docker_compose_language_service'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
   require('lspconfig')['jsonls'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
   require('lspconfig')['marksman'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
   require('lspconfig')['sqlls'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
   require('lspconfig')['vimls'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
   require('lspconfig')['lua_ls'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
   require('lspconfig')['gopls'].setup{ on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
+  require('lspconfig')['cssls'].setup{ on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
+  require('lspconfig')['html'].setup{ on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
+  require('lspconfig')['tsserver'].setup{ on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
+  require('lspconfig')['volar'].setup{ on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
   require('lspconfig')['yamlls'].setup {
     on_attach = on_attach,
     flags = lsp_flags,
