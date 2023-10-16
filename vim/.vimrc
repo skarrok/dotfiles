@@ -370,6 +370,7 @@ if has('nvim')
     nnoremap <C-p> <cmd>Telescope find_files<CR>
     nnoremap <Leader>sa <cmd>Telescope live_grep<CR>
     nnoremap <Leader>sw <cmd>Telescope grep_string<CR>
+    nnoremap <Leader>sb <cmd>Telescope git_branches<CR>
     nnoremap <Leader>sl :Telescope lsp_<C-z>
     nnoremap z=  <cmd>Telescope spell_suggest theme=cursor<CR>
     nnoremap <Leader>sr <cmd>Telescope resume<CR>
