@@ -111,8 +111,8 @@ RPROMPT='${vcs_info_msg_0_}'
 SPROMPT="zsh: correct '%R' to '%r'? [ynea]"
 
 # Environment
-export EDITOR=vim
-export VISUAL=vim
+export EDITOR=nvim
+export VISUAL=nvim
 
 colorize_via_pygmentize() {
     if [ ! -x "$(which pygmentize)" ]; then
@@ -218,6 +218,7 @@ fi
 
 
 # Aliases
+alias vim='nvim'
 alias s='sudo -E'
 alias sc='sudo systemctl'
 alias jc='sudo journalctl'

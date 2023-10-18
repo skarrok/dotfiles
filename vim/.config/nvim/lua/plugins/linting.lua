@@ -6,7 +6,6 @@ return {
             events = { "BufWritePost", "BufReadPost", "InsertLeave" },
             linters_by_ft = {
                 fish = { "fish" },
-                python = { "flake8" },
             },
             -- LazyVim extension to easily override linter options
             -- or add custom linters.
@@ -52,7 +51,9 @@ return {
                 ctx.dirname = vim.fn.fnamemodify(ctx.filename, ":h")
                 names = vim.tbl_filter(function(name)
                     local linter = lint.linters[name]
-                    return linter and not (type(linter) == "table" and linter.condition and not linter.condition(ctx))
+                    local is_executable = type(linter) == "table" and vim.fn.executable(linter.cmd) == 1
+                    return linter and is_executable
+                        and not (type(linter) == "table" and linter.condition and not linter.condition(ctx))
                 end, names)
 
                 if #names > 0 then

@@ -67,7 +67,30 @@ return {
         },
     },
     {
+        "nvim-tree/nvim-tree",
+        enabled = false,
+        opts = {
+            filters = {
+                dotfiles = true,
+            },
+            git = {
+                enable = true,
+                ignore = true,
+                show_on_dirs = false,
+                show_on_open_dirs = false,
+            },
+            renderer = {
+                icons = {
+                    show = {
+                        git = false
+                    }
+                }
+            }
+        },
+    },
+    {
         "tpope/vim-fugitive",
+        command = 'Git',
         keys = {
             { "<Leader>gs", ":belowright Git<CR>", silent = true, desc = "" },
             { "<Leader>gd", ":Gdiff<CR>",          silent = true, desc = "" },
@@ -147,24 +170,24 @@ return {
             { "<leader>sm",  "<cmd>Telescope marks<cr>",                           desc = "Jump to Mark" },
             { "<leader>so",  "<cmd>Telescope vim_options<cr>",                     desc = "Options" },
             { "<leader>sO",  "<cmd>Telescope colorscheme enable_preview=true<CR>", desc = "ColorScheme with preview" },
-            {
-                "<leader>ss",
-                function()
-                    require("telescope.builtin").lsp_document_symbols({
-                        symbols = require("lazyvim.config").get_kind_filter(),
-                    })
-                end,
-                desc = "Goto Symbol",
-            },
-            {
-                "<leader>sS",
-                function()
-                    require("telescope.builtin").lsp_dynamic_workspace_symbols({
-                        symbols = require("lazyvim.config").get_kind_filter(),
-                    })
-                end,
-                desc = "Goto Symbol (Workspace)",
-            },
+            -- {
+            --     "<leader>ss",
+            --     function()
+            --         require("telescope.builtin").lsp_document_symbols({
+            --             symbols = require("lazyvim.config").get_kind_filter(),
+            --         })
+            --     end,
+            --     desc = "Goto Symbol",
+            -- },
+            -- {
+            --     "<leader>sS",
+            --     function()
+            --         require("telescope.builtin").lsp_dynamic_workspace_symbols({
+            --             symbols = require("lazyvim.config").get_kind_filter(),
+            --         })
+            --     end,
+            --     desc = "Goto Symbol (Workspace)",
+            -- },
         },
         opts = function()
             local actions = require("telescope.actions")
@@ -423,6 +446,7 @@ return {
     },
     {
         "coderifous/textobj-word-column.vim",
+        enabled = false,
     },
     {
         "takac/vim-hardtime",

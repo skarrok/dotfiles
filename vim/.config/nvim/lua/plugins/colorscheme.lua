@@ -20,6 +20,7 @@ return {
         config = function(_, opts)
             require("gruvbox").setup(opts)
             vim.cmd([[
+                hi link TreesitterContext Pmenu
                 colorscheme gruvbox
             ]])
         end,

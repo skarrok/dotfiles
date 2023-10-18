@@ -8,15 +8,17 @@ set spelllang=en,ru     " list of accepted languages
 " Display options
 set title               " show info in the window title
 set listchars=eol:$,tab:>-,trail:-,precedes:<,extends:>  "list of strings used for list mode
-set listchars=eol:¬,tab:▸\ ,trail:·,precedes:«,extends:»,space:⋅ "list of strings used for list mode
-set fillchars=fold:-,vert:\| " fill chars
-set fillchars=fold:-,vert:\│ " fill chars
+set listchars=eol:¬,tab:⇥\ ,trail:␣,precedes:«,extends:»,space:⋅,nbsp:⍽  "list of strings used for list mode
+" vim.opt.listchars = { tab = "⇥ ", leadmultispace = "┊ ", trail = "␣", nbsp = "⍽" }
+" set fillchars=fold:-,vert:\| " fill chars
+" set fillchars=fold:-,vert:\│ " fill chars
 set vb noeb t_vb=       " disable beep and flash
 set showcmd             " show (partial) command keys in the status line
 set scrolloff=2         " number of screen lines to show around the cursor
 set sidescroll=4        " minimal number of columns to scroll horizontally
 set sidescrolloff=10    " minimal number of columns to keep left and right of the cursor
-set laststatus=3        " always show status line
+set laststatus=2        " always show status line
+set showtabline=1       " show tabline if there are multiple tabs
 set statusline=%<%f\ %h%m%r%{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\",\".&ff.\"]\ \"}%=%-14.(%l,%c%V%)\ %P
 set ruler               " show the cursor position all the time
 set wildmenu            " command line completion shows a list of matches
@@ -66,6 +68,21 @@ endif
 
 set history=50          " keep 50 lines of command line history
 set pastetoggle=        " key sequence to toggle paste mode
+
+" backups, swapfiles, & undofiles in one place
+let s:myvimdir ="~/.vim"
+let s:tempdir=expand(s:myvimdir."/tmp")
+if !isdirectory(expand(s:tempdir))
+  call mkdir(expand(s:tempdir), "p")
+endif
+set backup
+let &backupdir=s:tempdir
+set swapfile
+let &directory=s:tempdir
+if has('persistent_undo')
+  set undofile
+  let &undodir=s:tempdir
+endif
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
@@ -119,6 +136,13 @@ sign define DiagnosticSignWarn text= texthl=DiagnosticSignWarn linehl= numhl=
 sign define DiagnosticSignInfo text= texthl=DiagnosticSignInfo linehl= numhl=
 sign define DiagnosticSignHint text= texthl=DiagnosticSignHint linehl= numhl=
 ]])
+
+-- disable netrw
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+-- diable .editorconfig support
+vim.g.editorconfig = false
+
 
 local function augroup(name)
     return vim.api.nvim_create_augroup("lazyvim_" .. name, { clear = true })

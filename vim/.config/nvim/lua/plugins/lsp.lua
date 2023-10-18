@@ -22,6 +22,9 @@ return {
                     -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
                     -- prefix = "icons",
                 },
+                float = {
+                    source = true,
+                },
                 severity_sort = true,
             },
             -- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
@@ -59,11 +62,6 @@ return {
                         },
                     },
                 },
-                pyright = {
-                    handlers = {
-                        ['textDocument/publishDiagnostics'] = function() end
-                    }
-                }
             },
             -- you can do any additional lsp server setup here
             -- return true if you don't want this server to be setup with lspconfig
@@ -101,7 +99,7 @@ return {
                     vim.keymap.set('n', '<Leader>cr', vim.lsp.buf.rename, bufopts)
                     vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, bufopts)
                     vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-                    vim.keymap.set('n', '<Leader>cf', function() vim.lsp.buf.format { async = true } end, bufopts)
+                    -- vim.keymap.set('n', '<Leader>cf', function() vim.lsp.buf.format { async = true } end, bufopts)
                 end,
             })
 
@@ -118,6 +116,8 @@ return {
             end
 
             local inlay_hint = vim.lsp.buf.inlay_hint or vim.lsp.inlay_hint
+
+            vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
 
             local servers = opts.servers
             local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")

@@ -20,7 +20,26 @@ return {
         "neovim/nvim-lspconfig",
         opts = {
             servers = {
-                pyright = {},
+                pyright = {
+                    handlers = {
+                        ['textDocument/publishDiagnostics'] = function() end
+                    }
+                }
+            },
+        },
+    },
+    {
+        "stevearc/conform.nvim",
+        opts = {
+            formatters_by_ft = {
+                python = { "autoimport", "isort", "black" },
+            },
+            formatters = {
+                autoimport = {
+                    command = "autoimport",
+                    args = { "-" },
+                    stdin = true,
+                },
             },
         },
     },
@@ -53,6 +72,12 @@ return {
             config = function()
                 local path = require("mason-registry").get_package("debugpy"):get_install_path()
                 require("dap-python").setup(path .. "/venv/bin/python")
+                table.insert(require('dap').configurations.python, {
+                    type = 'python',
+                    request = 'launch',
+                    name = 'python -m ${module}',
+                    module = function() return vim.fn.input('Module: ') end,
+                })
             end,
         },
     },

@@ -33,6 +33,7 @@ return {
     -- statusline
     {
         "nvim-lualine/lualine.nvim",
+        enabled = true,
         event = "VeryLazy",
         -- init = function()
         --     vim.g.lualine_laststatus = vim.o.laststatus
@@ -112,6 +113,9 @@ return {
                     lualine_y = {},
                     lualine_z = {}
                 },
+                tabline = {
+                    -- lualine_a = { { 'tabs', mode = 2, separator = nil, max_length = vim.o.columns },
+                },
                 extensions = { "neo-tree", "lazy" },
             }
         end,
@@ -150,12 +154,14 @@ return {
     -- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
     {
         "folke/noice.nvim",
-        enabled = true,
+        enabled = false,
         event = "VeryLazy",
         opts = {
             cmdline = {
+                enabled = true,
                 view = "cmdline",
             },
+            messages = { enabled = true },
             lsp = {
                 override = {
                     ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
@@ -237,6 +243,14 @@ return {
                 mode = {
                     "i", "n", "s" }
             },
+        },
+    },
+    {
+        "j-hui/fidget.nvim",
+        tag = "legacy",
+        event = "LspAttach",
+        opts = {
+            -- options
         },
     },
 
