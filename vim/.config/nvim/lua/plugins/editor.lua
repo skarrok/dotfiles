@@ -140,6 +140,21 @@ return {
                     require("telescope").load_extension("ui-select")
                 end,
             },
+            -- project management
+            {
+                "ahmedkhalf/project.nvim",
+                opts = {
+                    manual_mode = true,
+                },
+                event = "VeryLazy",
+                config = function(_, opts)
+                    require("project_nvim").setup(opts)
+                    require("telescope").load_extension("projects")
+                end,
+                keys = {
+                    { "<leader>sp", "<Cmd>Telescope projects<CR>", desc = "Projects" },
+                },
+            },
         },
         keys = {
             { "<C-p>",       "<cmd>Telescope find_files<cr>",                      desc = "Find Files" },
