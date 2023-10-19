@@ -58,11 +58,7 @@ set splitright
 
 " X-clipboard
 if has('unnamedplus')
-  if has('nvim')
-    set clipboard+=unnamedplus
-  else
-    set clipboard=autoselect,unnamed,unnamedplus,exclude:cons\|linux
-  endif
+  set clipboard=autoselect,unnamed,unnamedplus,exclude:cons\|linux
 endif
 
 set history=50          " keep 50 lines of command line history
@@ -88,12 +84,10 @@ if has('mouse')
   set mouse=a
   set mousemodel=popup_setpos " what the right mouse button is used for
 endif
-if !has('nvim')
-  if has("mouse_sgr")
-    set ttymouse=sgr
-  else
-    set ttymouse=xterm2
-  endif
+if has("mouse_sgr")
+  set ttymouse=sgr
+else
+  set ttymouse=xterm2
 endif
 
 " Switch syntax highlighting on, when the terminal has colors
@@ -357,57 +351,36 @@ Plug 'justinmk/vim-sneak'
   
 " Files and searching
 Plug 'justinmk/vim-gtfo'
-if has('nvim')
-  Plug 'kyazdani42/nvim-tree.lua'
-    let g:loaded_netrwPlugin = 1
-    let g:loaded_netrw = 1
-    noremap <silent> <Leader>f :NvimTreeToggle<CR>
-    ounmap <Leader>f
-    noremap <silent> <leader>gf :NvimTreeFindFile!<CR>
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  Plug 'nvim-lua/plenary.nvim'
-  Plug 'nvim-telescope/telescope.nvim', { 'branch': '0.1.x' }
-    nnoremap <C-p> <cmd>Telescope find_files<CR>
-    nnoremap <Leader>sa <cmd>Telescope live_grep<CR>
-    nnoremap <Leader>sw <cmd>Telescope grep_string<CR>
-    nnoremap <Leader>sb <cmd>Telescope git_branches<CR>
-    nnoremap <Leader>sl :Telescope lsp_<C-z>
-    nnoremap z=  <cmd>Telescope spell_suggest theme=cursor<CR>
-    nnoremap <Leader>sr <cmd>Telescope resume<CR>
-  Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-  Plug 'nvim-telescope/telescope-ui-select.nvim'
-else
-  "Plug 'lambdalisue/fern.vim'
-  "  let g:loaded_netrwPlugin = 1
-  "  let g:loaded_netrw = 1
-  "  noremap <silent> <Leader>f :Fern . -drawer -toggle<CR>
-  "  ounmap <Leader>f
-  "  noremap <silent> <leader>gf :Fern . -reveal=% -drawer<CR>
-  Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind']}
-    let NERDTreeMinimalUI = 1
-    let NERDTreeNaturalSort = 1
-    let NERDTreeIgnore = ['\~$', ',cover$', '__pycache__']
-    noremap <silent> <Leader>f :NERDTreeToggle<CR>
-    ounmap <Leader>f
-    noremap <silent> <leader>gf :NERDTreeFind<CR>
-  Plug 'ctrlpvim/ctrlp.vim'
-    let g:ctrlp_switch_buffer = 'et'
-    if executable('rg')
-      let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
-      let g:ctrlp_use_caching = 0
-    elseif executable('ag')
-      let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-      let g:ctrlp_use_caching = 0
-    endif
-  Plug 'mileszs/ack.vim'
-    if executable('rg')
-      let g:ackprg = 'rg --vimgrep --no-heading'
-    elseif executable('ag')
-      let g:ackprg = 'ag --vimgrep'
-    endif
-    nnoremap <Leader>aa :Ack<Space>
-    nnoremap <Leader>af :AckFile<Space>
-endif
+"Plug 'lambdalisue/fern.vim'
+"  let g:loaded_netrwPlugin = 1
+"  let g:loaded_netrw = 1
+"  noremap <silent> <Leader>f :Fern . -drawer -toggle<CR>
+"  ounmap <Leader>f
+"  noremap <silent> <leader>gf :Fern . -reveal=% -drawer<CR>
+Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind']}
+  let NERDTreeMinimalUI = 1
+  let NERDTreeNaturalSort = 1
+  let NERDTreeIgnore = ['\~$', ',cover$', '__pycache__']
+  noremap <silent> <Leader>f :NERDTreeToggle<CR>
+  ounmap <Leader>f
+  noremap <silent> <leader>gf :NERDTreeFind<CR>
+Plug 'ctrlpvim/ctrlp.vim'
+  let g:ctrlp_switch_buffer = 'et'
+  if executable('rg')
+    let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
+    let g:ctrlp_use_caching = 0
+  elseif executable('ag')
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    let g:ctrlp_use_caching = 0
+  endif
+Plug 'mileszs/ack.vim'
+  if executable('rg')
+    let g:ackprg = 'rg --vimgrep --no-heading'
+  elseif executable('ag')
+    let g:ackprg = 'ag --vimgrep'
+  endif
+  nnoremap <Leader>aa :Ack<Space>
+  nnoremap <Leader>af :AckFile<Space>
 
 " Interface
 Plug 'junegunn/vim-peekaboo'
@@ -416,20 +389,16 @@ Plug 'jlanzarotta/bufexplorer'
     let g:bufExplorerDefaultHelp = 0
     let g:bufExplorerFindActive = 0
     let g:bufExplorerShowRelativePath=1
-if has('nvim')
-  Plug 'lewis6991/gitsigns.nvim'
-else
-  Plug 'mhinz/vim-signify'
-    let g:signify_vcs_list = [ 'git', 'hg' ]
-    let g:signify_realtime = 1
-    let g:signify_cursorhold_normal = 0
-    let g:signify_cursorhold_insert = 0
-    let g:signify_sign_add = '+'
-    let g:signify_sign_delete = 'x'
-    let g:signify_sign_delete_first_line = 'x'
-    let g:signify_sign_change = '•'
-    let g:signify_sign_changedelete = g:signify_sign_change
-endif
+Plug 'mhinz/vim-signify'
+  let g:signify_vcs_list = [ 'git', 'hg' ]
+  let g:signify_realtime = 1
+  let g:signify_cursorhold_normal = 0
+  let g:signify_cursorhold_insert = 0
+  let g:signify_sign_add = '+'
+  let g:signify_sign_delete = 'x'
+  let g:signify_sign_delete_first_line = 'x'
+  let g:signify_sign_change = '•'
+  let g:signify_sign_changedelete = g:signify_sign_change
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
   let g:tagbar_autofocus = 1
   let g:tagbar_autoclose = 1
@@ -463,15 +432,9 @@ Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
           \ 'ctagsargs' : '-sort -silent'
   \ }
   nnoremap <silent> <F9> :TagbarToggle<CR>
-if has('nvim')
-  Plug 'lukas-reineke/indent-blankline.nvim', { 'on': 'IndentBlanklineToggle' }
-    let g:indent_blankline_enabled = v:false
-    nnoremap <silent> <Leader>I :IndentBlanklineToggle<CR>
-else
-  Plug 'Yggdroot/indentLine'
-    let g:indentLine_enabled = 0
-    nnoremap <silent> <Leader>I :IndentLinesToggle<CR>
-end
+Plug 'Yggdroot/indentLine'
+  let g:indentLine_enabled = 0
+  nnoremap <silent> <Leader>I :IndentLinesToggle<CR>
 Plug 'junegunn/rainbow_parentheses.vim'
   let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
 Plug 'milkypostman/vim-togglelist'
@@ -502,104 +465,75 @@ Plug 'hrsh7th/vim-vsnip'
   smap <expr> <C-k> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)'      : '<C-k>'
 Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'rafamadriz/friendly-snippets'
-if has('nvim')
-  Plug 'williamboman/mason.nvim'
-  Plug 'williamboman/mason-lspconfig.nvim'
-  Plug 'neovim/nvim-lspconfig'
-  Plug 'hrsh7th/cmp-nvim-lsp'
-  Plug 'hrsh7th/cmp-buffer'
-  Plug 'hrsh7th/cmp-path'
-  Plug 'hrsh7th/cmp-cmdline'
-  Plug 'hrsh7th/nvim-cmp'
-  Plug 'hrsh7th/cmp-vsnip'
-  Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
-  Plug 'folke/lsp-colors.nvim'
-  Plug 'kyazdani42/nvim-web-devicons'
-  Plug 'folke/trouble.nvim'
-    nmap <silent> <Leader>wt <cmd>TroubleToggle<CR>
-  Plug 'mfussenegger/nvim-dap'
-  Plug 'leoluz/nvim-dap-go'
-  Plug 'mfussenegger/nvim-dap-python'
-  Plug 'rcarriga/nvim-dap-ui'
-  Plug 'jose-elias-alvarez/null-ls.nvim'
-  Plug 'simrat39/rust-tools.nvim'
-  Plug 'j-hui/fidget.nvim'
-  nmap <silent> <F8> <cmd>lua vim.lsp.buf.format({async=true})<CR>
-  sign define DiagnosticSignError text= texthl=DiagnosticSignError linehl= numhl=
-  sign define DiagnosticSignWarn text= texthl=DiagnosticSignWarn linehl= numhl=
-  sign define DiagnosticSignInfo text= texthl=DiagnosticSignInfo linehl= numhl=
-  sign define DiagnosticSignHint text= texthl=DiagnosticSignHint linehl= numhl=
-else
-  Plug 'dense-analysis/ale'
-    "let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-    let g:ale_disable_lsp = 1
-    let g:ale_virtualtext_cursor = 1
-    nmap <silent> <F8> <Plug>(ale_fix)
-    let g:ale_fixers = {
-      \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-      \ 'python': ['autoimport', 'isort', 'black'],
-      \ 'javascript': ['eslint', 'prettier'],
-      \ 'vue': ['eslint', 'prettier'],
-      \ 'go': ['gofmt'],
-    \ }
-    let g:ale_linter_aliases = {
-      \ 'vue': ['vue', 'javascript'],
-    \ }
-    let g:ale_linters = {
-      \ 'python': ['flake8'],
-      \ 'javascript': ['eslint', 'prettier'],
-      \ 'vue': ['eslint', 'prettier', 'vls'],
-    \ }
-    "let g:ale_python_flake8_options = '--extend-ignore=W503 --max-line-length=99 --max-complexity 15'
-    "let g:ale_python_isort_options = '--combine-as --order-by-type --trailing-comma --use-parentheses --multi-line 3'
-    "let g:ale_python_black_options = '--line-length 88 --skip-string-normalization'
-    let g:ale_sign_error = '»»'
-    "let g:ale_sign_warning = '≈≈'
-  Plug 'ryanoasis/vim-devicons'
-  Plug 'prabirshrestha/async.vim'
-  Plug 'prabirshrestha/vim-lsp'
-    " yarn global add bash-language-server
-    " yarn global add vim-language-server
-    " yarn global add vscode-css-languageserver-bin
-    " yarn global add dockerfile-language-server-nodejs
-    " yarn global add typescript-language-server
-    " yarn global add vue-language-server
-    " pip install python-language-server
-    let g:lsp_diagnostics_enabled = 0
-    let g:lsp_document_highlight_enabled = 1
-    let g:lsp_document_code_action_signs_enabled = 0
-    function! s:on_lsp_buffer_enabled() abort
-      setlocal omnifunc=lsp#complete
-      nmap <silent><buffer> gd <plug>(lsp-definition)
-      nmap <silent><buffer> gs <plug>(lsp-document-symbol-search)
-      nmap <silent><buffer> gS <plug>(lsp-workspace-symbol-search)
-      nmap <silent><buffer> gr <plug>(lsp-references)
-      nmap <silent><buffer> <Leader>gi <plug>(lsp-implementation)
-      nmap <silent><buffer> <Leader>gt <plug>(lsp-type-definition)
-      nmap <silent><buffer> K <plug>(lsp-hover)
-      "inoremap <buffer> <expr><c-f> lsp#scroll(+4)
-      "inoremap <buffer> <expr><c-d> lsp#scroll(-4)
+Plug 'dense-analysis/ale'
+  "let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+  let g:ale_disable_lsp = 1
+  let g:ale_virtualtext_cursor = 1
+  nmap <silent> <F8> <Plug>(ale_fix)
+  let g:ale_fixers = {
+    \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+    \ 'python': ['autoimport', 'isort', 'black'],
+    \ 'javascript': ['eslint', 'prettier'],
+    \ 'vue': ['eslint', 'prettier'],
+    \ 'go': ['gofmt'],
+  \ }
+  let g:ale_linter_aliases = {
+    \ 'vue': ['vue', 'javascript'],
+  \ }
+  let g:ale_linters = {
+    \ 'python': ['flake8'],
+    \ 'javascript': ['eslint', 'prettier'],
+    \ 'vue': ['eslint', 'prettier', 'vls'],
+  \ }
+  "let g:ale_python_flake8_options = '--extend-ignore=W503 --max-line-length=99 --max-complexity 15'
+  "let g:ale_python_isort_options = '--combine-as --order-by-type --trailing-comma --use-parentheses --multi-line 3'
+  "let g:ale_python_black_options = '--line-length 88 --skip-string-normalization'
+  let g:ale_sign_error = '»»'
+  "let g:ale_sign_warning = '≈≈'
+Plug 'ryanoasis/vim-devicons'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+  " yarn global add bash-language-server
+  " yarn global add vim-language-server
+  " yarn global add vscode-css-languageserver-bin
+  " yarn global add dockerfile-language-server-nodejs
+  " yarn global add typescript-language-server
+  " yarn global add vue-language-server
+  " pip install python-language-server
+  let g:lsp_diagnostics_enabled = 0
+  let g:lsp_document_highlight_enabled = 1
+  let g:lsp_document_code_action_signs_enabled = 0
+  function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    nmap <silent><buffer> gd <plug>(lsp-definition)
+    nmap <silent><buffer> gs <plug>(lsp-document-symbol-search)
+    nmap <silent><buffer> gS <plug>(lsp-workspace-symbol-search)
+    nmap <silent><buffer> gr <plug>(lsp-references)
+    nmap <silent><buffer> <Leader>gi <plug>(lsp-implementation)
+    nmap <silent><buffer> <Leader>gt <plug>(lsp-type-definition)
+    nmap <silent><buffer> K <plug>(lsp-hover)
+    "inoremap <buffer> <expr><c-f> lsp#scroll(+4)
+    "inoremap <buffer> <expr><c-d> lsp#scroll(-4)
 
-      let g:lsp_format_sync_timeout = 1000
-    endfunction
-    augroup lsp_install
-      au!
-      autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-      autocmd BufWritePre *.go call execute('LspDocumentFormatSync')
-      "autocmd FileType python setlocal
-      "      \ foldmethod=expr
-      "      \ foldexpr=lsp#ui#vim#folding#foldexpr()
-      "      \ foldtext=lsp#ui#vim#folding#foldtext()
-    augroup END
-  Plug 'mattn/vim-lsp-settings'
-  Plug 'prabirshrestha/asyncomplete.vim'
-    let g:asyncomplete_remove_duplicates = 1
-    imap <c-space> <Plug>(asyncomplete_force_refresh)
-    "inoremap <expr> <C-y> pumvisible() ? "\<C-e>\<C-y>" : "\<C-y>"
-    "inoremap <expr> <C-e> pumvisible() ? "\<C-e>\<C-e>" : "\<C-e>"
-    inoremap <expr> <CR> pumvisible() ? asyncomplete#close_popup() : "\<CR>"
-  Plug 'prabirshrestha/asyncomplete-lsp.vim'
-endif
+    let g:lsp_format_sync_timeout = 1000
+  endfunction
+  augroup lsp_install
+    au!
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+    autocmd BufWritePre *.go call execute('LspDocumentFormatSync')
+    "autocmd FileType python setlocal
+    "      \ foldmethod=expr
+    "      \ foldexpr=lsp#ui#vim#folding#foldexpr()
+    "      \ foldtext=lsp#ui#vim#folding#foldtext()
+  augroup END
+Plug 'mattn/vim-lsp-settings'
+Plug 'prabirshrestha/asyncomplete.vim'
+  let g:asyncomplete_remove_duplicates = 1
+  imap <c-space> <Plug>(asyncomplete_force_refresh)
+  "inoremap <expr> <C-y> pumvisible() ? "\<C-e>\<C-y>" : "\<C-y>"
+  "inoremap <expr> <C-e> pumvisible() ? "\<C-e>\<C-e>" : "\<C-e>"
+  inoremap <expr> <CR> pumvisible() ? asyncomplete#close_popup() : "\<CR>"
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
 " Colors
 Plug 'itchyny/lightline.vim'
@@ -647,313 +581,6 @@ Plug 'sjl/badwolf'
 Plug 'iCyMind/NeoSolarized'
 Plug 'joshdick/onedark.vim'
 call plug#end()
-
-" Setup nvim lua plugins
-if has('nvim') && exists('plugs')
-if has_key(plugs, 'gitsigns.nvim')
-lua << EOF
-  require("nvim-tree").setup({
-    filters = {
-      dotfiles = true,
-    },
-    git = {
-      enable = true,
-      ignore = true,
-      show_on_dirs = false,
-      show_on_open_dirs = false,
-    },
-    renderer = {
-      icons = {
-        show = {
-          git = false
-        }
-      }
-    }
-  })
-  require('gitsigns').setup{
-    attach_to_untracked = false,
-    on_attach = function(bufnr)
-      local gs = package.loaded.gitsigns
-
-      local function map(mode, l, r, opts)
-        opts = opts or {}
-        opts.buffer = bufnr
-        vim.keymap.set(mode, l, r, opts)
-      end
-      -- Navigation
-      map('n', ']c', function()
-        if vim.wo.diff then return ']c' end
-        vim.schedule(function() gs.next_hunk() end)
-        return '<Ignore>'
-      end, {expr=true})
-
-      map('n', '[c', function()
-        if vim.wo.diff then return '[c' end
-        vim.schedule(function() gs.prev_hunk() end)
-        return '<Ignore>'
-      end, {expr=true})
-    end
-  }
-EOF
-endif
-
-if has_key(plugs, 'telescope.nvim')
-lua << EOF
-  -- require("telescope").setup{
-  --   pickers = {
-  --     find_files = {
-  --       find_command = { "fd", "--type", "f", "--strip-cwd-prefix" }
-  --     },
-  --   }
-  -- }
-  require('telescope').setup({
-    extensions = {
-      ["ui-select"] = {
-        require("telescope.themes").get_cursor {}
-      }
-    }
-  })
-  require('telescope').load_extension('fzf')
-  require('telescope').load_extension('ui-select')
-EOF
-endif
-
-if has_key(plugs, 'nvim-treesitter')
-lua << EOF
-  require('nvim-treesitter.configs').setup({
-    highlight = {
-      enable = true,
-      disable = { "vim" }
-    } 
-  })
-  vim.opt.foldmethod = "expr"
-  vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-EOF
-endif
-
-if has_key(plugs, 'mason.nvim') && has_key(plugs, 'mason-lspconfig.nvim')
-lua << EOF
-  require('mason').setup()
-  require('mason-lspconfig').setup({
-    ensure_installed = { "bashls", "dockerls", "jsonls", "marksman", "sqlls", "vimls", "yamlls", "lua_ls", "pyright" }
-  })
-EOF
-endif
-
-if has_key(plugs, 'null-ls.nvim')
-lua << EOF
-  local h = require("null-ls.helpers")
-  local methods = require("null-ls.methods")
-  local FORMATTING = methods.internal.FORMATTING
-  local autoimport = h.make_builtin({
-      name = "autoimport",
-      meta = {
-          url = "https://lyz-code.github.io/autoimport/",
-          description = "Autoimport missing python libraries",
-      },
-      method = FORMATTING,
-      filetypes = { "python" },
-      generator_opts = {
-          command = "autoimport",
-          args = {
-              "-",
-          },
-          to_stdin = true,
-      },
-      factory = h.formatter_factory,
-  })
-  require("null-ls").setup({
-    temp_dir = "/tmp",
-    sources = {
-        autoimport.with({ prefer_local = ".venv/bin" }),
-        require("null-ls").builtins.formatting.isort.with({ prefer_local = ".venv/bin" }),
-        require("null-ls").builtins.formatting.black.with({ prefer_local = ".venv/bin" }),
-        require("null-ls").builtins.diagnostics.mypy.with({ prefer_local = ".venv/bin" }),
-        require("null-ls").builtins.diagnostics.flake8.with({
-          extra_args = {'--extend-ignore=BLK'},
-          prefer_local = ".venv/bin",
-        }),
-        require("null-ls").builtins.code_actions.gitsigns,
-        require("null-ls").builtins.formatting.golines.with({ extra_args = {"-m", "88", "-t", "4"} }),
-        require("null-ls").builtins.diagnostics.golangci_lint,
-        require("null-ls").builtins.code_actions.gomodifytags,
-        require("null-ls").builtins.formatting.sql_formatter,
-    },
-  })
-EOF
-endif
-
-if has_key(plugs, 'nvim-lspconfig') && has_key(plugs, 'nvim-cmp')
-lua << EOF
-  local opts = { noremap=true, silent=true }
-  vim.keymap.set('n', '<Leader>e', vim.diagnostic.open_float, opts)
-  vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-  vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-  vim.keymap.set('n', '<Leader>q', vim.diagnostic.setloclist, opts)
-
-  function diagnostic_toggle_virtual_text(global)
-    local vars, bufnr, cmd
-    if global then
-      vars = vim.g
-      bufnr = nil
-    else
-      vars = vim.b
-      bufnr = 0
-    end
-    vars.diagnosics_virtual_text = not vars.diagnosics_virtual_text
-    vim.diagnostic.show(nil, bufnr, nil, {virtual_text = vars.diagnosics_virtual_text})
-  end
-  vim.keymap.set('n', '<Leader>odl', diagnostic_toggle_virtual_text, {noremap = true, silent = true, buffer=bufnr})
-
-  -- Use an on_attach function to only map the following keys
-  -- after the language server attaches to the current buffer
-  local on_attach = function(client, bufnr)
-    -- Enable completion triggered by <c-x><c-o>
-    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-    -- Mappings.
-    -- See `:help vim.lsp.*` for documentation on any of the below functions
-    local bufopts = { noremap=true, silent=true, buffer=bufnr }
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-    -- vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-    -- vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-    -- vim.keymap.set('n', '<space>wl', function()
-    --  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    -- end, bufopts)
-    vim.keymap.set('n', '<Leader>D', vim.lsp.buf.type_definition, bufopts)
-    vim.keymap.set('n', '<Leader>cr', vim.lsp.buf.rename, bufopts)
-    vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, bufopts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-    vim.keymap.set('n', '<Leader>cf', function() vim.lsp.buf.format { async = true } end, bufopts)
-  end
-
-  local lsp_flags = {
-    -- This is the default in Nvim 0.7+
-    debounce_text_changes = 150,
-  }
-  local cmp = require'cmp'
-  cmp.setup({
-    preselect = cmp.PreselectMode.None,
-    snippet = {
-      -- REQUIRED - you must specify a snippet engine
-      expand = function(args)
-        vim.fn["vsnip#anonymous"](args.body)
-      end,
-    },
-    window = {
-      -- completion = cmp.config.window.bordered(),
-      -- documentation = cmp.config.window.bordered(),
-    },
-    mapping = cmp.mapping.preset.insert({
-      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-      ['<C-f>'] = cmp.mapping.scroll_docs(4),
-      ['<C-Space>'] = cmp.mapping.complete(),
-      ['<C-e>'] = cmp.mapping.abort(),
-      ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-    }),
-    sources = cmp.config.sources({
-      { name = 'nvim_lsp' },
-      { name = 'vsnip' },
-      { name = 'nvim_lsp_signature_help' },
-    }, {
-      { name = 'buffer', keyword_length = 3 },
-    })
-  })
-
-  local capabilities = require('cmp_nvim_lsp').default_capabilities()
-  require('lspconfig')['pyright'].setup {
-    on_attach = on_attach,
-    flags = lsp_flags,
-    capabilities = capabilities,
-    handlers = {
-      ['textDocument/publishDiagnostics'] = function() end
-    }
-  }
-  require('lspconfig')['bashls'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
-  require('lspconfig')['dockerls'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
-  require('lspconfig')['docker_compose_language_service'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
-  require('lspconfig')['jsonls'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
-  require('lspconfig')['marksman'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
-  require('lspconfig')['sqlls'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
-  require('lspconfig')['vimls'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
-  require('lspconfig')['lua_ls'].setup { on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
-  require('lspconfig')['gopls'].setup{ on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
-  require('lspconfig')['cssls'].setup{ on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
-  require('lspconfig')['html'].setup{ on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
-  require('lspconfig')['tsserver'].setup{ on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
-  require('lspconfig')['volar'].setup{ on_attach = on_attach, flags = lsp_flags, capabilities = capabilities }
-  require('lspconfig')['yamlls'].setup {
-    on_attach = on_attach,
-    flags = lsp_flags,
-    capabilities = capabilities,
-    settings = {
-      yaml = {
-        keyOrdering = false
-      }
-    }
-  }
-  -- require('lspconfig')['rust_analyzer'].setup{
-  --   on_attach = on_attach,
-  --   flags = lsp_flags,
-  --   capabilities = capabilities,
-  --   settings = {
-  --     ["rust-analyzer"] = {}
-  --   }
-  -- }
-  local rt = require("rust-tools")
-
-  rt.setup({
-    tools = {
-      runnables = {
-        use_telescope = true,
-      },
-      inlay_hints = {
-        auto = true,
-        show_parameter_hints = true,
-      }
-    },
-    server = {
-      on_attach = on_attach,
-      settings = {
-        ["rust-analyzer"] = {
-          checkOnSave = {
-            command = "clippy",
-          }
-        }
-      }
-    }
-  })
-EOF
-endif
-
-if has_key(plugs, 'nvim-dap')
-lua << EOF
-  require('dap-go').setup()
-  require("dapui").setup()
-  vim.fn.sign_define('DapBreakpoint', {text='🛑', texthl='', linehl='', numhl=''})
-  vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
-  vim.keymap.set('n', '<F10>', function() require('dap').step_over() end)
-  vim.keymap.set('n', '<F11>', function() require('dap').step_into() end)
-  vim.keymap.set('n', '<F12>', function() require('dap').step_out() end)
-  vim.keymap.set('n', '<Leader>du', function() require('dapui').toggle({reset=true}) end)
-  vim.keymap.set('n', '<Leader>db', function() require('dap').toggle_breakpoint() end)
-
-  require('dap-python').setup()
-  table.insert(require('dap').configurations.python, {
-    type = 'python',
-    request = 'launch',
-    name = 'python -m ${module}',
-    module = function() return vim.fn.input('Module: ') end,
-  })
-  require('dap-python').test_runner = 'pytest'
-  vim.keymap.set('n', '<Leader>df', function() require('dap-python').test_method() end)
-EOF
-endif
-endif
 
 try " catch all on first run without installed plugins
   if &t_Co == 256 || has('gui_running')
