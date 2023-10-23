@@ -158,7 +158,7 @@ return {
         },
         keys = {
             { "<C-p>",       "<cmd>Telescope find_files<cr>",                      desc = "Find Files" },
-            { "<leader>sf",  "<cmd>Telescope find_files<cr>",                      desc = "Find Files" },
+            { "<leader>sf",  "<cmd>Telescope find_files hidden=true<cr>",          desc = "Find Files (hidden)" },
             { "<leader>sa",  "<cmd>Telescope live_grep<cr>",                       desc = "Live Grep" },
             { "<leader>sw",  "<cmd>Telescope grep_string<cr>",                     desc = "Find Word" },
             { "z=",          "<cmd>Telescope spell_suggest theme=cursor<cr>",      desc = "Spell suggest" },

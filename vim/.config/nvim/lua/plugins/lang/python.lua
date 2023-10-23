@@ -23,7 +23,15 @@ return {
                 pyright = {
                     handlers = {
                         ['textDocument/publishDiagnostics'] = function() end
-                    }
+                    },
+                    -- settings = {
+                    --     python = {
+                    --         analysis = {
+                    --             diagnosticMode = 'workspace',
+                    --             typeCheckingMode = 'off'
+                    --         }
+                    --     }
+                    -- }
                 }
             },
         },

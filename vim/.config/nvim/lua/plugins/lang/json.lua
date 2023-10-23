@@ -34,7 +34,7 @@ return {
                             format = {
                                 enable = true,
                             },
-                            validate = { enable = true },
+                            validate = { enable = false },
                         },
                     },
                 },
