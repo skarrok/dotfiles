@@ -74,11 +74,10 @@ cnoremap <C-C> <C-C>
 ]])
 
 local opts = { noremap = true, silent = true }
-vim.keymap.set('n', '<Leader>e', vim.diagnostic.open_float, opts)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-vim.keymap.set('n', '<Leader>q', vim.diagnostic.setloclist, opts)
-
+vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float, opts)
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+vim.keymap.set("n", "<Leader>q", vim.diagnostic.setloclist, opts)
 
 -- Diagnostic state per buffer
 local H = {}
@@ -87,16 +86,18 @@ H.buffer_diagnostic_state = {}
 local function toggle_diagnostics()
   local buf_id = vim.api.nvim_get_current_buf()
   local buf_state = H.buffer_diagnostic_state[buf_id]
-  if buf_state == nil then buf_state = true end
+  if buf_state == nil then
+    buf_state = true
+  end
 
   if buf_state then
     -- vim.diagnostic.show(nil, buf_id, nil, {virtual_text = false})
     vim.diagnostic.disable(buf_id)
-    vim.api.nvim_echo({ { 'nodiagnostic' } }, false, {})
+    vim.api.nvim_echo({ { "nodiagnostic" } }, false, {})
   else
     -- vim.diagnostic.show(nil, buf_id, nil, {virtual_text = true})
     vim.diagnostic.enable(buf_id)
-    vim.api.nvim_echo({ { '  diagnostic' } }, false, {})
+    vim.api.nvim_echo({ { "  diagnostic" } }, false, {})
   end
 
   local new_buf_state = not buf_state
@@ -105,4 +106,4 @@ local function toggle_diagnostics()
   return new_buf_state
 end
 
-vim.keymap.set('n', '<Leader>ud', toggle_diagnostics)
+vim.keymap.set("n", "<Leader>ud", toggle_diagnostics)
