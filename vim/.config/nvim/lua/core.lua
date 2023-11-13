@@ -36,7 +36,7 @@ set autoindent          " copy indent from previous line
 set smartindent         " enable nice indent
 set expandtab           " tab with spaces
 set smarttab            " indent using shiftwidth
-set shiftwidth=4        " number of spaces to use for each step of indent
+set shiftwidth=0        " number of spaces to use for each step of indent
 set softtabstop=4       " tab like 4 spaces
 set shiftround          " round indent to shiftwidth
 

@@ -27,10 +27,10 @@ return {
   },
   {
     "iCyMind/NeoSolarized",
-    lazy = true,
+    lazy = false,
   },
   {
     "joshdick/onedark.vim",
-    lazy = true,
+    lazy = false,
   },
 }
