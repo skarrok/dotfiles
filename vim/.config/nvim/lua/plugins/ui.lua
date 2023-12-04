@@ -28,6 +28,11 @@ return {
   -- better vim.ui
   {
     "stevearc/dressing.nvim",
+    opts = {
+      select = {
+        telescope = require("telescope.themes").get_cursor({ previewer = false }),
+      },
+    },
   },
 
   -- statusline
@@ -114,7 +119,7 @@ return {
         inactive_sections = {
           lualine_a = {},
           lualine_b = {},
-          lualine_c = { "filename" },
+          lualine_c = { { "filename", path = 3 } },
           lualine_x = { "location" },
           lualine_y = {},
           lualine_z = {},

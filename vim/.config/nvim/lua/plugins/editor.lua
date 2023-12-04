@@ -21,7 +21,7 @@ return {
       {
         "<leader>gf",
         function()
-          require("neo-tree.command").execute({ reveal = true })
+          require("neo-tree.command").execute({ reveal_force_cwd = true })
         end,
         desc = "Explorer NeoTree (reveal current file)",
       },
@@ -56,6 +56,7 @@ return {
         mappings = {
           ["<space>"] = "none",
           ["W"] = "expand_all_nodes",
+          ["w"] = "toggle_node",
         },
       },
       default_component_configs = {
@@ -66,6 +67,17 @@ return {
           expander_highlight = "NeoTreeExpander",
         },
       },
+      -- nesting_rules = {
+      --   ["go"] = {
+      --     pattern = "(.*)%.go$", -- <-- Lua pattern with capture
+      --     files = { "%1_test.go" }, -- <-- glob pattern with capture
+      --   },
+      --   ["docker"] = {
+      --     pattern = "^dockerfile$",
+      --     ignore_case = true,
+      --     files = { ".dockerignore", "docker-compose.*", "dockerfile*" },
+      --   },
+      -- },
     },
   },
   {
@@ -134,12 +146,6 @@ return {
         enabled = vim.fn.executable("make") == 1,
         config = function()
           require("telescope").load_extension("fzf")
-        end,
-      },
-      {
-        "nvim-telescope/telescope-ui-select.nvim",
-        config = function()
-          require("telescope").load_extension("ui-select")
         end,
       },
       -- project management
@@ -270,8 +276,8 @@ return {
         },
         char = {
           enabled = false,
-        }
-      }
+        },
+      },
     },
     -- stylua: ignore
     keys = {
@@ -529,7 +535,7 @@ return {
     config = function()
       vim.g.bufExplorerDefaultHelp = 0
       vim.g.bufExplorerFindActive = 0
-      vim.g.bufExplorerShowRelativePath=1
+      vim.g.bufExplorerShowRelativePath = 1
     end,
   },
   {
