@@ -53,8 +53,8 @@ return {
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
       "saadparwaiz1/cmp_luasnip",
+      "hrsh7th/cmp-nvim-lsp-signature-help",
       -- "hrsh7th/cmp-cmdline",
-      -- "hrsh7th/cmp-nvim-lsp-signature-help",
     },
     opts = function()
       vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
@@ -91,6 +91,7 @@ return {
           { name = "nvim_lsp" },
           { name = "luasnip" },
           { name = "path" },
+          -- { name = "nvim_lsp_signature_help" },
         }, {
           { name = "buffer", keyword_length = 3 },
         }),
