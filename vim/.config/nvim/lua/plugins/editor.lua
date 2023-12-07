@@ -14,14 +14,14 @@ return {
       {
         "<leader>f",
         function()
-          require("neo-tree.command").execute({ toggle = true })
+          require("neo-tree.command").execute({ toggle = true, position = "float" })
         end,
         desc = "Explorer NeoTree",
       },
       {
         "<leader>gf",
         function()
-          require("neo-tree.command").execute({ reveal_force_cwd = true })
+          require("neo-tree.command").execute({ reveal_force_cwd = true, position = "float" })
         end,
         desc = "Explorer NeoTree (reveal current file)",
       },
@@ -54,9 +54,28 @@ return {
       },
       window = {
         mappings = {
-          ["<space>"] = "none",
-          ["W"] = "expand_all_nodes",
-          ["w"] = "toggle_node",
+          ["z"] = "none",
+          ["_"] = "close_all_nodes",
+          ["-"] = "close_all_subnodes",
+          ["+"] = "expand_all_nodes",
+          ["o"] = "toggle_node",
+          ["O"] = { "show_help", nowait=false, config = { title = "Order by", prefix_key = "O" }},
+          ["Oc"] = { "order_by_created", nowait = false },
+          ["Od"] = { "order_by_diagnostics", nowait = false },
+          ["Og"] = { "order_by_git_status", nowait = false },
+          ["Om"] = { "order_by_modified", nowait = false },
+          ["On"] = { "order_by_name", nowait = false },
+          ["Os"] = { "order_by_size", nowait = false },
+          ["Ot"] = { "order_by_type", nowait = false },
+          ["oc"] = "none",
+          ["od"] = "none",
+          ["og"] = "none",
+          ["om"] = "none",
+          ["on"] = "none",
+          ["os"] = "none",
+          ["ot"] = "none",
+          ["/"] = "none",
+          ["<C-c>"] = "cancel",
         },
       },
       default_component_configs = {
@@ -106,14 +125,17 @@ return {
     "tpope/vim-fugitive",
     cmd = "Git",
     keys = {
-      { "<Leader>gs", ":belowright Git<CR>", silent = true, desc = "" },
-      { "<Leader>gd", ":Gdiff<CR>", silent = true, desc = "" },
+      { "<Leader>gs", ":belowright Git<CR>", silent = true, desc = "Git status" },
+      { "<Leader>gd", ":Gdiff<CR>", silent = true, desc = "Git diff" },
+      { "<Leader>gb", ":Git blame<CR>", silent = true, desc = "Git blame" },
+      { "<Leader>gu", ":Git pull<CR>", silent = true, desc = "Git pull" },
+      { "<leader>gp", ":Git push", silent = false, desc = "Git push" },
     },
   },
   {
     "AndrewRadev/switch.vim",
     keys = {
-      { "<Leader>tt", "<Plug>(Switch)", silent = true },
+      { "<Leader>tt", "<Plug>(Switch)", silent = true, desc = "Toggle word" },
     },
     config = function()
       vim.cmd([[
