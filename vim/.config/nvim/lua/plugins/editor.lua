@@ -59,7 +59,7 @@ return {
           ["-"] = "close_all_subnodes",
           ["+"] = "expand_all_nodes",
           ["o"] = "toggle_node",
-          ["O"] = { "show_help", nowait=false, config = { title = "Order by", prefix_key = "O" }},
+          ["O"] = { "show_help", nowait = false, config = { title = "Order by", prefix_key = "O" } },
           ["Oc"] = { "order_by_created", nowait = false },
           ["Od"] = { "order_by_diagnostics", nowait = false },
           ["Og"] = { "order_by_git_status", nowait = false },
@@ -197,9 +197,9 @@ return {
       { "<leader>s:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
       -- git
       { "<leader>sgb", "<cmd>Telescope git_branches<cr>", desc = "Git branches" },
-      { "<leader>sgf", "<cmd>Telescope git_files<cr>", desc = "Git branches" },
-      { "<leader>sgc", "<cmd>Telescope git_commits<CR>", desc = "commits" },
-      { "<leader>sgs", "<cmd>Telescope git_status<CR>", desc = "status" },
+      { "<leader>sgf", "<cmd>Telescope git_files<cr>", desc = "Git files" },
+      { "<leader>sgc", "<cmd>Telescope git_commits<CR>", desc = "Git commits" },
+      { "<leader>sgs", "<cmd>Telescope git_status<CR>", desc = "Git status" },
       -- search
       { '<leader>s"', "<cmd>Telescope registers<cr>", desc = "Registers" },
       { "<leader>sA", "<cmd>Telescope autocommands<cr>", desc = "Auto Commands" },
@@ -418,7 +418,7 @@ return {
   {
     "folke/trouble.nvim",
     cmd = { "TroubleToggle", "Trouble" },
-    opts = { use_diagnostic_signs = true },
+    opts = { use_diagnostic_signs = true, group = true, padding = false, indent_lines = true, auto_preview = false },
     keys = {
       { "<Leader>wt", "<cmd>TroubleToggle<CR>", desc = "Trouble" },
       { "<leader>xx", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Document Diagnostics (Trouble)" },

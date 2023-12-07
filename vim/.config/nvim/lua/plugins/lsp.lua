@@ -90,8 +90,11 @@ return {
           -- Buffer local mappings.
           -- See `:help vim.lsp.*` for documentation on any of the below functions
           local bufopts = { noremap = true, silent = true, buffer = ev.buf }
+          -- vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+          vim.keymap.set("n", "gd", function() require("telescope.builtin").lsp_definitions({ reuse_win = true }) end, bufopts)
+          -- vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
+          vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<cr>", bufopts)
           vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-          vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
           vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
           vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, bufopts)
           vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
@@ -99,7 +102,6 @@ return {
           vim.keymap.set("n", "<Leader>D", vim.lsp.buf.type_definition, bufopts)
           vim.keymap.set("n", "<Leader>cr", vim.lsp.buf.rename, bufopts)
           vim.keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, bufopts)
-          vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
           -- vim.keymap.set('n', '<Leader>cf', function() vim.lsp.buf.format { async = true } end, bufopts)
         end,
       })
