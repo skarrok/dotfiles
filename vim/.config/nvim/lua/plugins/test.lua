@@ -22,7 +22,7 @@ return {
       --     args = { "-tags=integration" },
       --   },
       -- },
-      status = { virtual_text = true },
+      status = { virtual_text = true, signs = false },
       output = { open_on_run = true },
       quickfix = {
         open = function()

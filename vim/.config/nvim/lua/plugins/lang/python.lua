@@ -19,7 +19,7 @@ return {
     optional = true,
     opts = {
       linters_by_ft = {
-        python = { "flake8", "mypy" },
+        python = { "flake8", "mypy", "ruff" },
       },
     },
   },
@@ -47,7 +47,7 @@ return {
     "stevearc/conform.nvim",
     opts = {
       formatters_by_ft = {
-        python = { "autoimport", "isort", "black" },
+        python = { "autoimport", "isort", "black", "ruff" },
       },
       formatters = {
         autoimport = {
