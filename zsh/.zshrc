@@ -37,6 +37,14 @@ if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
 	add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
 fi
 
+cdParentKey() {
+  cd ..
+  zle      reset-prompt
+}
+
+zle -N                 cdParentKey
+bindkey '^[[1;3A'      cdParentKey
+
 ## Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
 HISTSIZE=1000
 SAVEHIST=1000
