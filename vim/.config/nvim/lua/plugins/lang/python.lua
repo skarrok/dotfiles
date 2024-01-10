@@ -11,7 +11,7 @@ return {
     "mason.nvim",
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
-      vim.list_extend(opts.ensure_installed, { "pyright" })
+      vim.list_extend(opts.ensure_installed, { "pyright", "ruff-lsp" })
     end,
   },
   {
@@ -19,7 +19,7 @@ return {
     optional = true,
     opts = {
       linters_by_ft = {
-        python = { "flake8", "mypy", "ruff" },
+        python = { "flake8", "mypy" },
       },
     },
   },
