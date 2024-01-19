@@ -40,13 +40,6 @@ return {
         -- have other formatters configured.
         ["_"] = { "trim_whitespace" },
       },
-      formatters = {
-        autoimport = {
-          command = "autoimport",
-          args = { "-" },
-          stdin = true,
-        },
-      },
     },
   },
 }

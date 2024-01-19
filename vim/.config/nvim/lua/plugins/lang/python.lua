@@ -47,7 +47,7 @@ return {
     "stevearc/conform.nvim",
     opts = {
       formatters_by_ft = {
-        python = { "autoimport", "isort", "black", "ruff" },
+        python = { "autoimport", "isort", "black", "ruff_fix" },
       },
       formatters = {
         autoimport = {
