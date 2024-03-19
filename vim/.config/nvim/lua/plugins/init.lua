@@ -31,16 +31,22 @@ return {
   },
   {
     "christoomey/vim-tmux-navigator",
-    lazy = false,
+    cmd = {
+      "TmuxNavigateLeft",
+      "TmuxNavigateDown",
+      "TmuxNavigateUp",
+      "TmuxNavigateRight",
+      "TmuxNavigatePrevious",
+    },
     keys = {
-      { "<A-h>", "<C-\\><C-n>:TmuxNavigateLeft<CR>", mode = "t", noremap = true, silent = true, desc = "" },
-      { "<A-j>", "<C-\\><C-n>:TmuxNavigateDown<CR>", mode = "t", noremap = true, silent = true, desc = "" },
-      { "<A-k>", "<C-\\><C-n>:TmuxNavigateUp<CR>", mode = "t", noremap = true, silent = true, desc = "" },
-      { "<A-l>", "<C-\\><C-n>:TmuxNavigateRight<CR>", mode = "t", noremap = true, silent = true, desc = "" },
-      { "<A-h>", ":<C-U>TmuxNavigateLeft<CR>", mode = "n", noremap = true, silent = true, desc = "" },
-      { "<A-j>", ":<C-U>TmuxNavigateDown<CR>", mode = "n", noremap = true, silent = true, desc = "" },
-      { "<A-k>", ":<C-U>TmuxNavigateUp<CR>", mode = "n", noremap = true, silent = true, desc = "" },
-      { "<A-l>", ":<C-U>TmuxNavigateRight<CR>", mode = "n", noremap = true, silent = true, desc = "" },
+      { "<A-h>", "<Cmd>TmuxNavigateLeft<CR>", mode = "t", noremap = true, silent = true, desc = "" },
+      { "<A-j>", "<Cmd>TmuxNavigateDown<CR>", mode = "t", noremap = true, silent = true, desc = "" },
+      { "<A-k>", "<Cmd>TmuxNavigateUp<CR>", mode = "t", noremap = true, silent = true, desc = "" },
+      { "<A-l>", "<Cmd>TmuxNavigateRight<CR>", mode = "t", noremap = true, silent = true, desc = "" },
+      { "<A-h>", "<Cmd>TmuxNavigateLeft<CR>", mode = "n", noremap = true, silent = true, desc = "" },
+      { "<A-j>", "<Cmd>TmuxNavigateDown<CR>", mode = "n", noremap = true, silent = true, desc = "" },
+      { "<A-k>", "<Cmd>TmuxNavigateUp<CR>", mode = "n", noremap = true, silent = true, desc = "" },
+      { "<A-l>", "<Cmd>TmuxNavigateRight<CR>", mode = "n", noremap = true, silent = true, desc = "" },
     },
     init = function()
       vim.g.tmux_navigator_no_wrap = 1

@@ -1,4 +1,4 @@
-; extends
+;; extends
 
 ; inspiration from
 ; https://github.com/ray-x/go.nvim/blob/master/after/queries/go/injections.scm
@@ -18,6 +18,7 @@
 ; general
 
 (
- (string (string_content) @sql)
- (#match? @sql "(SELECT|select|INSERT|insert|UPDATE|update|DELETE|delete).+(FROM|from|INTO|into|VALUES|values|SET|set).*(WHERE|where|GROUP BY|group by)?")
+ (string (string_content) @injection.content)
+ (#match? @injection.content "(SELECT|select|INSERT|insert|UPDATE|update|DELETE|delete).+(FROM|from|INTO|into|VALUES|values|SET|set).*(WHERE|where|GROUP BY|group by)?")
+ (#set! injection.language "sql")
 )
