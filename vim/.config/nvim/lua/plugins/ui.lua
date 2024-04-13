@@ -61,7 +61,7 @@ return {
         options = {
           theme = "auto",
           globalstatus = false,
-          icons_enabled = false,
+          icons_enabled = true,
           disabled_filetypes = { statusline = { "dashboard", "alpha", "starter" } },
         },
         sections = {
@@ -127,7 +127,7 @@ return {
         tabline = {
           -- lualine_a = { { 'tabs', mode = 2, separator = nil, max_length = vim.o.columns },
         },
-        extensions = { "neo-tree", "lazy" },
+        extensions = { "neo-tree", "lazy", "fugitive", "mason", "nvim-dap-ui", "trouble", "quickfix" },
       }
     end,
   },

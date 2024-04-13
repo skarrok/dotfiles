@@ -55,11 +55,18 @@ return {
       "saadparwaiz1/cmp_luasnip",
       "hrsh7th/cmp-nvim-lsp-signature-help",
       -- "hrsh7th/cmp-cmdline",
+      {
+        "Exafunction/codeium.nvim",
+        cmd = "Codeium",
+        build = ":Codeium Auth",
+        opts = {},
+      },
     },
     opts = function()
       vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
       local cmp = require("cmp")
       local defaults = require("cmp.config.default")()
+      local icons = require("utils")
       return {
         preselect = cmp.PreselectMode.None,
         completion = {
@@ -88,6 +95,7 @@ return {
           end,
         }),
         sources = cmp.config.sources({
+          { name = "codeium", group_index = 1, priority = 100 },
           { name = "nvim_lsp" },
           { name = "luasnip" },
           { name = "path" },
@@ -101,6 +109,14 @@ return {
           },
         },
         sorting = defaults.sorting,
+        formatting = {
+          format = function(_, vim_item)
+            -- This concatenates the icons with the name of the item kind
+            vim_item.kind = string.format("%s %s", icons['kinds'][vim_item.kind], vim_item.kind)
+            vim_item.menu = ""
+            return vim_item
+          end,
+        },
       }
     end,
     ---@param opts cmp.ConfigSchema

@@ -32,6 +32,13 @@ return {
         end,
         desc = "Git explorer",
       },
+      {
+        "<F10>",
+        function()
+          require("neo-tree.command").execute({ source = "document_symbols", toggle = true, position = "right" })
+        end,
+        desc = "Document Symbols",
+      },
     },
     deactivate = function()
       vim.cmd([[Neotree close]])
@@ -123,13 +130,22 @@ return {
   },
   {
     "tpope/vim-fugitive",
-    cmd = "Git",
+    cmd = { "Git", "GBrowse" },
     keys = {
       { "<Leader>gs", ":belowright Git<CR>", silent = true, desc = "Git status" },
       { "<Leader>gd", ":Gdiff<CR>", silent = true, desc = "Git diff" },
       { "<Leader>gb", ":Git blame<CR>", silent = true, desc = "Git blame" },
-      { "<Leader>gu", ":Git pull<CR>", silent = true, desc = "Git pull" },
+      { "<Leader>gu", ":Git! pull<CR>", silent = true, desc = "Git pull" },
       { "<leader>gp", ":Git push", silent = false, desc = "Git push" },
+    },
+    dependencies = {
+      "shumphrey/fugitive-gitlab.vim",
+      config = function()
+        vim.g.fugitive_gitlab_domains = {}
+        vim.api.nvim_create_user_command("Browse", function(opts)
+          vim.fn.system({ "xdg-open", opts.fargs[1] })
+        end, { nargs = 1 })
+      end,
     },
   },
   {
@@ -148,7 +164,8 @@ return {
                         \   [ 'yes', 'no' ],
                         \   [ 'YES', 'NO' ],
                         \   [ 'Yes', 'No' ],
-                        \   [ 'TRUE', 'FALSE' ]
+                        \   [ 'TRUE', 'FALSE' ],
+                        \   [ 'allow', 'deny' ],
                         \ ]
             ]])
     end,
@@ -544,9 +561,6 @@ return {
   },
   {
     "justinmk/vim-gtfo",
-  },
-  {
-    "junegunn/vim-peekaboo",
   },
   {
     "mbbill/undotree",
