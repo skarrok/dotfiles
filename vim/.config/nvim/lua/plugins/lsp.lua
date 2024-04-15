@@ -1,3 +1,99 @@
+local M = {}
+
+---@type LazyKeysLspSpec[]|nil
+M._keys = nil
+
+---@alias LazyKeysLspSpec LazyKeysSpec|{has?:string}
+---@alias LazyKeysLsp LazyKeys|{has?:string}
+
+---@return LazyKeysLspSpec[]
+function M.get()
+  if M._keys then
+    return M._keys
+  end
+    -- stylua: ignore
+    M._keys =  {
+      { "<leader>cl", "<cmd>LspInfo<cr>", desc = "Lsp Info" },
+      { "gd", function() require("telescope.builtin").lsp_definitions({ reuse_win = true }) end, desc = "Goto Definition", has = "definition" },
+      { "gr", "<cmd>Telescope lsp_references<cr>", desc = "References" },
+      { "gD", vim.lsp.buf.declaration, desc = "Goto Declaration" },
+      { "gI", function() require("telescope.builtin").lsp_implementations({ reuse_win = true }) end, desc = "Goto Implementation" },
+      { "gy", function() require("telescope.builtin").lsp_type_definitions({ reuse_win = true }) end, desc = "Goto T[y]pe Definition" },
+      { "K", vim.lsp.buf.hover, desc = "Hover" },
+      { "gK", vim.lsp.buf.signature_help, desc = "Signature Help", has = "signatureHelp" },
+      { "<c-k>", vim.lsp.buf.signature_help, mode = "i", desc = "Signature Help", has = "signatureHelp" },
+      { "<leader>ca", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" }, has = "codeAction" },
+      { "<leader>cc", vim.lsp.codelens.run, desc = "Run Codelens", mode = { "n", "v" }, has = "codeLens" },
+      { "<leader>cC", vim.lsp.codelens.refresh, desc = "Refresh & Display Codelens", mode = { "n" }, has = "codeLens" },
+      {
+        "<leader>cA",
+        function()
+          vim.lsp.buf.code_action({
+            context = {
+              only = {
+                "source",
+              },
+              diagnostics = {},
+            },
+          })
+        end,
+        desc = "Source Action",
+        has = "codeAction",
+      }
+    }
+  M._keys[#M._keys + 1] = { "<leader>cr", vim.lsp.buf.rename, desc = "Rename", has = "rename" }
+  return M._keys
+end
+
+function M.get_clients(opts)
+  return vim.lsp.get_active_clients(opts)
+end
+
+---@param method string
+function M.has(buffer, method)
+  method = method:find("/") and method or "textDocument/" .. method
+  local clients = M.get_clients({ bufnr = buffer })
+  for _, client in ipairs(clients) do
+    if client.supports_method(method) then
+      return true
+    end
+  end
+  return false
+end
+
+---@return (LazyKeys|{has?:string})[]
+function M.resolve(buffer)
+  local Keys = require("lazy.core.handler.keys")
+  if not Keys.resolve then
+    return {}
+  end
+  local spec = M.get()
+  local plugin = require("lazy.core.config").plugins["nvim-lspconfig"]
+  local Plugin = require("lazy.core.plugin")
+  local opts = Plugin.values(plugin, "opts", false)
+  local clients = M.get_clients({ bufnr = buffer })
+  for _, client in ipairs(clients) do
+    local maps = opts.servers[client.name] and opts.servers[client.name].keys or {}
+    vim.list_extend(spec, maps)
+  end
+  return Keys.resolve(spec)
+end
+
+function M.on_attach(_, buffer)
+  local Keys = require("lazy.core.handler.keys")
+  local keymaps = M.resolve(buffer)
+
+  for _, keys in pairs(keymaps) do
+    if not keys.has or M.has(buffer, keys.has) then
+      local opts = Keys.opts(keys)
+      opts.has = nil
+      opts.silent = opts.silent ~= false
+      opts.buffer = buffer
+      vim.keymap.set(keys.mode or "n", keys.lhs, keys.rhs, opts)
+    end
+  end
+end
+
 return {
   -- lspconfig
   {
@@ -32,6 +128,9 @@ return {
       -- provide the inlay hints.
       inlay_hints = {
         enabled = false,
+      },
+      codelens = {
+        enabled = true,
       },
       -- add any global capabilities here
       capabilities = {},
@@ -79,6 +178,7 @@ return {
     },
     ---@param opts PluginLspOpts
     config = function(_, opts)
+      ---@return (LazyKeys|{has?:string})[]
       -- Use LspAttach autocommand to only map the following keys
       -- after the language server attaches to the current buffer
       vim.api.nvim_create_autocmd("LspAttach", {
@@ -86,23 +186,20 @@ return {
         callback = function(ev)
           -- Enable completion triggered by <c-x><c-o>
           vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+          M.on_attach(_, ev.buf)
+          local client = vim.lsp.get_client_by_id(ev.data.client_id)
 
-          -- Buffer local mappings.
-          -- See `:help vim.lsp.*` for documentation on any of the below functions
-          local bufopts = { noremap = true, silent = true, buffer = ev.buf }
-          -- vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-          vim.keymap.set("n", "gd", function() require("telescope.builtin").lsp_definitions({ reuse_win = true }) end, bufopts)
-          -- vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-          vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<cr>", bufopts)
-          vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-          vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-          vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, bufopts)
-          vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
-          vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, bufopts)
-          vim.keymap.set("n", "<Leader>D", vim.lsp.buf.type_definition, bufopts)
-          vim.keymap.set("n", "<Leader>cr", vim.lsp.buf.rename, bufopts)
-          vim.keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, bufopts)
-          -- vim.keymap.set('n', '<Leader>cf', function() vim.lsp.buf.format { async = true } end, bufopts)
+          -- code lens
+          if opts.codelens.enabled and vim.lsp.codelens then
+            if client.supports_method("textDocument/codeLens") then
+              vim.lsp.codelens.refresh()
+              --- autocmd BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh()
+              vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+                buffer = ev.buf,
+                callback = vim.lsp.codelens.refresh,
+              })
+            end
+          end
         end,
       })
 
@@ -110,15 +207,13 @@ return {
       local register_capability = vim.lsp.handlers["client/registerCapability"]
 
       vim.lsp.handlers["client/registerCapability"] = function(err, res, ctx)
+        ---@diagnostic disable-next-line: no-unknown
         local ret = register_capability(err, res, ctx)
-        local client_id = ctx.client_id
-        ---@type lsp.Client
-        local client = vim.lsp.get_client_by_id(client_id)
+        local client = vim.lsp.get_client_by_id(ctx.client_id)
         local buffer = vim.api.nvim_get_current_buf()
+        M.on_attach(client, buffer)
         return ret
       end
-
-      local inlay_hint = vim.lsp.buf.inlay_hint or vim.lsp.inlay_hint
 
       vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
 

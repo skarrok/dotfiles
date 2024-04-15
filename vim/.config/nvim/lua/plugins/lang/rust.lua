@@ -92,8 +92,7 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        -- Ensure mason installs the server
-        rust_analyzer = {},
+        rust_analyzer = { mason = false },
         taplo = {
           keys = {
             {
