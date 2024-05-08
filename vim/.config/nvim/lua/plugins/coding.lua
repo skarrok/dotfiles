@@ -112,7 +112,7 @@ return {
         formatting = {
           format = function(_, vim_item)
             -- This concatenates the icons with the name of the item kind
-            vim_item.kind = string.format("%s %s", icons['kinds'][vim_item.kind], vim_item.kind)
+            vim_item.kind = string.format("%s %s", icons["kinds"][vim_item.kind], vim_item.kind)
             vim_item.menu = ""
             return vim_item
           end,
@@ -132,7 +132,11 @@ return {
   {
     "echasnovski/mini.pairs",
     event = "VeryLazy",
-    opts = {},
+    opts = {
+      mappings = {
+        ["`"] = { action = "closeopen", pair = "``", neigh_pattern = "[^\\`].", register = { cr = false } },
+      },
+    },
   },
 
   -- Fast and feature-rich surround actions. For text that includes
