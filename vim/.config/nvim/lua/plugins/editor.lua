@@ -151,7 +151,7 @@ return {
       {
         "folke/which-key.nvim",
         optional = true,
-        config = function()
+        opts = function()
           vim.api.nvim_create_autocmd("Filetype", {
             pattern = { "fugitive" },
             group = vim.api.nvim_create_augroup("fugitive_whichkeys", { clear = true }),
