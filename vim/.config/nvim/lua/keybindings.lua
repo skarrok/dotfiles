@@ -54,7 +54,7 @@ nnoremap <silent> <Leader>oc :let &colorcolumn = (&colorcolumn == 80 ? 0: 80)<CR
 nnoremap <silent> <Leader>ot :highlight Normal guibg=None ctermbg=None<CR>
 
 " Write file
-map <F2> :w<CR>
+map <F2> :up<CR>
 map <Leader><F2> :w !sudo tee %<CR>
 
 " Quit

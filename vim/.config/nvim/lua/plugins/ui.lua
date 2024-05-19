@@ -65,9 +65,11 @@ return {
           disabled_filetypes = { statusline = { "dashboard", "alpha", "starter" } },
         },
         sections = {
-          lualine_a = { "mode" },
+          lualine_a = {
+            { "mode" },
+          },
           lualine_b = {
-            { "filename" },
+            { "filename", path = 1 },
           },
           lualine_c = {
             { "diagnostics" },
@@ -125,7 +127,7 @@ return {
           lualine_z = {},
         },
         tabline = {
-          -- lualine_a = { { 'tabs', mode = 2, separator = nil, max_length = vim.o.columns },
+          -- lualine_a = { { 'tabs', mode = 2, use_mode_colors = true, separator = "", max_length = vim.o.columns }, }
         },
         extensions = { "neo-tree", "lazy", "fugitive", "mason", "nvim-dap-ui", "trouble", "quickfix" },
       }
