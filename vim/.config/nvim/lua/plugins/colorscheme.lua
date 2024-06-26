@@ -15,6 +15,7 @@ return {
         GruvboxPurpleSign = { bg = "NONE" },
         GruvboxAquaSign = { bg = "NONE" },
         GruvboxOrangeSign = { bg = "NONE" },
+        LspInlayHint = { link = "NonText" },
       },
     },
     config = function(_, opts)

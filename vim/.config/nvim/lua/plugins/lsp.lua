@@ -130,7 +130,7 @@ return {
         enabled = false,
       },
       codelens = {
-        enabled = true,
+        enabled = false,
       },
       -- add any global capabilities here
       capabilities = {},
@@ -191,13 +191,13 @@ return {
 
           -- code lens
           if opts.codelens.enabled and vim.lsp.codelens then
-            if client.supports_method("textDocument/codeLens") then
+            if client and client.supports_method("textDocument/codeLens") then
               vim.lsp.codelens.refresh()
               --- autocmd BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh()
-              vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-                buffer = ev.buf,
-                callback = vim.lsp.codelens.refresh,
-              })
+              -- vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+              --   buffer = ev.buf,
+              --   callback = vim.lsp.codelens.refresh,
+              -- })
             end
           end
         end,

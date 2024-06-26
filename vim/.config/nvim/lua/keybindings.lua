@@ -16,7 +16,7 @@ nnoremap * *N
 " Drop highlight search result
 nnoremap <Leader><Space> :nohls<CR>
 
-" Paste/Replace without overwiting default register
+" Paste/Replace without overwriting default register
 xnoremap <Leader>p "_dP
 
 " Prefill replace with current word
@@ -69,7 +69,7 @@ map <silent> [l :lprev<CR>
 
 " Trigger InsertLeave on Control-C
 inoremap <C-C> <Esc>
-" see :h c_<Esc> for why this is neccessary
+" see :h c_<Esc> for why this is necessary
 cnoremap <C-C> <C-C>
 ]])
 
@@ -92,11 +92,12 @@ local function toggle_diagnostics()
 
   if buf_state then
     -- vim.diagnostic.show(nil, buf_id, nil, {virtual_text = false})
-    vim.diagnostic.disable(buf_id)
+    -- vim.diagnostic.config({ virtual_text = false })
+    vim.diagnostic.enable(false, { bufnr = buf_id })
     vim.api.nvim_echo({ { "nodiagnostic" } }, false, {})
   else
     -- vim.diagnostic.show(nil, buf_id, nil, {virtual_text = true})
-    vim.diagnostic.enable(buf_id)
+    vim.diagnostic.enable(true, { bufnr = buf_id })
     vim.api.nvim_echo({ { "  diagnostic" } }, false, {})
   end
 
@@ -106,4 +107,15 @@ local function toggle_diagnostics()
   return new_buf_state
 end
 
-vim.keymap.set("n", "<Leader>ud", toggle_diagnostics)
+local function toggle_inlay_hints()
+  local enabled = not vim.lsp.inlay_hint.is_enabled({})
+  vim.lsp.inlay_hint.enable(enabled)
+  if enabled then
+    vim.api.nvim_echo({ { "  inlayhints" } }, false, {})
+  else
+    vim.api.nvim_echo({ { "noinlayhints" } }, false, {})
+  end
+end
+
+vim.keymap.set("n", "<Leader>ud", toggle_diagnostics, { desc = "Toggle diagnostics" })
+vim.keymap.set("n", "<Leader>uh", toggle_inlay_hints, { desc = "Toggle inlay hints" })
