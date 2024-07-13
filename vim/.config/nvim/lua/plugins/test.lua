@@ -4,13 +4,13 @@ return {
     optional = true,
     opts = {
       defaults = {
-        ["<leader>t"] = { name = "+test" },
+        { "<leader>t", group = "test" },
       },
     },
   },
   {
     "nvim-neotest/neotest",
-    dependencies = { 'nvim-neotest/nvim-nio' },
+    dependencies = { "nvim-neotest/nvim-nio" },
     opts = {
       -- Can be a list of adapters like what neotest expects,
       -- or a list of adapter names,
