@@ -279,7 +279,6 @@ return {
       ensure_installed = {
         "stylua",
         "shfmt",
-        "sqlls",
       },
     },
     ---@param opts MasonSettings | {ensure_installed: string[]}
