@@ -3,7 +3,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     opts = function(_, opts)
       if type(opts.ensure_installed) == "table" then
-        vim.list_extend(opts.ensure_installed, { "ninja", "python", "rst", "toml" })
+        vim.list_extend(opts.ensure_installed, { "python", "toml" })
       end
     end,
   },
@@ -11,7 +11,7 @@ return {
     "mason.nvim",
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
-      vim.list_extend(opts.ensure_installed, { "pyright", "ruff-lsp" })
+      vim.list_extend(opts.ensure_installed, { "pyright", "ruff" })
     end,
   },
   {
@@ -40,14 +40,14 @@ return {
           --     }
           -- }
         },
-        ruff_lsp = {},
+        ruff = {},
       },
       setup = {
-        ruff_lsp = function()
+        ruff = function()
           vim.api.nvim_create_autocmd("LspAttach", {
             callback = function(args)
               local client = vim.lsp.get_client_by_id(args.data.client_id)
-              if client.name == "ruff_lsp" then
+              if client and client.name == "ruff" then
                 -- Disable hover in favor of Pyright
                 client.server_capabilities.hoverProvider = false
               end
@@ -114,19 +114,16 @@ return {
   },
   {
     "linux-cultist/venv-selector.nvim",
+    branch = "regexp",
     cmd = "VenvSelect",
-    opts = function(_, opts)
-      opts.dap_enabled = true
-      return vim.tbl_deep_extend("force", opts, {
-        parents = 0,
-        name = {
-          ".venv",
-          "venv",
-          "env",
-          ".env",
+    opts = {
+      settings = {
+        options = {
+          notify_user_on_venv_activation = true,
         },
-      })
-    end,
-    keys = { { "<leader>cv", "<cmd>:VenvSelect<cr>", desc = "Select VirtualEnv" } },
+      },
+    },
+    ft = "python",
+    keys = { { "<leader>cv", "<cmd>:VenvSelect<cr>", desc = "Select VirtualEnv", ft = "python" } },
   },
 }
