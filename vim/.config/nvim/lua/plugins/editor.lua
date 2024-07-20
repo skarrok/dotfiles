@@ -212,6 +212,7 @@ return {
       { "<leader>sm", "<cmd>Telescope marks<cr>", desc = "Jump to Mark" },
       { "<leader>so", "<cmd>Telescope vim_options<cr>", desc = "Options" },
       { "<leader>sO", "<cmd>Telescope colorscheme enable_preview=true<CR>", desc = "ColorScheme with preview" },
+      { "<leader>sls", "<cmd>Telescope lsp_document_symbols<cr>", desc = "Document Symbols" },
       -- {
       --     "<leader>ss",
       --     function()

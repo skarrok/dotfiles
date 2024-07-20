@@ -28,17 +28,21 @@ return {
     opts = {
       servers = {
         pyright = {
-          handlers = {
-            ["textDocument/publishDiagnostics"] = function() end,
+          -- handlers = {
+          --   ["textDocument/publishDiagnostics"] = function() end,
+          -- },
+          settings = {
+            pyright = {
+              disableOrganizeImports = true,
+            },
+            python = {
+              analysis = {
+                -- diagnosticMode = 'workspace',
+                -- typeCheckingMode = 'off',
+                ignore = { "*" },
+              },
+            },
           },
-          -- settings = {
-          --     python = {
-          --         analysis = {
-          --             diagnosticMode = 'workspace',
-          --             typeCheckingMode = 'off'
-          --         }
-          --     }
-          -- }
         },
         ruff = {},
       },
