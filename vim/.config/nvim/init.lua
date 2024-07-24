@@ -12,6 +12,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("core")
+require("autocmds")
 require("keybindings")
 require("lazy").setup("plugins", {
   change_detection = {

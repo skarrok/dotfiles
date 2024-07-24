@@ -179,7 +179,7 @@ return {
           require("telescope").load_extension("projects")
         end,
         keys = {
-          { "<leader>sp", "<Cmd>Telescope projects<CR>", desc = "Projects" },
+          { "<leader>sp", "<Cmd>Telescope projects theme=dropdown<CR>", desc = "Projects" },
         },
       },
     },
@@ -213,6 +213,7 @@ return {
       { "<leader>so", "<cmd>Telescope vim_options<cr>", desc = "Options" },
       { "<leader>sO", "<cmd>Telescope colorscheme enable_preview=true<CR>", desc = "ColorScheme with preview" },
       { "<leader>sls", "<cmd>Telescope lsp_document_symbols<cr>", desc = "Document Symbols" },
+      { "<leader>slw", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", desc = "Workspace Symbols" },
       -- {
       --     "<leader>ss",
       --     function()
@@ -235,13 +236,6 @@ return {
     opts = function()
       local actions = require("telescope.actions")
 
-      local open_with_trouble = function(...)
-        return require("trouble.providers.telescope").open_with_trouble(...)
-      end
-      local open_selected_with_trouble = function(...)
-        return require("trouble.providers.telescope").open_selected_with_trouble(...)
-      end
-
       return {
         defaults = {
           prompt_prefix = " ",
@@ -261,8 +255,6 @@ return {
           end,
           mappings = {
             i = {
-              ["<c-t>"] = open_with_trouble,
-              ["<a-t>"] = open_selected_with_trouble,
               ["<C-Down>"] = actions.cycle_history_next,
               ["<C-Up>"] = actions.cycle_history_prev,
               ["<C-f>"] = actions.preview_scrolling_down,
@@ -372,61 +364,17 @@ return {
     end,
   },
 
-  -- better diagnostics list and others
-  {
-    "folke/trouble.nvim",
-    cmd = { "TroubleToggle", "Trouble" },
-    opts = { use_diagnostic_signs = true, group = true, padding = false, indent_lines = true, auto_preview = false },
-    keys = {
-      { "<Leader>wt", "<cmd>TroubleToggle<CR>", desc = "Trouble" },
-      { "<leader>xx", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Document Diagnostics (Trouble)" },
-      { "<leader>xX", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace Diagnostics (Trouble)" },
-      { "<leader>wl", "<cmd>TroubleToggle loclist<cr>", desc = "Location List (Trouble)" },
-      { "<leader>wq", "<cmd>TroubleToggle quickfix<cr>", desc = "Quickfix List (Trouble)" },
-      {
-        "[q",
-        function()
-          if require("trouble").is_open() then
-            require("trouble").previous({ skip_groups = true, jump = true })
-          else
-            local ok, err = pcall(vim.cmd.cprev)
-            if not ok then
-              vim.notify(err, vim.log.levels.ERROR)
-            end
-          end
-        end,
-        desc = "Previous trouble/quickfix item",
-      },
-      {
-        "]q",
-        function()
-          if require("trouble").is_open() then
-            require("trouble").next({ skip_groups = true, jump = true })
-          else
-            local ok, err = pcall(vim.cmd.cnext)
-            if not ok then
-              vim.notify(err, vim.log.levels.ERROR)
-            end
-          end
-        end,
-        desc = "Next trouble/quickfix item",
-      },
-    },
-  },
-
   -- Finds and lists all of the TODO, HACK, BUG, etc comment
   -- in your project and loads them into a browsable list.
   {
     "folke/todo-comments.nvim",
-    cmd = { "TodoTrouble", "TodoTelescope" },
+    cmd = { "TodoTelescope" },
     opts = { signs = false },
     config = true,
     -- stylua: ignore
     keys = {
       { "]t", function() require("todo-comments").jump_next() end, desc = "Next todo comment", },
       { "[t", function() require("todo-comments").jump_prev() end, desc = "Previous todo comment", },
-      { "<leader>xt", "<cmd>TodoTrouble<cr>", desc = "Todo (Trouble)" },
-      { "<leader>xT", "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme (Trouble)" },
       { "<leader>st", "<cmd>TodoTelescope<cr>", desc = "Todo" },
       { "<leader>sT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
     },
@@ -557,4 +505,14 @@ return {
     ]])
     end,
   },
+  {
+    "milkypostman/vim-togglelist",
+    keys = {
+      { "<leader>wl", "<cmd>:call ToggleLocationList()<CR>", desc = "Toggle Location List" },
+      { "<leader>wq", "<cmd>:call ToggleQuickfixList()<CR>", desc = "Toggle Quickfix List" },
+    },
+    config = function()
+      vim.g.toggle_list_no_mappings = 1
+    end,
+  }
 }
