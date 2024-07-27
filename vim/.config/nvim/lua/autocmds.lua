@@ -64,3 +64,14 @@ vim.api.nvim_create_autocmd("FileType", {
     })
   end,
 })
+
+-- enter insert mode when switching to terminal buffer
+vim.api.nvim_create_autocmd({ "TermOpen", "BufEnter" }, {
+  group = augroup("terminal_insert"),
+  pattern = { "term://*" },
+  callback = function()
+    if vim.opt.buftype:get() == "terminal" then
+      vim.cmd.startinsert()
+    end
+  end,
+})

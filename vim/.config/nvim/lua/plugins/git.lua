@@ -1,12 +1,12 @@
 return {
   {
     "tpope/vim-fugitive",
-    cmd = { "Git", "GBrowse" },
+    cmd = { "G", "Git", "GBrowse" },
     keys = {
-      { "<Leader>gs", ":belowright Git<CR>", silent = true, desc = "Git status" },
-      { "<Leader>gd", ":Gdiff<CR>", silent = true, desc = "Git diff" },
-      { "<Leader>gb", ":Git blame<CR>", silent = true, desc = "Git blame" },
-      { "<Leader>gu", ":Git! pull<CR>", silent = true, desc = "Git pull" },
+      { "<Leader>gs", "<cmd>belowright Git<CR>", silent = true, desc = "Git status" },
+      { "<Leader>gd", "<cmd>Gdiff<CR>", silent = true, desc = "Git diff" },
+      { "<Leader>gb", "<cmd>Git blame<CR>", silent = true, desc = "Git blame" },
+      { "<Leader>gu", "<cmd>Git! pull<CR>", silent = true, desc = "Git pull" },
       { "<leader>gp", ":Git push", silent = false, desc = "Git push ..." },
     },
     dependencies = {
@@ -163,8 +163,8 @@ return {
         -- stylua: ignore start
         map("n", "]h", gs.next_hunk, "Next Hunk")
         map("n", "[h", gs.prev_hunk, "Prev Hunk")
-        map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
-        map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
+        map({ "n", "v" }, "<leader>ghs", "<cmd>Gitsigns stage_hunk<CR>", "Stage Hunk")
+        map({ "n", "v" }, "<leader>ghr", "<cmd>Gitsigns reset_hunk<CR>", "Reset Hunk")
         map("n", "<leader>ghS", gs.stage_buffer, "Stage Buffer")
         map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk")
         map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")

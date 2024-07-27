@@ -3,7 +3,7 @@ return {
   {
     "nvim-neo-tree/neo-tree.nvim",
     enabled = true,
-    branch = "v3.x",
+    -- branch = "v3.x",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
@@ -25,41 +25,30 @@ return {
         end,
         desc = "Explorer NeoTree (reveal current file)",
       },
-      {
-        "<leader>ge",
-        function()
-          require("neo-tree.command").execute({ source = "git_status", toggle = true })
-        end,
-        desc = "Git explorer",
-      },
-      {
-        "<F10>",
-        function()
-          require("neo-tree.command").execute({ source = "document_symbols", toggle = true, position = "right" })
-        end,
-        desc = "Document Symbols",
-      },
     },
     deactivate = function()
       vim.cmd([[Neotree close]])
     end,
-    init = function()
-      if vim.fn.argc(-1) == 1 then
-        local stat = vim.loop.fs_stat(vim.fn.argv(0))
-        if stat and stat.type == "directory" then
-          require("neo-tree")
-        end
-      end
-    end,
+    -- init = function()
+    --   if vim.fn.argc(-1) == 1 then
+    --     local stat = vim.loop.fs_stat(vim.fn.argv(0))
+    --     if stat and stat.type == "directory" then
+    --       require("neo-tree")
+    --     end
+    --   end
+    -- end,
     opts = {
-      sources = { "filesystem", "buffers", "git_status", "document_symbols" },
+      sources = { "filesystem" },
       open_files_do_not_replace_types = { "terminal", "Trouble", "qf", "Outline" },
+      popup_border_style = "rounded",
       filesystem = {
+        hijack_netrw_behavior = "disabled",
         bind_to_cwd = false,
         follow_current_file = { enabled = false },
         use_libuv_file_watcher = true,
       },
       window = {
+        position = "float",
         mappings = {
           ["z"] = "none",
           ["_"] = "close_all_nodes",
@@ -109,6 +98,22 @@ return {
   {
     "nvim-tree/nvim-tree.lua",
     enabled = false,
+    keys = {
+      {
+        "<leader>f",
+        function()
+          require("nvim-tree.api").tree.toggle({ find_file = false, update_root = false, focus = true })
+        end,
+        desc = "Explorer NvimTree",
+      },
+      {
+        "<leader>gf",
+        function()
+          require("nvim-tree.api").tree.toggle({ find_file = true, update_root = false, focus = true })
+        end,
+        desc = "Explorer NvimTree (reveal current file)",
+      },
+    },
     opts = {
       filters = {
         dotfiles = true,
@@ -133,143 +138,17 @@ return {
     keys = {
       { "<Leader>tt", "<Plug>(Switch)", silent = true, desc = "Toggle word" },
     },
-    config = function()
-      vim.cmd([[
-                let g:switch_mapping = ""
-                let g:switch_custom_definitions =
-                        \ [
-                        \   [ 'on', 'off' ],
-                        \   [ 'ON', 'OFF' ],
-                        \   [ 'On', 'Off' ],
-                        \   [ 'yes', 'no' ],
-                        \   [ 'YES', 'NO' ],
-                        \   [ 'Yes', 'No' ],
-                        \   [ 'TRUE', 'FALSE' ],
-                        \   [ 'allow', 'deny' ],
-                        \ ]
-            ]])
-    end,
-  },
-  -- Fuzzy finder.
-  -- The default key bindings to find files will use Telescope's
-  -- `find_files` or `git_files` depending on whether the
-  -- directory is a git repo.
-  {
-    "nvim-telescope/telescope.nvim",
-    cmd = "Telescope",
-    version = false, -- telescope did only one release, so use HEAD for now
-    dependencies = {
-      {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        build = "make",
-        enabled = vim.fn.executable("make") == 1,
-        config = function()
-          require("telescope").load_extension("fzf")
-        end,
-      },
-      -- project management
-      {
-        "ahmedkhalf/project.nvim",
-        opts = {
-          manual_mode = true,
-        },
-        event = "VeryLazy",
-        config = function(_, opts)
-          require("project_nvim").setup(opts)
-          require("telescope").load_extension("projects")
-        end,
-        keys = {
-          { "<leader>sp", "<Cmd>Telescope projects theme=dropdown<CR>", desc = "Projects" },
-        },
-      },
-    },
-    keys = {
-      { "<C-p>", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
-      { "<leader>sf", "<cmd>Telescope find_files hidden=true<cr>", desc = "Find Files (hidden)" },
-      { "<leader>sa", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
-      { "<leader>sw", "<cmd>Telescope grep_string<cr>", desc = "Find Word" },
-      { "z=", "<cmd>Telescope spell_suggest theme=cursor<cr>", desc = "Spell suggest" },
-      { "<leader>sr", "<cmd>Telescope resume<cr>", desc = "Resume" },
-      { "<leader>s,", "<cmd>Telescope buffers show_all_buffers=true<cr>", desc = "Switch Buffer" },
-      { "<leader>s:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
-      -- git
-      { "<leader>sgb", "<cmd>Telescope git_branches<cr>", desc = "Git branches" },
-      { "<leader>sgf", "<cmd>Telescope git_files<cr>", desc = "Git files" },
-      { "<leader>sgc", "<cmd>Telescope git_commits<CR>", desc = "Git commits" },
-      { "<leader>sgs", "<cmd>Telescope git_status<CR>", desc = "Git status" },
-      -- search
-      { '<leader>s"', "<cmd>Telescope registers<cr>", desc = "Registers" },
-      { "<leader>sA", "<cmd>Telescope autocommands<cr>", desc = "Auto Commands" },
-      { "<leader>sb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Buffer" },
-      { "<leader>sc", "<cmd>Telescope command_history<cr>", desc = "Command History" },
-      { "<leader>sC", "<cmd>Telescope commands<cr>", desc = "Commands" },
-      { "<leader>sd", "<cmd>Telescope diagnostics bufnr=0<cr>", desc = "Document diagnostics" },
-      { "<leader>sD", "<cmd>Telescope diagnostics<cr>", desc = "Workspace diagnostics" },
-      { "<leader>sh", "<cmd>Telescope help_tags<cr>", desc = "Help Pages" },
-      { "<leader>sH", "<cmd>Telescope highlights<cr>", desc = "Search Highlight Groups" },
-      { "<leader>sk", "<cmd>Telescope keymaps<cr>", desc = "Key Maps" },
-      { "<leader>sM", "<cmd>Telescope man_pages<cr>", desc = "Man Pages" },
-      { "<leader>sm", "<cmd>Telescope marks<cr>", desc = "Jump to Mark" },
-      { "<leader>so", "<cmd>Telescope vim_options<cr>", desc = "Options" },
-      { "<leader>sO", "<cmd>Telescope colorscheme enable_preview=true<CR>", desc = "ColorScheme with preview" },
-      { "<leader>sls", "<cmd>Telescope lsp_document_symbols<cr>", desc = "Document Symbols" },
-      { "<leader>slw", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", desc = "Workspace Symbols" },
-      -- {
-      --     "<leader>ss",
-      --     function()
-      --         require("telescope.builtin").lsp_document_symbols({
-      --             symbols = require("lazyvim.config").get_kind_filter(),
-      --         })
-      --     end,
-      --     desc = "Goto Symbol",
-      -- },
-      -- {
-      --     "<leader>sS",
-      --     function()
-      --         require("telescope.builtin").lsp_dynamic_workspace_symbols({
-      --             symbols = require("lazyvim.config").get_kind_filter(),
-      --         })
-      --     end,
-      --     desc = "Goto Symbol (Workspace)",
-      -- },
-    },
-    opts = function()
-      local actions = require("telescope.actions")
-
-      return {
-        defaults = {
-          prompt_prefix = " ",
-          selection_caret = " ",
-          -- open files in the first window that is an actual file.
-          -- use the current window if no other window is available.
-          get_selection_window = function()
-            local wins = vim.api.nvim_list_wins()
-            table.insert(wins, 1, vim.api.nvim_get_current_win())
-            for _, win in ipairs(wins) do
-              local buf = vim.api.nvim_win_get_buf(win)
-              if vim.bo[buf].buftype == "" then
-                return win
-              end
-            end
-            return 0
-          end,
-          mappings = {
-            i = {
-              ["<C-Down>"] = actions.cycle_history_next,
-              ["<C-Up>"] = actions.cycle_history_prev,
-              ["<C-f>"] = actions.preview_scrolling_down,
-              ["<C-b>"] = actions.preview_scrolling_up,
-            },
-            n = {
-              ["q"] = actions.close,
-            },
-          },
-        },
-        extensions = {
-          ["ui-select"] = {
-            require("telescope.themes").get_cursor({}),
-          },
-        },
+    init = function()
+      vim.g.switch_mapping = ""
+      vim.g.switch_custom_definitions = {
+        { "on", "off" },
+        { "ON", "OFF" },
+        { "On", "Off" },
+        { "yes", "no" },
+        { "YES", "NO" },
+        { "Yes", "No" },
+        { "TRUE", "FALSE" },
+        { "allow", "deny" },
       }
     end,
   },
@@ -380,9 +259,6 @@ return {
     },
   },
   {
-    "michaeljsmith/vim-indent-object",
-  },
-  {
     "coderifous/textobj-word-column.vim",
     enabled = false,
   },
@@ -422,35 +298,17 @@ return {
     opts = {},
   },
   {
-    "junegunn/vim-easy-align",
-    config = function()
-      vim.cmd([[
-        xmap ga <Plug>(EasyAlign)
-        nmap ga <Plug>(EasyAlign)
-      ]])
-    end,
-  },
-  {
-    "machakann/vim-sandwich",
-    enabled = false,
-    config = function()
-      vim.cmd([[
-        let g:sandwich_no_default_key_mappings = 1
-        let g:operator_sandwich_no_default_key_mappings = 1
-        silent! nmap <unique> csa <Plug>(operator-sandwich-add)
-        silent! xmap <unique> csa <Plug>(operator-sandwich-add)
-        silent! omap <unique> csa <Plug>(operator-sandwich-g@)
-        silent! xmap <unique> csd <Plug>(operator-sandwich-delete)
-        silent! xmap <unique> csr <Plug>(operator-sandwich-replace)
-        silent! nmap <unique><silent> csd <Plug>(operator-sandwich-delete)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-query-a)
-        silent! nmap <unique><silent> csr <Plug>(operator-sandwich-replace)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-query-a)
-        silent! nmap <unique><silent> csdb <Plug>(operator-sandwich-delete)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-auto-a)
-        silent! nmap <unique><silent> csrb <Plug>(operator-sandwich-replace)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-auto-a)
-      ]])
-    end,
+    "echasnovski/mini.align",
+    opts = {},
   },
   {
     "justinmk/vim-gtfo",
+    keys = {
+      { "gof", desc = "Go to the directory of the current file in the File Manager" },
+      { "goF", desc = "Go to the working directory in the File Manager" },
+      { "got", desc = "Go to the directory of the current file in the Terminal" },
+      { "goT", desc = "Go to the working directory in the Terminal" },
+    },
   },
   {
     "mbbill/undotree",
@@ -467,52 +325,50 @@ return {
   {
     "majutsushi/tagbar",
     keys = {
-      { "<F9>", "<cmd>:TagbarToggle<CR>", desc = "TagBar" },
+      { "<F9>", "<cmd>TagbarToggle<CR>", desc = "TagBar" },
     },
     config = function()
-      vim.cmd([[
-        let g:tagbar_autofocus = 1
-        let g:tagbar_autoclose = 1
-        let g:tagbar_compact = 1
-        let g:tagbar_foldlevel = 0
-        let g:tagbar_type_go = {
-                \ 'ctagstype' : 'go',
-                \ 'kinds'     : [
-                        \ 'p:package',
-                        \ 'i:imports:1',
-                        \ 'c:constants',
-                        \ 'v:variables',
-                        \ 't:types',
-                        \ 'n:interfaces',
-                        \ 'w:fields',
-                        \ 'e:embedded',
-                        \ 'm:methods',
-                        \ 'r:constructor',
-                        \ 'f:functions'
-                \ ],
-                \ 'sro' : '.',
-                \ 'kind2scope' : {
-                        \ 't' : 'ctype',
-                        \ 'n' : 'ntype'
-                \ },
-                \ 'scope2kind' : {
-                        \ 'ctype' : 't',
-                        \ 'ntype' : 'n'
-                \ },
-                \ 'ctagsbin'  : 'gotags',
-                \ 'ctagsargs' : '-sort -silent'
-        \ }
-    ]])
+      vim.g.tagbar_autofocus = 1
+      vim.g.tagbar_autoclose = 1
+      vim.g.tagbar_compact = 1
+      vim.g.tagbar_foldlevel = 0
+      vim.g.tagbar_type_go = {
+        ctagstype = "go",
+        kinds = {
+          "p:package",
+          "i:imports:1",
+          "c:constants",
+          "v:variables",
+          "t:types",
+          "n:interfaces",
+          "w:fields",
+          "e:embedded",
+          "m:methods",
+          "r:constructor",
+          "f:functions",
+        },
+        sro = ".",
+        kind2scope = {
+          t = "ctype",
+          n = "ntype",
+        },
+        scope2kind = {
+          ctype = "t",
+          ntype = "n",
+        },
+        ctagsbin = "gotags",
+        ctagsargs = "-sort -silent",
+      }
     end,
   },
   {
     "milkypostman/vim-togglelist",
-    keys = {
-      { "<leader>wl", "<cmd>:call ToggleLocationList()<CR>", desc = "Toggle Location List" },
-      { "<leader>wq", "<cmd>:call ToggleQuickfixList()<CR>", desc = "Toggle Quickfix List" },
-    },
-    config = function()
+    init = function()
       vim.g.toggle_list_no_mappings = 1
     end,
-  }
+    keys = {
+      { "<leader>wl", "<cmd>call ToggleLocationList()<CR>", desc = "Toggle Location List" },
+      { "<leader>wq", "<cmd>call ToggleQuickfixList()<CR>", desc = "Toggle Quickfix List" },
+    },
+  },
 }

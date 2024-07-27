@@ -5,7 +5,7 @@ return {
     priority = 1000,
     opts = {
       transparent_mode = false,
-      contrast = "",  -- hard, soft or empty for medium
+      contrast = "", -- hard, soft or empty for medium
       overrides = {
         SignColumn = { bg = "NONE" },
         GruvboxRedSign = { bg = "NONE" },
@@ -16,6 +16,8 @@ return {
         GruvboxAquaSign = { bg = "NONE" },
         GruvboxOrangeSign = { bg = "NONE" },
         LspInlayHint = { link = "NonText" },
+        FloatBorder = { bg = "NONE" },
+        TabLineSel = { link = "Pmenu" },
       },
     },
     config = function(_, opts)
@@ -25,23 +27,26 @@ return {
         colorscheme gruvbox
       ]])
     end,
-    keys = {{
-      "<leader>o/",
-      function ()
-        local gruv = require("gruvbox")
-        local contrast = gruv.config.contrast
-        if contrast == "soft" then
-          contrast = ""
-        elseif contrast == "" then
-          contrast = "hard"
-        elseif contrast == "hard" then
-          contrast = "soft"
-        end
-        gruv.setup({contrast = contrast})
-        vim.cmd([[colorscheme gruvbox]])
-      end,
-      desc = "Toggle gruvbox contrast"
-    }}
+    keys = {
+      {
+        "<leader>o/",
+        function()
+          local gruv = require("gruvbox")
+          local contrast = gruv.config.contrast
+          if contrast == "soft" then
+            contrast = ""
+          elseif contrast == "" then
+            contrast = "hard"
+          elseif contrast == "hard" then
+            contrast = "soft"
+          end
+          gruv.setup({ contrast = contrast })
+          vim.cmd([[colorscheme gruvbox]])
+          vim.api.nvim_echo({ { "gruvbox contrast=" .. contrast } }, false, {})
+        end,
+        desc = "Toggle gruvbox contrast",
+      },
+    },
   },
   {
     "catppuccin/nvim",
@@ -75,8 +80,8 @@ return {
         treesitter = true,
         treesitter_context = true,
         which_key = true,
-      }
-    }
+      },
+    },
   },
   {
     "iCyMind/NeoSolarized",

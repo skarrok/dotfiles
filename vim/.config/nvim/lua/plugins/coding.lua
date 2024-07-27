@@ -53,14 +53,7 @@ return {
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
       "saadparwaiz1/cmp_luasnip",
-      "hrsh7th/cmp-nvim-lsp-signature-help",
       -- "hrsh7th/cmp-cmdline",
-      {
-        "Exafunction/codeium.nvim",
-        cmd = "Codeium",
-        build = ":Codeium Auth",
-        opts = {},
-      },
     },
     opts = function()
       vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
@@ -95,11 +88,9 @@ return {
           end,
         }),
         sources = cmp.config.sources({
-          { name = "codeium", group_index = 1, priority = 100 },
           { name = "nvim_lsp" },
           { name = "luasnip" },
           { name = "path" },
-          -- { name = "nvim_lsp_signature_help" },
         }, {
           { name = "buffer", keyword_length = 3 },
         }),
@@ -150,7 +141,7 @@ return {
       markdown = true,
     },
     config = function(_, opts)
-      require('utils').pairs(opts)
+      require("utils").pairs(opts)
     end,
   },
 
@@ -196,8 +187,12 @@ return {
   {
     "echasnovski/mini.ai",
     event = "VeryLazy",
+    dependencies = {
+      "echasnovski/mini.extra",
+    },
     opts = function()
       local ai = require("mini.ai")
+      local extra = require("mini.extra")
       return {
         n_lines = 500,
         custom_textobjects = {
@@ -208,13 +203,14 @@ return {
           f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
           c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {}),
           t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },
-          d = { "%f[%d]%d+" }, -- digits
+          d = extra.gen_ai_spec.number(),
           e = { -- Word with case
             { "%u[%l%d]+%f[^%l%d]", "%f[%S][%l%d]+%f[^%l%d]", "%f[%P][%l%d]+%f[^%l%d]", "^[%l%d]+%f[^%l%d]" },
             "^().*()$",
           },
           u = ai.gen_spec.function_call(), -- u for "Usage"
           U = ai.gen_spec.function_call({ name_pattern = "[%w_]" }), -- without dot in function name
+          i = extra.gen_ai_spec.indent(),
         },
       }
     end,

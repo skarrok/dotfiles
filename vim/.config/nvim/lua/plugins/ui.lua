@@ -127,7 +127,15 @@ return {
           lualine_z = {},
         },
         tabline = {
-          -- lualine_a = { { 'tabs', mode = 2, use_mode_colors = true, separator = "", max_length = vim.o.columns }, }
+          -- lualine_a = {
+          --   {
+          --     "tabs",
+          --     mode = 2,
+          --     use_mode_colors = true,
+          --     max_length = vim.o.columns,
+          --     section_separators = { left = "", right = "" },
+          --   },
+          -- },
         },
         extensions = { "neo-tree", "lazy", "fugitive", "mason", "nvim-dap-ui", "trouble", "quickfix" },
       }

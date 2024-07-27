@@ -1,29 +1,4 @@
-vim.cmd([[
-language messages C
-
-" Display options
-set listchars=eol:$,tab:>-,trail:-,precedes:<,extends:>  "list of strings used for list mode
-set listchars=eol:¬,tab:⇥\ ,trail:␣,precedes:«,extends:»,space:⋅,nbsp:⍽  "list of strings used for list mode
-" vim.opt.listchars = { tab = "⇥ ", leadmultispace = "┊ ", trail = "␣", nbsp = "⍽" }
-" set fillchars=fold:-,vert:\| " fill chars
-" set fillchars=fold:-,vert:\│ " fill chars
-set statusline=%<%f\ %h%m%r%{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\",\".&ff.\"]\ \"}%=%-14.(%l,%c%V%)\ %P
-
-" backups, swapfiles, & undofiles in one place
-let s:myvimdir ="~/.vim"
-let s:tempdir=expand(s:myvimdir."/tmp")
-if !isdirectory(expand(s:tempdir))
-  call mkdir(expand(s:tempdir), "p")
-endif
-set backup
-let &backupdir=s:tempdir
-set swapfile
-let &directory=s:tempdir
-if has('persistent_undo')
-  set undofile
-  let &undodir=s:tempdir
-endif
-]])
+vim.cmd.language("messages C")
 
 local opt = vim.opt
 
@@ -33,6 +8,14 @@ opt.spelllang = { "en", "ru" } -- list of accepted languages
 
 -- Display options
 opt.title = true -- show info in the window title
+opt.listchars = { eol = "$", tab = ">-", trail = "-", precedes = "<", extends = ">" }
+opt.listchars =
+  { eol = "¬", tab = "⇥ ", trail = "␣", precedes = "«", extends = "»", space = "⋅", nbsp = "⍽" }
+-- vim.opt.listchars = { tab = "⇥ ", leadmultispace = "┊ ", trail = "␣", nbsp = "⍽" }
+-- opt.fillchars = { fold = "-", vert = "|" }
+-- opt.fillchars = { fold = "-", vert = "│" }
+opt.statusline =
+  [[%<%f %h%m%r%{"[".(&fenc==""?&enc:&fenc).((exists("+bomb") && &bomb)?",B":"").",".&ff."] "}%=%-14.(%l,%c%V%) %P]]
 opt.visualbell = false -- disable beep and flash
 opt.errorbells = false -- disable beep and flash
 opt.showcmd = true -- show (partial) command keys in the status line
@@ -88,8 +71,22 @@ vim.g.loaded_netrw = 1 -- disable netrw
 vim.g.loaded_netrwPlugin = 1
 vim.g.editorconfig = false -- disable .editorconfig support
 
-
+-- Diagnostic Signs
 vim.fn.sign_define("DiagnosticSignError", { texthl = "DiagnosticSignError", text = "", numhl = "", linehl = "" })
 vim.fn.sign_define("DiagnosticSignWarn", { texthl = "DiagnosticSignWarn", text = "", numhl = "", linehl = "" })
 vim.fn.sign_define("DiagnosticSignInfo", { texthl = "DiagnosticSignInfo", text = "", numhl = "", linehl = "" })
 vim.fn.sign_define("DiagnosticSignHint", { texthl = "DiagnosticSignHint", text = "", numhl = "", linehl = "" })
+
+-- backups, swapfiles, & undofiles in one place
+-- TODO: vim.fn.stdpath
+local vimdir = "~/.vim"
+local tempdir = vim.fn.expand(vimdir .. "/tmp")
+if vim.fn.isdirectory(vim.fn.expand(tempdir)) == 0 then
+  vim.fn.mkdir(vim.fn.expand(tempdir), "p")
+end
+opt.backupdir = tempdir
+opt.backup = true
+opt.directory = tempdir
+opt.swapfile = true
+opt.undodir = tempdir
+opt.undofile = true

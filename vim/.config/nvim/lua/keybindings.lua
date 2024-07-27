@@ -1,121 +1,107 @@
 vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
-vim.cmd([[
-nnoremap <Space> <Nop>
-let maplocalleader = " "
+local map = vim.keymap.set
 
-" Use Enter for command line
-nnoremap <CR> :
+map({ "n" }, "<Space>", "<Nop>")
 
-" Change current working directory
-nnoremap <Leader>cd :cd %:p:h<CR>:pwd<CR>
+-- Use Enter for command line
+map({ "n", "v" }, "<CR>", ":", { desc = "Use Enter for command line" })
 
-" Not jump on star, only highlight
-nnoremap * *N
+-- Change current working directory
+map({ "n" }, "<Leader>cd", "<cmd>cd %:p:h<CR><cmd>pwd<CR>", { desc = "Change current working directory" })
 
-" Drop highlight search result
-nnoremap <Leader><Space> :nohls<CR>
+-- Not jump on star, only highlight
+map({ "n" }, "*", "*N", { desc = "Not jump on star, only highlight" })
 
-" Paste/Replace without overwriting default register
-xnoremap <Leader>p "_dP
+-- Drop highlight search result
+map({ "n" }, "<Leader><Space>", "<cmd>nohls<CR><cmd>echo<CR>", { desc = "Drop highlight search result" })
 
-" Prefill replace with current word
-nnoremap <Leader>ss :%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>
+-- Paste/Replace without overwriting default register
+map({ "x" }, "<Leader>p", '"_dP', { desc = "Paste/Replace without overwriting default register" })
 
-" Tabs
-nnoremap gb gT
-nnoremap <silent> <Leader>tc :tabnew<CR>
-nnoremap <silent> <Leader>tx :tabclose<CR>
+-- Prefill replace with current word
+map(
+  { "n" },
+  "<Leader>ss",
+  ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>",
+  { desc = "Prefill replace with current word" }
+)
 
-" Windows
-tnoremap <A-h> <C-\><C-N><C-w>h
-tnoremap <A-j> <C-\><C-N><C-w>j
-tnoremap <A-k> <C-\><C-N><C-w>k
-tnoremap <A-l> <C-\><C-N><C-w>l
-inoremap <A-h> <C-\><C-N><C-w>h
-inoremap <A-j> <C-\><C-N><C-w>j
-inoremap <A-k> <C-\><C-N><C-w>k
-inoremap <A-l> <C-\><C-N><C-w>l
-nnoremap <A-h> <C-w>h
-nnoremap <A-j> <C-w>j
-nnoremap <A-k> <C-w>k
-nnoremap <A-l> <C-w>l
+-- Tabs
+map({ "n" }, "gb", "gT", { desc = "Go to previous tab" })
+map({ "n" }, "<Leader>tc", "<cmd>tabnew<CR>", { desc = "Create new tab" })
+map({ "n" }, "<Leader>tx", "<cmd>tabclose<CR>", { desc = "Close tab" })
 
-" Toggle some options
-nnoremap <silent> <Leader>op :set paste!<CR>:set paste?<CR>
-nnoremap <silent> <Leader>os :set spell!<CR>:set spell?<CR>
-nnoremap <silent> <Leader>ow :set wrap!<CR>:set wrap?<CR>
-nnoremap <silent> <Leader>ol :set list!<CR>:set list?<CR>
-nnoremap <silent> <Leader>on :set number!<CR>:set number?<CR>
-nnoremap <silent> <Leader>or :set relativenumber!<CR>:set relativenumber?<CR>
-nnoremap <silent> <Leader>ox :set cursorline!<CR>:set cursorcolumn!<CR>
-nnoremap <silent> <Leader>ob :let &background = (&background == "dark" ? "light": "dark")<CR>:set background?<CR>
-nnoremap <silent> <Leader>oc :let &colorcolumn = (&colorcolumn == 80 ? 0: 80)<CR>:echo "colorcolumn=".&colorcolumn<CR>
-nnoremap <silent> <Leader>ot :highlight Normal guibg=None ctermbg=None<CR>
+-- Windows
+map({ "t" }, "<A-h>", [[<C-\><C-N><C-w>h]], { desc = "Window left" })
+map({ "t" }, "<A-j>", [[<C-\><C-N><C-w>j]], { desc = "Window down" })
+map({ "t" }, "<A-k>", [[<C-\><C-N><C-w>k]], { desc = "Window up" })
+map({ "t" }, "<A-l>", [[<C-\><C-N><C-w>l]], { desc = "Window right" })
+map({ "i" }, "<A-h>", [[<C-\><C-N><C-w>h]], { desc = "Window left" })
+map({ "i" }, "<A-j>", [[<C-\><C-N><C-w>j]], { desc = "Window down" })
+map({ "i" }, "<A-k>", [[<C-\><C-N><C-w>k]], { desc = "Window up" })
+map({ "i" }, "<A-l>", [[<C-\><C-N><C-w>l]], { desc = "Window right" })
+map({ "n" }, "<A-h>", [[<C-w>h]], { desc = "Window left" })
+map({ "n" }, "<A-j>", [[<C-w>j]], { desc = "Window down" })
+map({ "n" }, "<A-k>", [[<C-w>k]], { desc = "Window up" })
+map({ "n" }, "<A-l>", [[<C-w>l]], { desc = "Window right" })
 
-" Write file
-map <F2> :up<CR>
-map <Leader><F2> :w !sudo tee %<CR>
+-- Toggle some options
+map({ "n" }, "<Leader>os", "<cmd>set spell!<CR><cmd>set spell?<CR>", { desc = "Toggle spellcheck" })
+map({ "n" }, "<Leader>ow", "<cmd>set wrap!<CR><cmd>set wrap?<CR>", { desc = "Toggle line wrapping" })
+map({ "n" }, "<Leader>ol", "<cmd>set list!<CR><cmd>set list?<CR>", { desc = "Toggle showing non-printable characters" })
+map({ "n" }, "<Leader>on", "<cmd>set number!<CR><cmd>set number?<CR>", { desc = "Toggle line numbers" })
+map(
+  { "n" },
+  "<Leader>or",
+  "<cmd>set relativenumber!<CR><cmd>set relativenumber?<CR>",
+  { desc = "Toggle relative line numbers" }
+)
+map({ "n" }, "<Leader>ox", "<cmd>set cursorline!<CR><cmd>set cursorcolumn!<CR>", { desc = "Toggle crosshair" })
+map(
+  { "n" },
+  "<Leader>ob",
+  '<cmd>let &background = (&background == "dark" ? "light": "dark")<CR><cmd>set background?<CR>',
+  { desc = "Toggle background" }
+)
+map(
+  { "n" },
+  "<Leader>oc",
+  '<cmd>let &colorcolumn = (&colorcolumn == 80 ? 0: 80)<CR><cmd>echo "colorcolumn=".&colorcolumn<CR>',
+  { desc = "Toggle column line at 80" }
+)
+map(
+  { "n" },
+  "<Leader>ot",
+  "<cmd>highlight Normal guibg=None ctermbg=None<CR>",
+  { desc = "Make background transparent" }
+)
 
-" Quit
-map <F3> :q<CR>
-map <Leader><F3> :q!<CR>
+-- Write file
+map("", "<F2>", "<cmd>up<CR>", { desc = "Write file" })
+map("", "<Leader><F2>", "<cmd>w !sudo tee %<CR>", { desc = "Write file as root" })
 
-" Quickfix and location navigation
-map <silent> ]q :cnext<CR>
-map <silent> [q :cprev<CR>
-map <silent> ]l :lnext<CR>
-map <silent> [l :lprev<CR>
+-- Quit
+map("", "<F3>", "<cmd>quit<CR>", { desc = "Quit" })
+map("", "<Leader><F3>", "<cmd>quit!<CR>", { desc = "Quit without saving" })
 
-" Trigger InsertLeave on Control-C
-inoremap <C-C> <Esc>
-" see :h c_<Esc> for why this is necessary
-cnoremap <C-C> <C-C>
-]])
+-- Quickfix and location navigation
+map("", "]q", "<cmd>cnext<CR>", { desc = "Next quickfix" })
+map("", "[q", "<cmd>cprev<CR>", { desc = "Previous quickfix" })
+map("", "]l", "<cmd>lnext<CR>", { desc = "Next loclist" })
+map("", "[l", "<cmd>lprev<CR>", { desc = "Previous loclist" })
 
-local opts = { noremap = true, silent = true }
-vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float, opts)
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-vim.keymap.set("n", "<Leader>q", vim.diagnostic.setloclist, opts)
+-- Trigger InsertLeave on Control-C
+map({ "i" }, "<C-C>", "<Esc>")
+-- see :h c_<Esc> for why this is necessary
+map({ "c" }, "<C-C>", "<C-C>")
 
--- Diagnostic state per buffer
-local H = {}
-H.buffer_diagnostic_state = {}
+map("n", "<Leader>e", vim.diagnostic.open_float, { silent = true, desc = "Open diagnostic float" })
+map("n", "[d", vim.diagnostic.goto_prev, { silent = true, desc = "Go to previous diagnostic" })
+map("n", "]d", vim.diagnostic.goto_next, { silent = true, desc = "Go to next diagnostic" })
+map("n", "<Leader>qq", vim.diagnostic.setloclist, { silent = true, desc = "Open diagnostics list" })
 
-local function toggle_diagnostics()
-  local buf_id = vim.api.nvim_get_current_buf()
-  local buf_state = H.buffer_diagnostic_state[buf_id]
-  if buf_state == nil then
-    buf_state = true
-  end
-
-  if buf_state then
-    -- vim.diagnostic.show(nil, buf_id, nil, {virtual_text = false})
-    -- vim.diagnostic.config({ virtual_text = false })
-    vim.diagnostic.enable(false, { bufnr = buf_id })
-    vim.api.nvim_echo({ { "nodiagnostic" } }, false, {})
-  else
-    -- vim.diagnostic.show(nil, buf_id, nil, {virtual_text = true})
-    vim.diagnostic.enable(true, { bufnr = buf_id })
-    vim.api.nvim_echo({ { "  diagnostic" } }, false, {})
-  end
-
-  local new_buf_state = not buf_state
-  H.buffer_diagnostic_state[buf_id] = new_buf_state
-
-  return new_buf_state
-end
-
-local function toggle_inlay_hints()
-  local enabled = not vim.lsp.inlay_hint.is_enabled({})
-  vim.lsp.inlay_hint.enable(enabled)
-  if enabled then
-    vim.api.nvim_echo({ { "  inlayhints" } }, false, {})
-  else
-    vim.api.nvim_echo({ { "noinlayhints" } }, false, {})
-  end
-end
-
-vim.keymap.set("n", "<Leader>ud", toggle_diagnostics, { desc = "Toggle diagnostics" })
-vim.keymap.set("n", "<Leader>uh", toggle_inlay_hints, { desc = "Toggle inlay hints" })
+local utils = require("utils")
+map("n", "<Leader>ud", utils.toggle_diagnostics, { desc = "Toggle diagnostics" })
+map("n", "<Leader>uh", utils.toggle_inlay_hints, { desc = "Toggle inlay hints" })
