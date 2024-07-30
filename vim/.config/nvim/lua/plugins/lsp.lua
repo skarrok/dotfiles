@@ -1,22 +1,3 @@
----Test if lsp server_name is executable
----@param server_name string
----@return boolean
-local function server_executable(server_name)
-  local conf = require("lspconfig")[server_name]
-  if
-    conf
-    and conf.document_config
-    and conf.document_config.default_config
-    and conf.document_config.default_config.cmd
-  then
-    local cmd = conf.document_config.default_config.cmd
-    if type(cmd) == "table" and cmd[1] and vim.fn.executable(cmd[1]) == 1 then
-      return true
-    end
-  end
-  return false
-end
-
 local M = {}
 
 ---@type LazyKeysLspSpec[]|nil
@@ -64,14 +45,10 @@ function M.get()
   return M._keys
 end
 
-function M.get_clients(opts)
-  return vim.lsp.get_active_clients(opts)
-end
-
 ---@param method string
 function M.has(buffer, method)
   method = method:find("/") and method or "textDocument/" .. method
-  local clients = M.get_clients({ bufnr = buffer })
+  local clients = vim.lsp.get_clients({ bufnr = buffer })
   for _, client in ipairs(clients) do
     if client.supports_method(method) then
       return true
@@ -90,7 +67,7 @@ function M.resolve(buffer)
   local plugin = require("lazy.core.config").plugins["nvim-lspconfig"]
   local Plugin = require("lazy.core.plugin")
   local opts = Plugin.values(plugin, "opts", false)
-  local clients = M.get_clients({ bufnr = buffer })
+  local clients = vim.lsp.get_clients({ bufnr = buffer })
   for _, client in ipairs(clients) do
     local maps = opts.servers[client.name] and opts.servers[client.name].keys or {}
     vim.list_extend(spec, maps)
@@ -246,10 +223,6 @@ return {
       )
 
       local function setup(server)
-        if not server_executable(server) then
-          return
-        end
-
         local server_opts = vim.tbl_deep_extend("force", {
           capabilities = vim.deepcopy(capabilities),
         }, servers[server] or {})

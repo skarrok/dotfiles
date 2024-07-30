@@ -17,6 +17,38 @@ local function only_venv_command(command)
   end
 end
 
+---Test if lsp server_name is executable
+---@param server_name string
+---@return boolean
+local function server_executable(server_name)
+  local conf = require("lspconfig")[server_name]
+  if
+    conf
+    and conf.document_config
+    and conf.document_config.default_config
+    and conf.document_config.default_config.cmd
+  then
+    local cmd = conf.document_config.default_config.cmd
+    if type(cmd) == "table" and cmd[1] and vim.fn.executable(cmd[1]) == 1 then
+      return true
+    end
+  end
+  return false
+end
+
+local function start_ruff()
+  local active_clients = {}
+  for _, client in ipairs(vim.lsp.get_clients()) do
+    if client.name == "ruff" then
+      table.insert(active_clients, client)
+    end
+  end
+
+  if #active_clients == 0 and server_executable("ruff") then
+    require("lspconfig.configs")["ruff"].launch()
+  end
+end
+
 return {
   {
     "nvim-treesitter/nvim-treesitter",
@@ -63,7 +95,7 @@ return {
             },
           },
         },
-        ruff = { mason = false },
+        ruff = { mason = false, autostart = false },
       },
       setup = {
         ruff = function()
@@ -76,6 +108,13 @@ return {
               end
             end,
             desc = "LSP: Disable hover capability from Ruff",
+          })
+
+          vim.api.nvim_create_autocmd({ "FileType", "User" }, {
+            group = vim.api.nvim_create_augroup("custom_launch_ruff", { clear = true }),
+            pattern = { "python", "VenvSelected" },
+            callback = start_ruff,
+            desc = "LSP: Start ruff if executable found",
           })
         end,
       },
@@ -155,6 +194,9 @@ return {
       settings = {
         options = {
           notify_user_on_venv_activation = true,
+          on_venv_activate_callback = function()
+            vim.api.nvim_exec_autocmds("User", { pattern = "VenvSelected" })
+          end,
         },
       },
     },
