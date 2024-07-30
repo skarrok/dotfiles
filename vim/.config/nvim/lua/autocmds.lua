@@ -18,6 +18,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
       pcall(vim.api.nvim_win_set_cursor, 0, mark)
     end
   end,
+  desc = "Go to last location when opening a buffer",
 })
 
 -- highlight on yank
@@ -26,6 +27,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
     vim.highlight.on_yank()
   end,
+  desc = "Highlight on yank",
 })
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -34,6 +36,7 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     vim.opt_local.textwidth = 78
   end,
+  desc = "Enable wrap in text files"
 })
 
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
@@ -43,6 +46,7 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
       vim.bo.filetype = "iptables"
     end
   end,
+  desc = "Set iptables filetype",
 })
 
 -- close some filetypes with <q>
@@ -63,6 +67,7 @@ vim.api.nvim_create_autocmd("FileType", {
       desc = "Quit buffer",
     })
   end,
+  desc = "Close some filetypes with <q>",
 })
 
 -- enter insert mode when switching to terminal buffer
@@ -74,4 +79,5 @@ vim.api.nvim_create_autocmd({ "TermOpen", "BufEnter" }, {
       vim.cmd.startinsert()
     end
   end,
+  desc = "enter insert mode when switching to terminal buffer",
 })
