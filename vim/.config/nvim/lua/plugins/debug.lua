@@ -20,7 +20,7 @@ return {
       "rcarriga/nvim-dap-ui",
       -- stylua: ignore
       keys = {
-        { "<leader>du", function() require("dapui").toggle({}) end, desc = "Dap UI", },
+        { "<leader>du", function() require("dapui").toggle({reset = true}) end, desc = "Dap UI", },
         { "<leader>de", function() require("dapui").eval() end, desc = "Eval", mode = { "n", "v" }, },
       },
       opts = {},
@@ -132,5 +132,12 @@ return {
       { text = " ", texthl = "DiagnosticError", linehl = nil, num_hl = nil }
     )
     vim.fn.sign_define("DapLogPoint", { text = ".>", texthl = "DiagnosticInfo", linehl = nil, num_hl = nil })
+
+    -- -- setup dap config by VsCode launch.json file
+    -- local vscode = require("dap.ext.vscode")
+    -- -- Extends dap.configurations with entries read from .vscode/launch.json
+    -- if vim.fn.filereadable(".vscode/launch.json") then
+    --   vscode.load_launchjs()
+    -- end
   end,
 }

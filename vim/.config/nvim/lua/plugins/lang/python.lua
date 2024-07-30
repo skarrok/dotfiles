@@ -1,3 +1,22 @@
+---Return function that checks if command is executable in virtual env
+---and returns absolute path to it or nil.
+---If no virtual env, returns original command
+---@param command string
+local function only_venv_command(command)
+  ---@type fun(): string?
+  return function()
+    local captured_command = command
+    if captured_command and vim.env.VIRTUAL_ENV then
+      captured_command = vim.env.VIRTUAL_ENV .. "/bin/" .. captured_command
+      if vim.fn.executable(captured_command) then
+        return captured_command
+      end
+      return nil
+    end
+    return captured_command
+  end
+end
+
 return {
   {
     "nvim-treesitter/nvim-treesitter",
@@ -11,7 +30,7 @@ return {
     "mason.nvim",
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
-      vim.list_extend(opts.ensure_installed, { "pyright", "ruff" })
+      vim.list_extend(opts.ensure_installed, { "pyright" })
     end,
   },
   {
@@ -44,7 +63,7 @@ return {
             },
           },
         },
-        ruff = {},
+        ruff = { mason = false },
       },
       setup = {
         ruff = function()
@@ -56,6 +75,7 @@ return {
                 client.server_capabilities.hoverProvider = false
               end
             end,
+            desc = "LSP: Disable hover capability from Ruff",
           })
         end,
       },
@@ -65,14 +85,25 @@ return {
     "stevearc/conform.nvim",
     opts = {
       formatters_by_ft = {
-        python = { "autoimport", "isort", "black", "ruff_fix" },
+        python = { "autoimport", "isort", "black" },
+        -- python = function(bufnr)
+        --   if require("conform").get_formatter_info("ruff_fix", bufnr).available then
+        --     return { "ruff_fix" }
+        --   else
+        --     return { "autoimport", "isort", "black" }
+        --   end
+        -- end,
       },
       formatters = {
         autoimport = {
-          command = "autoimport",
+          command = only_venv_command("autoimport"),
           args = { "-" },
           stdin = true,
         },
+        isort = { command = only_venv_command("isort") },
+        black = { command = only_venv_command("black") },
+        ruff_fix = { command = only_venv_command("ruff") },
+        ruff_format = { command = only_venv_command("ruff") },
       },
     },
   },

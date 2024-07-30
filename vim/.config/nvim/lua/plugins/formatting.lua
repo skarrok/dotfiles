@@ -11,7 +11,7 @@ return {
       {
         "<leader>cf",
         function()
-          require("conform").format({ lsp_fallback = true })
+          require("conform").format({ lsp_format = "first" })
         end,
         mode = { "n", "v" },
         desc = "Format",
