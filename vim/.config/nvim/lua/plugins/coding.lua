@@ -216,6 +216,36 @@ return {
     end,
   },
   {
+    "folke/trouble.nvim",
+    cmd = "Trouble",
+    keys = {
+      {
+        "<F10>",
+        "<cmd>Trouble symbols toggle focus=true<cr>",
+        desc = "Symbols (Trouble)",
+      },
+      {
+        "<F11>",
+        "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+        desc = "LSP Definitions / references / ... (Trouble)",
+      },
+    },
+    opts = {
+      auto_preview = false,
+      focus = true,
+      pinned = true,
+      open_no_results = true,
+      keys = {
+        ["<cr>"] = "jump_close",
+      }
+    },
+    config = function(_, opts)
+      vim.cmd([[hi link TroubleNormal Normal]])
+      vim.cmd([[hi link TroubleNormalNC Normal]])
+      require("trouble").setup(opts)
+    end,
+  },
+  {
     "folke/lazydev.nvim",
     ft = "lua", -- only load on lua files
     cmd = "LazyDev",
