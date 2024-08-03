@@ -36,7 +36,7 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     vim.opt_local.textwidth = 78
   end,
-  desc = "Enable wrap in text files"
+  desc = "Enable wrap in text files",
 })
 
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
@@ -80,4 +80,37 @@ vim.api.nvim_create_autocmd({ "TermOpen", "BufEnter" }, {
     end
   end,
   desc = "enter insert mode when switching to terminal buffer",
+})
+
+local sync_colors = augroup("sync_colors")
+vim.api.nvim_create_autocmd({ "UIEnter", "ColorScheme" }, {
+  group = sync_colors,
+  callback = function()
+    local normal = vim.api.nvim_get_hl(0, { name = "Normal" })
+    if not normal.bg then
+      return
+    end
+    if vim.env.TMUX then
+      io.write(string.format("\027Ptmux;\027\027]11;#%06x\007\027\\", normal.bg))
+      io.write(string.format("\027Ptmux;\027\027]10;#%06x\007\027\\", normal.fg))
+    else
+      io.write(string.format("\027]11;#%06x\027\\", normal.bg))
+      io.write(string.format("\027]10;#%06x\027\\", normal.fg))
+    end
+  end,
+  desc = "Sync text and background colors to the terminal",
+})
+
+vim.api.nvim_create_autocmd("UILeave", {
+  group = sync_colors,
+  callback = function()
+    if vim.env.TMUX then
+      io.write("\027Ptmux;\027\027]111;\007\027\\")
+      io.write("\027Ptmux;\027\027]110;\007\027\\")
+    else
+      io.write("\027]111\027\\")
+      io.write("\027]110\027\\")
+    end
+  end,
+  desc = "Restore default foreground and background colors to terminal",
 })
