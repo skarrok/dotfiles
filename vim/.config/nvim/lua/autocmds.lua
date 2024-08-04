@@ -75,7 +75,8 @@ vim.api.nvim_create_autocmd({ "TermOpen", "BufEnter" }, {
   group = augroup("terminal_insert"),
   pattern = { "term://*" },
   callback = function()
-    if vim.opt.buftype:get() == "terminal" then
+    local windows = vim.api.nvim_tabpage_list_wins(0)
+    if #windows > 1 and vim.opt.buftype:get() == "terminal" then
       vim.cmd.startinsert()
     end
   end,
