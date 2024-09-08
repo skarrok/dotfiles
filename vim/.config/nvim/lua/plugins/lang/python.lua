@@ -124,7 +124,7 @@ return {
     "stevearc/conform.nvim",
     opts = {
       formatters_by_ft = {
-        python = { "autoimport", "isort", "black" },
+        python = { "autoimport", "isort", "black", "ruff_fix" },
         -- python = function(bufnr)
         --   if require("conform").get_formatter_info("ruff_fix", bufnr).available then
         --     return { "ruff_fix" }

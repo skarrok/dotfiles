@@ -70,6 +70,11 @@ return {
               command = "clippy",
               extraArgs = { "--no-deps" },
             },
+            diagnostics = {
+              enable = true,
+              disabled = { "macro-error" },
+              enableExperimental = true,
+            },
             procMacro = {
               enable = true,
               ignored = {
