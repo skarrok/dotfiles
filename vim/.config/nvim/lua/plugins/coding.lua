@@ -122,6 +122,7 @@ return {
   -- auto pairs
   {
     "echasnovski/mini.pairs",
+    enabled = true,
     event = "VeryLazy",
     -- opts = {
     --   mappings = {
