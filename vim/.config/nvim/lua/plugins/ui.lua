@@ -25,17 +25,17 @@ return {
           globalstatus = false,
           icons_enabled = true,
           disabled_filetypes = { statusline = { "dashboard", "alpha", "starter" } },
+          always_show_tabline = false,
         },
         sections = {
           lualine_a = {
             { "mode" },
           },
           lualine_b = {
-            { "filename", path = 1 },
-          },
-          lualine_c = {
             { "diagnostics" },
+            { "filename", newfile_status = true, path = 1, shorting_target = 50 },
           },
+          lualine_c = {},
           lualine_x = {
             {
               function()
@@ -45,19 +45,13 @@ return {
                 return package.loaded["dap"] and require("dap").status() ~= ""
               end,
             },
-            {
-              require("lazy.status").updates,
-              cond = require("lazy.status").has_updates,
-            },
-            {
-              "diff",
-            },
-            "encoding",
-            "fileformat",
-            "filetype",
+            "branch",
           },
           lualine_y = {
-            "branch",
+            { "encoding", show_bomb = true },
+            "fileformat",
+            { "filetype" },
+            "diff",
           },
           lualine_z = {
             { "progress" },
@@ -71,6 +65,9 @@ return {
           lualine_x = { "location" },
           lualine_y = {},
           lualine_z = {},
+        },
+        tabline = {
+          lualine_a = { { "tabs", mode = 2 } },
         },
         extensions = { "neo-tree", "lazy", "fugitive", "mason", "nvim-dap-ui", "trouble", "quickfix" },
       }

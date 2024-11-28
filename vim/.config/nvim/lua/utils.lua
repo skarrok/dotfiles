@@ -204,7 +204,7 @@ function TabLine()
 
   return tabline
 end
-vim.go.tabline = "%!v:lua.TabLine()"
+-- vim.go.tabline = "%!v:lua.TabLine()"
 
 function M.get_attached_clients()
 	-- Get active clients for current buffer
