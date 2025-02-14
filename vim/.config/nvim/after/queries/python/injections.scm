@@ -18,7 +18,20 @@
 ; general
 
 (
- (string (string_content) @injection.content)
- (#match? @injection.content "(SELECT|select|INSERT|insert|UPDATE|update|DELETE|delete).+(FROM|from|INTO|into|VALUES|values|SET|set).*(WHERE|where|GROUP BY|group by)?")
- (#set! injection.language "sql")
+  (string (string_content) @injection.content)
+  (#match? @injection.content "(SELECT|select|INSERT|insert|UPDATE|update|DELETE|delete).+(FROM|from|INTO|into|VALUES|values|SET|set).*(WHERE|where|GROUP BY|group by)?")
+  (#set! injection.language "sql")
 )
+
+
+(
+  (comment) @comment
+  .
+  (expression_statement (
+     assignment
+       left: (identifier)
+       right: (string (string_content) @injection.content)))
+  (#eq? @comment "# html")
+  (#set! injection.language "html")
+)
+
