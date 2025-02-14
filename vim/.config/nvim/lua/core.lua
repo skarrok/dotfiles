@@ -28,7 +28,15 @@ opt.ruler = true -- show the cursor position all the time
 opt.wildmenu = true -- command-line completion shows a list of matches
 opt.confirm = true -- start a dialog when a command fails
 opt.showmode = false -- dont show mode in the last line
-opt.diffopt = { "filler", "vertical" } -- vertical diff by default
+opt.diffopt = {
+  "filler",
+  "vertical", -- vertical diff by default
+  "internal",
+  "closeoff",
+  "indent-heuristic",
+  "linematch:60",
+  "algorithm:histogram",
+}
 opt.showbreak = "↳ " -- string to put at the start of lines that have been wrapped
 opt.breakindent = true
 opt.breakindentopt = { "sbr" }
