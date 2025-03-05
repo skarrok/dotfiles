@@ -1,0 +1,51 @@
+[core]
+        repositoryformatversion = 0
+        filemode = true
+        bare = false
+        logallrefupdates = true
+
+[column]
+        ui = auto
+
+[branch]
+        sort = -committerdate
+
+[tag]
+        sort = version:refname
+
+[diff]
+        algorithm = histogram
+        colorMoved = plain
+        mnemonicPrefix = truE
+        renames = true
+
+[pull]
+        rebase = true
+
+[push]
+        default = simple
+        autoSetupRemote = true
+        followTags = true
+
+[fetch]
+        prune = true
+        pruneTags = true
+        all = true
+
+[rerere]
+        enabled = true
+        autoupdate = true
+
+[rebase]
+        autoSquash = true
+        autoStash = true
+        updateRefs = true
+
+[merge]
+        conflictstyle = zdiff3
+
+[filter "lfs"]
+        required = true
+        clean = git-lfs clean -- %f
+        smudge = git-lfs smudge -- %f
+        process = git-lfs filter-process
