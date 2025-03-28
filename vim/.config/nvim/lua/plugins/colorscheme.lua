@@ -21,11 +21,24 @@ return {
       },
     },
     config = function(_, opts)
+      vim.api.nvim_create_autocmd({ "User" }, {
+        group = vim.api.nvim_create_augroup("custom_gruvbox", { clear = true }),
+        pattern = "LazyLoad",
+        callback = function(event)
+          local gruvbox_loaded = event.event == "User" and event.data == "gruvbox.nvim"
+
+          if gruvbox_loaded then
+            vim.cmd([[
+              hi link TreesitterContext Pmenu
+              hi link NeoTreeFloatBorder Normal
+            ]])
+          end
+        end,
+        desc = "Set custom gruvbox highlights",
+      })
+
       require("gruvbox").setup(opts)
-      vim.cmd([[
-        " hi link TreesitterContext Pmenu
-        colorscheme gruvbox
-      ]])
+      vim.cmd([[colorscheme gruvbox]])
     end,
     keys = {
       {

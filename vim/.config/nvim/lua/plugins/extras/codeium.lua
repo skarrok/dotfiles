@@ -17,7 +17,9 @@ return {
         "Exafunction/codeium.nvim",
         cmd = "Codeium",
         build = ":Codeium Auth",
-        opts = {},
+        opts = {
+          quiet = true,
+        },
       },
     },
     ---@param opts cmp.ConfigSchema
