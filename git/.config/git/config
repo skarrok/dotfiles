@@ -4,6 +4,9 @@
         bare = false
         logallrefupdates = true
 
+[commit]
+        template = ~/.config/git/template
+
 [column]
         ui = auto
 
