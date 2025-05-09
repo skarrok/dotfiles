@@ -62,7 +62,7 @@ return {
     "mason.nvim",
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
-      vim.list_extend(opts.ensure_installed, { "pyright" })
+      vim.list_extend(opts.ensure_installed, { "basedpyright" })
     end,
   },
   {
@@ -78,19 +78,22 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        pyright = {
+        basedpyright = {
           -- handlers = {
           --   ["textDocument/publishDiagnostics"] = function() end,
           -- },
           settings = {
-            pyright = {
+            basedpyright = {
               disableOrganizeImports = true,
-            },
-            python = {
               analysis = {
                 -- diagnosticMode = 'workspace',
                 -- typeCheckingMode = 'off',
                 ignore = { "*" },
+                inlayHints = {
+                  variableTypes = true,
+                  functionReturnTypes = true,
+                  callArgumentNames = true,
+                },
               },
             },
           },
