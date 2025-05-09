@@ -176,7 +176,7 @@ return {
         { "<leader>dPc", function() require('dap-python').test_class() end,  desc = "Debug Class",  ft = "python" },
       },
       config = function()
-        local path = require("mason-registry").get_package("debugpy"):get_install_path()
+        local path = vim.fn.expand("$MASON/share/debugpy")
         require("dap-python").setup(path .. "/venv/bin/python")
         table.insert(require("dap").configurations.python, {
           type = "python",
