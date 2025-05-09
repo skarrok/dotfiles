@@ -70,7 +70,7 @@ compinit
 autoload -U select-word-style
 select-word-style bash
 
-export PATH=$PATH:$HOME/.yarn/bin
+export PATH="$HOME/go/bin:$PATH"
 
 autoload colors && colors
 zstyle ':completion:*' auto-description 'specify: %d'
