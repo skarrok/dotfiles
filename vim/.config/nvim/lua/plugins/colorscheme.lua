@@ -106,4 +106,10 @@ return {
     "folke/tokyonight.nvim",
     opts = {},
   },
+  {
+    "skarrok/colorsaver.nvim",
+    lazy = true,
+    event = "VimEnter",
+    opts = {},
+  },
 }
