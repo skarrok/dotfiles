@@ -70,6 +70,11 @@ compinit
 autoload -U select-word-style
 select-word-style bash
 
+autoload edit-command-line
+zle -N edit-command-line
+bindkey "^XE" edit-command-line
+bindkey "^X^E" edit-command-line
+
 export PATH="$HOME/go/bin:$PATH"
 
 autoload colors && colors
