@@ -70,12 +70,6 @@ return {
               loadOutDirsFromCheck = true,
               runBuildScripts = true,
             },
-            -- Add clippy lints for Rust.
-            checkOnSave = {
-              allFeatures = true,
-              command = "clippy",
-              extraArgs = { "--no-deps" },
-            },
             diagnostics = {
               enable = true,
               disabled = { "macro-error" },
