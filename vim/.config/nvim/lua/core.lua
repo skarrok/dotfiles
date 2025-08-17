@@ -80,10 +80,16 @@ vim.g.loaded_netrwPlugin = 1
 vim.g.editorconfig = false -- disable .editorconfig support
 
 -- Diagnostic Signs
-vim.fn.sign_define("DiagnosticSignError", { texthl = "DiagnosticSignError", text = "", numhl = "", linehl = "" })
-vim.fn.sign_define("DiagnosticSignWarn", { texthl = "DiagnosticSignWarn", text = "", numhl = "", linehl = "" })
-vim.fn.sign_define("DiagnosticSignInfo", { texthl = "DiagnosticSignInfo", text = "", numhl = "", linehl = "" })
-vim.fn.sign_define("DiagnosticSignHint", { texthl = "DiagnosticSignHint", text = "", numhl = "", linehl = "" })
+vim.diagnostic.config({
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "",
+      [vim.diagnostic.severity.WARN] = "",
+      [vim.diagnostic.severity.HINT] = "",
+      [vim.diagnostic.severity.INFO] = "",
+    },
+  },
+})
 
 -- backups, swapfiles, & undofiles in one place
 -- TODO: vim.fn.stdpath
