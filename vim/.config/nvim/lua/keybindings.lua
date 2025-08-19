@@ -98,10 +98,16 @@ map({ "i" }, "<C-C>", "<Esc>")
 map({ "c" }, "<C-C>", "<C-C>")
 
 map("n", "<Leader>e", vim.diagnostic.open_float, { silent = true, desc = "Open diagnostic float" })
-map("n", "[d", vim.diagnostic.goto_prev, { silent = true, desc = "Go to previous diagnostic" })
-map("n", "]d", vim.diagnostic.goto_next, { silent = true, desc = "Go to next diagnostic" })
+map("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, { silent = true, desc = "Go to previous diagnostic" })
+map("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, { silent = true, desc = "Go to next diagnostic" })
 map("n", "<Leader>qq", vim.diagnostic.setloclist, { silent = true, desc = "Open diagnostics list" })
 
 local utils = require("utils")
 map("n", "<Leader>ud", utils.toggle_diagnostics, { desc = "Toggle diagnostics" })
 map("n", "<Leader>uh", utils.toggle_inlay_hints, { desc = "Toggle inlay hints" })
+
+-- unmap defaults clashing with `gr`
+vim.keymap.del({"n"}, "gra")
+vim.keymap.del({"n"}, "gri")
+vim.keymap.del({"n"}, "grn")
+vim.keymap.del({"n"}, "grr")
