@@ -54,7 +54,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     opts = function(_, opts)
       if type(opts.ensure_installed) == "table" then
-        vim.list_extend(opts.ensure_installed, { "python", "toml" })
+        vim.list_extend(opts.ensure_installed, { "python", "toml", "jinja", "jinja_inline", "htmldjango" })
       end
     end,
   },
@@ -62,7 +62,7 @@ return {
     "mason.nvim",
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
-      vim.list_extend(opts.ensure_installed, { "basedpyright" })
+      vim.list_extend(opts.ensure_installed, { "pyrefly" })
     end,
   },
   {
@@ -78,29 +78,22 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        basedpyright = {
-          -- handlers = {
-          --   ["textDocument/publishDiagnostics"] = function() end,
-          -- },
-          settings = {
-            basedpyright = {
-              disableOrganizeImports = true,
-              analysis = {
-                -- diagnosticMode = 'workspace',
-                -- typeCheckingMode = 'off',
-                ignore = { "*" },
-                inlayHints = {
-                  variableTypes = true,
-                  functionReturnTypes = true,
-                  callArgumentNames = true,
-                },
-              },
-            },
-          },
-        },
+        pyrefly = { mason = false },
         ruff = { mason = false, autostart = false },
       },
       setup = {
+        pyrefly = function()
+          vim.lsp.config("pyrefly", {
+            settings = {
+              python = {
+                pyrefly = {
+                  disableTypeErrors = true,
+                },
+              },
+            },
+          })
+          return true
+        end,
         ruff = function()
           vim.api.nvim_create_autocmd("LspAttach", {
             callback = function(args)
