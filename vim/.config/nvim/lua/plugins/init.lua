@@ -3,6 +3,7 @@ return {
     "folke/which-key.nvim",
     enabled = true,
     event = "VeryLazy",
+    opts_extend = { "spec" },
     opts = {
       preset = "classic",
       delay = 1000,
@@ -16,6 +17,7 @@ return {
         { "<leader>c", group = "code" },
         { "<leader>g", group = "git" },
         { "<leader>gh", group = "hunks" },
+        { "<leader>o", group = "options" },
         { "<leader>q", group = "quit/session" },
         { "<leader>s", group = "search" },
         { "<leader>sg", group = "git" },

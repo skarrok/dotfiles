@@ -172,11 +172,11 @@ return {
     },
     -- stylua: ignore
     keys = {
-      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash", },
-      { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter", },
-      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash", },
-      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search", },
-      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search", },
+      { "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash", },
+      { "S",     mode = { "n", "o", "x" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter", },
+      { "r",     mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash", },
+      { "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search", },
+      { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search", },
     },
   },
 
@@ -252,10 +252,10 @@ return {
     config = true,
     -- stylua: ignore
     keys = {
-      { "]t", function() require("todo-comments").jump_next() end, desc = "Next todo comment", },
-      { "[t", function() require("todo-comments").jump_prev() end, desc = "Previous todo comment", },
-      { "<leader>st", "<cmd>TodoTelescope<cr>", desc = "Todo" },
-      { "<leader>sT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
+      { "]t",         function() require("todo-comments").jump_next() end, desc = "Next todo comment", },
+      { "[t",         function() require("todo-comments").jump_prev() end, desc = "Previous todo comment", },
+      { "<leader>st", "<cmd>TodoTelescope<cr>",                            desc = "Todo" },
+      { "<leader>sT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>",    desc = "Todo/Fix/Fixme" },
     },
   },
   {
@@ -316,6 +316,17 @@ return {
   },
   {
     "jlanzarotta/bufexplorer",
+    dependencies = {
+      {
+        "folke/which-key.nvim",
+        optional = true,
+        opts = {
+          spec = {
+            { "<leader>b", group = "buf explorer" },
+          },
+        },
+      },
+    },
     config = function()
       vim.g.bufExplorerDefaultHelp = 0
       vim.g.bufExplorerFindActive = 0
