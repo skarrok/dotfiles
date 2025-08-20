@@ -1,7 +1,6 @@
 return {
   {
     "stevearc/conform.nvim",
-    commit = "319109e98688b7317f1b8a5f89bf6f163d99782f",
     dependencies = { "mason.nvim" },
     lazy = true,
     cmd = "ConformInfo",
