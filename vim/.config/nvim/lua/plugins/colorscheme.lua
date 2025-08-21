@@ -18,34 +18,11 @@ return {
         LspInlayHint = { link = "NonText" },
         FloatBorder = { bg = "NONE" },
         TabLineSel = { link = "Pmenu" },
+        TreesitterContext = { link = "StatusLineNC" },
+        NeoTreeFloatBorder = { link = "Normal" },
       },
     },
     config = function(_, opts)
-      local function set_custom_highlights()
-        vim.cmd([[
-          hi link TreesitterContext Pmenu
-          hi link NeoTreeFloatBorder Normal
-        ]])
-      end
-      local group = vim.api.nvim_create_augroup("custom_gruvbox", { clear = true })
-      vim.api.nvim_create_autocmd({ "User" }, {
-        group = group,
-        pattern = "LazyLoad",
-        callback = function(event)
-          local gruvbox_loaded = event.event == "User" and event.data == "gruvbox.nvim"
-          if gruvbox_loaded then
-            set_custom_highlights()
-          end
-        end,
-        desc = "Set custom gruvbox highlights on load",
-      })
-      vim.api.nvim_create_autocmd({ "ColorScheme" }, {
-        group = group,
-        pattern = "gruvbox",
-        callback = set_custom_highlights,
-        desc = "Set custom gruvbox highlights on colorscheme change",
-      })
-
       require("gruvbox").setup(opts)
       vim.cmd([[colorscheme gruvbox]])
     end,
