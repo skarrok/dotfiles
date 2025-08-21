@@ -21,20 +21,29 @@ return {
       },
     },
     config = function(_, opts)
+      local function set_custom_highlights()
+        vim.cmd([[
+          hi link TreesitterContext Pmenu
+          hi link NeoTreeFloatBorder Normal
+        ]])
+      end
+      local group = vim.api.nvim_create_augroup("custom_gruvbox", { clear = true })
       vim.api.nvim_create_autocmd({ "User" }, {
-        group = vim.api.nvim_create_augroup("custom_gruvbox", { clear = true }),
+        group = group,
         pattern = "LazyLoad",
         callback = function(event)
           local gruvbox_loaded = event.event == "User" and event.data == "gruvbox.nvim"
-
           if gruvbox_loaded then
-            vim.cmd([[
-              hi link TreesitterContext Pmenu
-              hi link NeoTreeFloatBorder Normal
-            ]])
+            set_custom_highlights()
           end
         end,
-        desc = "Set custom gruvbox highlights",
+        desc = "Set custom gruvbox highlights on load",
+      })
+      vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+        group = group,
+        pattern = "gruvbox",
+        callback = set_custom_highlights,
+        desc = "Set custom gruvbox highlights on colorscheme change",
       })
 
       require("gruvbox").setup(opts)
@@ -53,7 +62,8 @@ return {
           elseif contrast == "hard" then
             contrast = "soft"
           end
-          gruv.setup({ contrast = contrast })
+          gruv.config.contrast = contrast
+          gruv.setup(gruv.config)
           vim.cmd([[colorscheme gruvbox]])
           vim.api.nvim_echo({ { "gruvbox contrast=" .. contrast } }, false, {})
         end,
