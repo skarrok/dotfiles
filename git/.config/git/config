@@ -45,10 +45,15 @@
         updateRefs = true
 
 [merge]
-        conflictstyle = zdiff3
+        ; conflictstyle = zdiff3
+        conflictstyle = diff3
 
 [filter "lfs"]
         required = true
         clean = git-lfs clean -- %f
         smudge = git-lfs smudge -- %f
         process = git-lfs filter-process
+
+[merge "mergiraf"]
+    name = mergiraf
+    driver = mergiraf merge --git %O %A %B -s %S -x %X -y %Y -p %P -l %L
