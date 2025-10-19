@@ -121,7 +121,7 @@ return {
 
   -- auto pairs
   {
-    "echasnovski/mini.pairs",
+    "nvim-mini/mini.pairs",
     enabled = true,
     event = "VeryLazy",
     opts = {
@@ -209,7 +209,7 @@ return {
   -- to select the text inside, change or modify the surrounding characters,
   -- and more.
   {
-    "echasnovski/mini.surround",
+    "nvim-mini/mini.surround",
     opts = {
       mappings = {
         add = "gsa", -- Add surrounding in Normal and Visual modes
@@ -232,7 +232,7 @@ return {
     },
   },
   {
-    "echasnovski/mini.comment",
+    "nvim-mini/mini.comment",
     event = "VeryLazy",
     opts = {
       options = {
@@ -244,10 +244,10 @@ return {
   },
   -- Better text-objects
   {
-    "echasnovski/mini.ai",
+    "nvim-mini/mini.ai",
     event = "VeryLazy",
     dependencies = {
-      "echasnovski/mini.extra",
+      "nvim-mini/mini.extra",
     },
     opts = function()
       local ai = require("mini.ai")

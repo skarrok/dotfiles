@@ -21,14 +21,9 @@ end
 ---@param server_name string
 ---@return boolean
 local function server_executable(server_name)
-  local conf = require("lspconfig")[server_name]
-  if
-    conf
-    and conf.document_config
-    and conf.document_config.default_config
-    and conf.document_config.default_config.cmd
-  then
-    local cmd = conf.document_config.default_config.cmd
+  local conf = vim.lsp.config[server_name]
+  if conf and conf.cmd then
+    local cmd = conf.cmd
     if type(cmd) == "table" and cmd[1] and vim.fn.executable(cmd[1]) == 1 then
       return true
     end
@@ -45,7 +40,7 @@ local function start_ruff()
   end
 
   if #active_clients == 0 and server_executable("ruff") then
-    require("lspconfig.configs")["ruff"].launch()
+    vim.lsp.enable("ruff")
   end
 end
 
@@ -198,5 +193,8 @@ return {
     },
     ft = "python",
     keys = { { "<leader>cv", "<cmd>:VenvSelect<cr>", desc = "Select VirtualEnv", ft = "python" } },
+  },
+  {
+    "lark-parser/vim-lark-syntax",
   },
 }

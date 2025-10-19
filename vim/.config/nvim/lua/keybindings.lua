@@ -30,7 +30,7 @@ map(
 
 -- Tabs
 map({ "n" }, "gb", "gT", { desc = "Go to previous tab" })
-map({ "n" }, "<Leader>tc", "<cmd>tabnew<CR>", { desc = "Create new tab" })
+map({ "n" }, "<Leader>tc", "<cmd>$tabnew<CR>", { desc = "Create new tab" })
 map({ "n" }, "<Leader>tx", "<cmd>tabclose<CR>", { desc = "Close tab" })
 
 -- Windows

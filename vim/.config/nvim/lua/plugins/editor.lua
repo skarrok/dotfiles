@@ -298,7 +298,7 @@ return {
     opts = {},
   },
   {
-    "echasnovski/mini.align",
+    "nvim-mini/mini.align",
     opts = {},
   },
   {
