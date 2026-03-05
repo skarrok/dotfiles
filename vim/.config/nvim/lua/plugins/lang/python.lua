@@ -79,10 +79,17 @@ return {
       setup = {
         pyrefly = function()
           vim.lsp.config("pyrefly", {
+            handlers = {
+              ["textDocument/publishDiagnostics"] = function() end,
+            },
             settings = {
               python = {
+                analysis = {
+                  showHoverGoToLinks = false,
+                },
                 pyrefly = {
                   disableTypeErrors = true,
+                  displayTypeErrors = "force-off",
                 },
               },
             },
