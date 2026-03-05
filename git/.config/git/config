@@ -19,7 +19,7 @@
 [diff]
         algorithm = histogram
         colorMoved = plain
-        mnemonicPrefix = truE
+        mnemonicPrefix = true
         renames = true
 
 [pull]
