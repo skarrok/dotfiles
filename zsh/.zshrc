@@ -75,7 +75,7 @@ zle -N edit-command-line
 bindkey "^XE" edit-command-line
 bindkey "^X^E" edit-command-line
 
-export PATH="$HOME/go/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$HOME/go/bin:$PATH"
 
 autoload colors && colors
 zstyle ':completion:*' auto-description 'specify: %d'
