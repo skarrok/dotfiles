@@ -24,7 +24,7 @@ function M.get()
       { "<c-k>", vim.lsp.buf.signature_help, mode = "i", desc = "Signature Help", has = "signatureHelp" },
       { "<leader>ca", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" }, has = "codeAction" },
       { "<leader>cc", vim.lsp.codelens.run, desc = "Run Codelens", mode = { "n", "v" }, has = "codeLens" },
-      { "<leader>cC", vim.lsp.codelens.refresh, desc = "Refresh & Display Codelens", mode = { "n" }, has = "codeLens" },
+      { "<leader>cC", vim.lsp.codelens.enable, desc = "Refresh & Display Codelens", mode = { "n" }, has = "codeLens" },
       {
         "<leader>cA",
         function()
@@ -50,7 +50,7 @@ function M.has(buffer, method)
   method = method:find("/") and method or "textDocument/" .. method
   local clients = vim.lsp.get_clients({ bufnr = buffer })
   for _, client in ipairs(clients) do
-    if client.supports_method(method) then
+    if client:supports_method(method) then
       return true
     end
   end
@@ -186,8 +186,8 @@ return {
 
           -- code lens
           if opts.codelens.enabled and vim.lsp.codelens then
-            if client and client.supports_method("textDocument/codeLens") then
-              vim.lsp.codelens.refresh()
+            if client and client:supports_method("textDocument/codeLens") then
+              vim.lsp.codelens.enable(true)
               --- autocmd BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh()
               -- vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
               --   buffer = ev.buf,

@@ -82,6 +82,7 @@ return {
             handlers = {
               ["textDocument/publishDiagnostics"] = function() end,
             },
+            on_exit = function() end,
             settings = {
               python = {
                 analysis = {
